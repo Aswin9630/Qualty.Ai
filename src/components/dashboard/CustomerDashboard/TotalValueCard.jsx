@@ -1,21 +1,18 @@
+import useDashboardStats from "../../../hooks/useDashboardStats";
+import {Link} from "react-router-dom"
+
 export default function TotalValueCard() {
+  const stats = useDashboardStats();
+
   return (
-    <div className="bg-white text-black rounded-xl shadow-lg p-5 border border-gray-200  transition-all duration-300">
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-sm font-semibold text-gray-600">Total Value</h3>
-          <p className="text-3xl font-bold text-black flex items-center gap-2">
-            245,000/-
-          </p>
-          <p className="text-green-600 text-sm mt-1">+8% revenue growth</p>
-        </div>
-      </div>
-      <a
-        href="#"
-        className="text-sm text-black mt-3 inline-block font-medium hover:underline transition-all duration-200"
-      >
-        View Payments →
-      </a>
+    <div className="bg-white text-black rounded-xl border border-gray-200 shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+      <h3 className="text-sm font-semibold text-gray-600">Total Amount Paid</h3>
+      {stats && <p className="text-2xl sm:text-3xl font-semibold tracking-tight">
+        ₹ {stats?.totalValue?.toLocaleString()} /-
+      </p>}
+    <Link to="/customer/payments">
+    <p  className="text-sm font-medium text-black mt-4 inline-block hover:underline hover:text-gray-800 transition duration-200 cursor-pointer"> View Payments →</p>
+    </Link>
     </div>
   );
 }

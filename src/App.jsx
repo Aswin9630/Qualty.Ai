@@ -55,6 +55,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import InspectorList from "./components/dashboard/CustomerDashboard/InspectorList";
 import Chat from "./components/dashboard/chat/Chat";
 import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList";
+import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
 
 function App() {
   return (
@@ -87,6 +88,7 @@ function App() {
           <Route path="account" element={<MyAccount />} />
           <Route path="history" element={<MyHistory />} />
           <Route path="payments" element={<Payments />} />
+          <Route path="payments/:enquiryId" element={<PaymentDetailPage/>} />
           <Route path="enquiry" element={<RaiseEnquiry />} />
           <Route path="inspection/:id" element={<InspectionDetailsPage />} />
           <Route path="enquiry/:id" element={<CustomerEnquiryDetailPage />} />

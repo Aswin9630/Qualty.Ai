@@ -2,33 +2,35 @@ import React, { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import useFetchUser from "../../../hooks/useFetchUser";
 import {
-  FaBars,
-  FaTimes,
-  FaTachometerAlt,
-  FaGavel,
-  FaUserCircle,
-  FaChartLine,
-  FaHeadset,
-  FaUser,
-  FaHistory,
-  FaMoneyBillWave,
-  FaQuestionCircle,
-} from "react-icons/fa";
+  LayoutDashboard,
+  HelpCircle,
+  Gavel,
+  MessageCircle,
+  LineChart,
+  CreditCard,
+  History,
+  User,
+  Home,
+  Menu,
+  X,
+  UserCircle,
+} from "lucide-react";
+
 import { BASE_URL } from "../../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { removeUser } from "../../../redux/slice/userSlice";
 
 const navItems = [
-  { label: "Dashboard", icon: <FaTachometerAlt />, path: "/customer/dashboard" },
-  { label: "Raise Enquiry", icon: <FaQuestionCircle />, path: "/customer/enquiry" },
-  { label: "Bidding Room", icon: <FaGavel />, path: "/customer/bidding" },
-  { label: "Inspection Chat Room", icon: <FaHeadset />, path: "/customer/inspectorList" },
-  { label: "Payments", icon: <FaMoneyBillWave />, path: "/customer/payments" },
-  { label: "Detail Analysis", icon: <FaChartLine />, path: "/customer/analysis" },
-  { label: "My History", icon: <FaHistory />, path: "/customer/history" },
-  { label: "My Account", icon: <FaUser />, path: "/customer/account" },
-  { label: "Home", icon: <FaUser />, path: "/" },
+  { label: "Home", icon: <Home size={25} />, path: "/" },
+  { label: "Dashboard", icon: <LayoutDashboard size={25} />, path: "/customer/dashboard" },
+  { label: "Raise Enquiry", icon: <HelpCircle size={25} />, path: "/customer/enquiry" },
+  { label: "Bidding Room", icon: <Gavel size={25} />, path: "/customer/bidding" },
+  { label: "Inspection Chat Room", icon: <MessageCircle size={25} />, path: "/customer/inspectorList" },
+  { label: "Detail Analysis", icon: <LineChart size={25} />, path: "/customer/analysis" },
+  { label: "Payments", icon: <CreditCard size={25} />, path: "/customer/payments" },
+  { label: "My History", icon: <History size={25} />, path: "/customer/history" },
+  { label: "My Account", icon: <User size={25} />, path: "/customer/account" },
 ];
 
 const CustomerLayout = () => {
@@ -40,9 +42,10 @@ const CustomerLayout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.user);
 
-  const currentTab = navItems.find((item) =>
-    location.pathname.includes(item.path)
-  )?.label;
+ const currentTab = navItems.find((item) =>
+  item.path === "/" ? location.pathname === "/" : location.pathname.startsWith(item.path)
+)?.label;
+
 
   const confirmLogoutAction = async () => {
     try {
@@ -61,7 +64,11 @@ const CustomerLayout = () => {
 
   if (!user) {
     navigate("/");
-    return <div className="text-center py-10 text-gray-500">Loading user details...</div>;
+    return (
+      <div className="text-center py-10 text-gray-500">
+        Loading user details...
+      </div>
+    );
   }
 
   return (
@@ -73,35 +80,41 @@ const CustomerLayout = () => {
       >
         <div className="p-6 border-b border-gray-200">
           <div className="flex gap-2 items-center">
-            <FaUserCircle className="text-black text-2xl" />
+            <UserCircle className="text-black text-2xl" />
             <h2 className="text-xl font-bold">{user.name}</h2>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden absolute top-4 right-4 text-gray-500 hover:text-black"
+            className="lg:hidden absolute top-3 right-2 text-gray-500 hover:text-black"
           >
-            <FaTimes />
+            <X className="w-5 h-5"/>
           </button>
         </div>
 
         <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-          {navItems.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                navigate(item.path);
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-2 cursor-pointer rounded-lg transition-all ${
-                location.pathname.includes(item.path)
-                  ? "bg-black text-white"
-                  : "text-gray-700 hover:bg-gray-100 hover:text-black"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="text-sm font-medium">{item.label}</span>
-            </button>
-          ))}
+          {navItems.map((item, index) => {
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.includes(item.path);
+            return (
+              <button
+                key={index}
+                onClick={() => {
+                  navigate(item.path);
+                  setSidebarOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-2 cursor-pointer rounded-lg transition-all ${
+  isActive
+    ? "bg-black text-white"
+    : "text-gray-700 hover:bg-gray-100 hover:text-black"
+}`}
+           >
+                <span className="text-lg">{item.icon}</span>
+                <span className="text-lg font-medium">{item.label}</span>
+              </button>
+            )
+          })}
         </nav>
 
         <div className="p-4 border-t border-gray-200">
@@ -113,17 +126,19 @@ const CustomerLayout = () => {
           </button>
         </div>
       </aside>
- 
+
       <div className="flex-1">
         <nav className="bg-white border-b border-gray-200 text-black p-4 flex justify-between items-center">
           <div className="flex items-center">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden mr-4 text-gray-600 hover:text-black"
+              className="lg:hidden mr-4 text-gray-600 hover:text-black cursor-pointer"
             >
-              <FaBars />
+              <Menu />
             </button>
-            <h1 className="text-xl font-semibold">{currentTab || "Dashboard"}</h1>
+            <h1 className="text-xl font-semibold">
+              {currentTab || "Dashboard"}
+            </h1>
           </div>
         </nav>
 
@@ -142,7 +157,9 @@ const CustomerLayout = () => {
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white border border-gray-300 rounded-xl p-6 w-full max-w-sm text-center shadow-xl animate-fade-in">
-            <h2 className="text-lg font-semibold text-black mb-4">Are you sure you want to logout?</h2>
+            <h2 className="text-lg font-semibold text-black mb-4">
+              Are you sure you want to logout?
+            </h2>
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => {

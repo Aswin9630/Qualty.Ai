@@ -16,21 +16,32 @@ import {
   FaQuestionCircle,
   FaClipboardCheck
 } from "react-icons/fa";
+
+import {
+  LayoutDashboard,
+  Gavel,
+  History,
+  LineChart,
+  User,
+  MessageCircle,
+  Home,
+} from "lucide-react";
+
 import { BASE_URL } from "../../../utils/constants"; 
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { removeUser } from "../../../redux/slice/userSlice";
 
 const navItems = [
-  { label: "Dashboard", icon: <FaTachometerAlt />, path: "/inspector/dashboard" },
-  { label: "Bidding Room", icon: <FaGavel />, path: "/inspector/bidding" },
+  { label: "Dashboard", icon: <LayoutDashboard />, path: "/inspector/dashboard" },
+  { label: "Bidding Room", icon: <Gavel />, path: "/inspector/bidding" },
+  { label: "Chat with Customer", icon: <MessageCircle />, path: "/inspector/CustomerList" },
+  { label: "Bid History", icon: <History />, path: "/inspector/history" },
   // { label: "Pending Inspections", icon: <FaClipboardCheck />, path: "/inspector/pending-inspections" },
-  { label: "Bid History", icon: <FaHistory />, path: "/inspector/history" },
   // { label: "Payments", icon: <FaMoneyBillWave />, path: "/inspector/payments" },
-  { label: "Detail Analysis", icon: <FaChartLine />, path: "/inspector/analysis" },
-  { label: "My Account", icon: <FaUser />, path: "/inspector/account" },
-  { label: "Chat with Customer", icon: <FaComments />, path: "/inspector/CustomerList" },
-  { label: "Home", icon: <FaTachometerAlt />, path: "/" },
+  { label: "Detail Analysis", icon: <LineChart />, path: "/inspector/analysis" },
+  { label: "My Account", icon: <User />, path: "/inspector/account" },
+  { label: "Home", icon: <Home />, path: "/" },
 ];
 
 const InspectorLayout = () => {
@@ -43,8 +54,9 @@ const InspectorLayout = () => {
   const user = useSelector((state) => state?.user?.user);
 
   const currentTab = navItems.find((item) =>
-    location.pathname.includes(item.path)
-  )?.label;
+  item.path === "/" ? location.pathname === "/" : location.pathname.startsWith(item.path)
+)?.label;
+
 
   const confirmLogoutAction = async () => {
     try {
@@ -67,10 +79,6 @@ if (!user) {
   return <div className="text-center py-10 text-gray-400">Loading user details...</div>;
 }
 
-  if (!user) {
-    return <div className="text-center py-10 text-gray-400">Loading user details...</div>;
-  }
-
   return (
   <div className="min-h-screen bg-white flex">
     <aside
@@ -92,23 +100,30 @@ if (!user) {
       </div>
 
       <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-        {navItems.map((item, index) => (
+        {navItems.map((item, index) => {
+          const isActive = item.path === "/"
+  ? location.pathname === "/"
+  : location.pathname.includes(item.path);
+
+  return(
           <button
             key={index}
             onClick={() => {
               navigate(item.path);
               setSidebarOpen(false);
             }}
-            className={`w-full flex items-center gap-3 px-4 py-2 cursor-pointer rounded-lg transition-all ${
-              location.pathname.includes(item.path)
-                ? "bg-black text-white"
-                : "text-gray-600 hover:bg-gray-100 hover:text-black"
-            }`}
+           className={`w-full flex items-center gap-3 px-4 py-2 cursor-pointer rounded-lg transition-all ${
+  isActive
+    ? "bg-black text-white"
+    : "text-gray-700 hover:bg-gray-100 hover:text-black"
+}`}
+
           >
             <span className="text-lg">{item.icon}</span>
             <span className="text-sm font-medium">{item.label}</span>
           </button>
-        ))}
+  )
+})}
       </nav>
 
       <div className="p-4 border-t border-gray-200">

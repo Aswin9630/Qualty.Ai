@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPayments } from "../../../redux/slice/paymentSlice";
 import { BASE_URL } from "../../../utils/constants";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function CustomerPaymentHistoryPage() {
-  const [payments, setPayments] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { groupedByEnquiry } = useSelector((state) => state.payments);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -13,7 +18,7 @@ export default function CustomerPaymentHistoryPage() {
         });
         const data = await res.json();
         if (data.success) {
-          setPayments(data.payments);
+          dispatch(setPayments(data.payments));
         } else {
           toast.error(data.message);
         }
@@ -22,7 +27,9 @@ export default function CustomerPaymentHistoryPage() {
       }
     };
     fetchPayments();
-  }, []);
+  }, [dispatch]);
+
+  const enquiryIds = Object.keys(groupedByEnquiry);
 
   return (
     <div className="min-h-screen bg-white text-black px-6 py-10">
@@ -32,43 +39,46 @@ export default function CustomerPaymentHistoryPage() {
             Payment History
           </h1>
           <p className="text-sm text-gray-600">
-            Your completed transactions, beautifully displayed
+            Your completed transactions, grouped by inspection
           </p>
         </div>
 
-        {payments.length === 0 ? (
+        {enquiryIds.length === 0 ? (
           <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 text-center text-gray-500 shadow-sm animate-fade-in-slow">
             <p className="text-lg font-semibold mb-2">No payments found</p>
             <p className="text-sm">You haven’t completed any transactions yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {payments.map((p, index) => (
-              <div
-                key={p._id}
-                className="bg-white border border-gray-200 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-bold text-black">₹{p.amount}/-</h3>
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 shadow-sm">
-                    {p.status.toUpperCase()}
-                  </span>
+            {enquiryIds.map((id, index) => {
+              const payments = groupedByEnquiry[id];
+              const enquiry = payments[0]?.enquiry;
+              const date = new Date(payments[0]?.updatedAt).toLocaleString();
+
+              return (
+                <div
+                  key={id}
+                  className="bg-white border border-gray-200 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="text-sm text-gray-700 space-y-2 mb-4">
+                    <p><strong>Enquiry:</strong> {enquiry?.commodityCategory} — {enquiry?.inspectionLocation}</p>
+                    <p><strong>Enquiry ID:</strong> {enquiry?._id}</p>
+                    <p><strong>Date:</strong> {date}</p>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/customer/payments/${id}`)}
+                    className="px-6 py-2 bg-black hover:bg-gray-900 text-white text-sm w-full font-medium rounded-lg cursor-pointer transition-all"
+                  >
+                    View Payments →
+                  </button>
                 </div>
-                <div className="text-sm text-gray-700 space-y-2">
-                  <p><strong>Enquiry:</strong> {p.enquiry?.commodityCategory} — {p.enquiry?.inspectionLocation}</p>
-                  <p><strong>Enquiry ID:</strong> {p.enquiry?._id}</p>
-                  <p><strong>Payment ID:</strong> {p._id}</p>
-                  <p><strong>Order ID:</strong> {p.razorpayOrderId}</p>
-                  <p><strong>Date:</strong> {new Date(p.updatedAt).toLocaleString()}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
 
-      {/* Animations */}
       <style jsx>{`
         .animate-fade-in {
           animation: fadeIn 0.8s ease-out forwards;
@@ -101,3 +111,4 @@ export default function CustomerPaymentHistoryPage() {
     </div>
   );
 }
+
