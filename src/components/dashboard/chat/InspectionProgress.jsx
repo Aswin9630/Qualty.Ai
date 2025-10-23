@@ -8,12 +8,12 @@ export default function InspectionProgress({
   onAdvanceStage,
 }) {
   return (
-    <aside className="w-full sm:w-[400px] bg-white p-8 rounded-xl shadow-md flex flex-col relative">
-      <h2 className="text-lg font-semibold mb-8 tracking-wide text-center">
+    <aside className="w-full sm:w-[400px] bg-white p-4 sm:p-8 rounded-xl shadow-md flex flex-col relative">
+      <h2 className="text-base sm:text-lg font-semibold mb-6 sm:mb-8 tracking-wide text-center">
         Inspection Progress
       </h2>
 
-      <div className="flex flex-col sm:pl-8 relative">
+      <div className="flex flex-col sm:pl-6 relative">
         {stages.map((label, index) => {
           const isCompleted = progressLevel > index;
           const isCurrent = progressLevel === index;
@@ -26,7 +26,6 @@ export default function InspectionProgress({
 
           return (
             <div key={label} className="relative flex flex-col">
-              {/* Connector line BELOW the current circle */}
               {index < stages.length - 1 && (
                 <div
                   className="absolute left-[19px] top-[40px] w-[2px] h-[60px] rounded-full"
@@ -37,10 +36,9 @@ export default function InspectionProgress({
                 />
               )}
 
-              {/* Circle + Text */}
               <div className="flex items-start mb-6">
                 <div
-                  className={`flex items-center justify-center w-10 h-10 rounded-full z-10
+                  className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full z-10
                     ${
                       isCompleted
                         ? "bg-slate-900 text-white"
@@ -65,9 +63,9 @@ export default function InspectionProgress({
                   )}
                 </div>
 
-                <div className="ml-4 flex flex-col">
+                <div className="ml-3 sm:ml-4 flex flex-col">
                   <div
-                    className={`font-semibold ${
+                    className={`text-sm sm:text-base font-semibold ${
                       isCompleted || isCurrent
                         ? "text-slate-900"
                         : "text-slate-400"
@@ -76,7 +74,7 @@ export default function InspectionProgress({
                     {label}
                   </div>
                   <div
-                    className={`inline-block text-sm rounded-full px-2 py-[2px] mt-1
+                    className={`inline-block text-xs sm:text-sm rounded-full px-1 sm:px-2 py-[2px] mt-1
                       ${
                         isCompleted
                           ? "bg-green-100 text-green-700"
@@ -91,11 +89,9 @@ export default function InspectionProgress({
                   {isInspector && isCurrent && index < stages.length && (
                     <button
                       onClick={() => onAdvanceStage(index)}
-                      className="mt-2 px-3 py-1 text-xs rounded-md border border-black text-black hover:bg-gray-100 transition"
+                      className="mt-2 px-3 py-1 text-xs rounded-md border border-black text-black hover:bg-gray-100 transition w-fit"
                     >
-                      {index === stages.length - 1
-                        ? "Mark Completed"
-                        : "Finish"}
+                      {index === stages.length - 1 ? "Mark Completed" : "Finish"}
                     </button>
                   )}
                 </div>
@@ -107,3 +103,4 @@ export default function InspectionProgress({
     </aside>
   );
 }
+

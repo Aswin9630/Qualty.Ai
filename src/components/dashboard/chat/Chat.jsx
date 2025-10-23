@@ -6,7 +6,6 @@ import { BASE_URL } from "../../../utils/constants";
 import { FiPaperclip, FiSend, FiX } from "react-icons/fi";
 import InspectionProgress from "./InspectionProgress";
 
-
 export default function Chat() {
   const { targetId, orderId } = useParams();
   const [messages, setMessages] = useState([]);
@@ -24,7 +23,6 @@ export default function Chat() {
   const { name = "", role = "" } = user;
   const userId = user?._id;
 
-  // Initialize socket and listeners
   useEffect(() => {
     if (!userId || !targetId || !orderId) return;
 
@@ -94,9 +92,7 @@ export default function Chat() {
   }, [messages]);
 
   const handleSend = async () => {
-    if (loading) return;
-    if (!socketRef.current) return;
-
+    if (loading || !socketRef.current) return;
     setLoading(true);
 
     try {
@@ -183,16 +179,18 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-white text-black font-sans">
-      <InspectionProgress
-        progressLevel={progressLevel}
-        isInspector={role === "inspector"}
-        onAdvanceStage={handleAdvance}
-      />
+    <div className="flex flex-col sm:flex-row h-screen bg-white text-black font-sans">
+      <div className="w-full sm:w-[360px] sm:flex-shrink-0 border-r border-gray-100">
+        <InspectionProgress
+          progressLevel={progressLevel}
+          isInspector={role === "inspector"}
+          onAdvanceStage={handleAdvance}
+        />
+      </div>
 
-      <main className="flex-1 flex flex-col">
-        <div className="border-b border-gray-200 px-6 py-4">
-          <h1 className="text-xl font-bold">Live Chat</h1>
+      <main className="flex-1 flex flex-col relative">
+        <div className="border-b border-gray-200 px-4 sm:px-6 py-3">
+          <h1 className="text-lg sm:text-xl font-semibold">Live Chat</h1>
         </div>
 
         {modalImage && (
@@ -213,16 +211,17 @@ export default function Chat() {
               <img
                 src={modalImage}
                 alt="Preview"
-                 className="w-auto h-auto max-w-[90vw] max-h-[80vh] rounded shadow-lg mx-auto object-contain"
+                className="w-auto h-auto max-w-[90vw] max-h-[80vh] rounded shadow-lg mx-auto object-contain"
               />
             </div>
           </div>
         )}
 
-        <div className="flex-1 bg-gray-100 px-6 py-4 overflow-hidden">
+        <div className="flex-1 bg-gray-100 px-3 sm:px-6 py-4 overflow-hidden">
           <div
             ref={scrollRef}
             className="h-full overflow-y-auto pr-2 space-y-4 flex flex-col"
+            style={{ paddingBottom: 140 }} 
           >
             {messages.length === 0 ? (
               <div className="text-center text-gray-500 text-sm mt-10">
@@ -234,7 +233,7 @@ export default function Chat() {
                 return (
                   <div
                     key={i}
-                    className={`max-w-[70%] px-4 py-2 rounded-lg shadow-sm break-words ${
+                    className={`w-fit max-w-[85%] sm:max-w-[70%] px-4 py-2 rounded-lg shadow-sm break-words ${
                       isSelf ? "ml-auto bg-black text-white" : "mr-auto bg-gray-500 text-white"
                     }`}
                   >
@@ -266,63 +265,76 @@ export default function Chat() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 px-6 py-4 flex flex-col gap-2">
-          {file && (
-            <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded">
-              <div className="text-sm text-gray-700">
-                {previewUrl ? (
-                  <img src={previewUrl} alt="preview" className="h-16 rounded" />
-                ) : (
-                  file.name
-                )}
-              </div>
-              <button onClick={clearFile} className="text-gray-500 hover:text-black">
-                <FiX size={18} />
-              </button>
-            </div>
-          )}
-
-          <div className="flex items-center gap-2">
-            <input
-              type="file"
-              id="fileUpload"
-              onChange={handleFileSelect}
-              disabled={loading}
-              className="hidden"
-              accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            />
-            <label
-              htmlFor="fileUpload"
-              className={`cursor-pointer ${loading ? "opacity-50 pointer-events-none" : "text-gray-600 hover:text-black"}`}
-              title="Attach file"
-            >
-              <FiPaperclip size={20} />
-            </label>
-
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              disabled={loading}
-              className={`flex-1 border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${loading ? "bg-gray-100 cursor-not-allowed" : ""}`}
-            />
-
-            <button
-              onClick={handleSend}
-              disabled={loading}
-              className={`text-white px-3 py-2 rounded-md transition ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-black hover:bg-gray-900"}`}
-              title="Send message"
-            >
-              {loading ? (
-                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mx-auto" />
-              ) : (
-                <FiSend size={20} />
+        <div className="w-full">
+          <div className="sm:static fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-3 sm:px-6 py-3 z-30">
+            <div className="max-w-6xl mx-auto">
+              {file && (
+                <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded mb-2">
+                  <div className="text-sm text-gray-700">
+                    {previewUrl ? (
+                      <img src={previewUrl} alt="preview" className="h-12 rounded" />
+                    ) : (
+                      file.name
+                    )}
+                  </div>
+                  <button onClick={clearFile} className="text-gray-500 hover:text-black">
+                    <FiX size={18} />
+                  </button>
+                </div>
               )}
-            </button>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  id="fileUpload"
+                  onChange={handleFileSelect}
+                  disabled={loading}
+                  className="hidden"
+                  accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                />
+                <label
+                  htmlFor="fileUpload"
+                  className={`cursor-pointer ${loading ? "opacity-50 pointer-events-none" : "text-gray-600 hover:text-black"}`}
+                  title="Attach file"
+                >
+                  <FiPaperclip size={20} />
+                </label>
+
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Type your message..."
+                  disabled={loading}
+                  className={`flex-1 border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black ${loading ? "bg-gray-100 cursor-not-allowed" : ""
+                    }`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
+                />
+
+                <button
+                  onClick={handleSend}
+                  disabled={loading}
+                  className={`text-white px-3 py-2 rounded-md transition ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-black hover:bg-gray-900"}`}
+                  title="Send message"
+                >
+                  {loading ? (
+                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mx-auto" />
+                  ) : (
+                    <FiSend size={20} />
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
+          <div className="hidden sm:block" style={{ height: 0 }} />
         </div>
       </main>
     </div>
   );
 }
+
