@@ -1,7 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../../utils/constants";
 import { toast } from "react-toastify";
-import { FaUserCircle, FaClipboardList, FaMoneyBillWave, FaChartPie } from "react-icons/fa";
+import { User, ClipboardList, CreditCard } from "lucide-react";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import ChartCard from "./ChartCard";
+import InfoCard from "./InfoCard";
+
+ChartJS.register(
+  ArcElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 export default function DetailAnalysis() {
   const [customer, setCustomer] = useState(null);
@@ -61,146 +87,174 @@ export default function DetailAnalysis() {
     );
   }
 
+  const totalEnquiries = stats.totalEnquiries || 50;
+  const completedInspections = stats.completedInspections || 35;
+  const pendingInspections = stats.pendingInspections || 15;
+  const completionRate = stats.completionRate || 70;
+
+  const totalPaid = stats.totalPaid || 5000;
+  const pendingPayment = stats.pendingPayment || 2000;
+  const paymentSuccessRate = stats.paymentSuccessRate || 85;
+  const averagePayment = stats.averagePayment || 2000;
+
+  const inspectionDoughnutData = {
+    labels: ["Completed", "Pending"],
+    datasets: [
+      {
+        data: [stats.completedInspections, stats.pendingInspections],
+        backgroundColor: ["#7bce5dc6", "#f35212f4"],
+        borderColor: ["#ffffffff", "#ffffffff"],
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const inspectionLineData = {
+    labels: stats.enquiryTimeline.map(item => {
+      const d = new Date(item.date);
+      return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
+    }),
+    datasets: [
+      {
+        label: "Completion Rate %",
+        data: stats.enquiryTimeline.map((_, idx) => {
+          const total = idx + 1;
+          const completed = stats.enquiryTimeline
+            .slice(0, total)
+            .filter(e => e.status === "completed").length;
+          return Math.round((completed / total) * 100);
+        }),
+        borderColor: "#0059ffae",
+        backgroundColor: "#ffffff",
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: "#ffffffff",
+        pointBorderColor: "#b2b2b2ff",
+        pointRadius: 5,
+      },
+    ],
+  };
+
+  const paymentDoughnutData = {
+    labels: ["Paid", "Pending"],
+    datasets: [
+      {
+        data: [stats.totalPaid, stats.pendingPayment],
+        backgroundColor: ["#7bce5dc6", "#f35212f4"],
+        borderColor: ["#ffffffff", "#ffffffff"],
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const paymentLineData = {
+    labels: stats.paymentTimeline.map(item => {
+      const d = new Date(item.date);
+      return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
+    }),
+    datasets: [
+      {
+        label: "Payment Success %",
+        data: stats.paymentTimeline.map((_, idx) => {
+          const total = idx + 1;
+          const paid = stats.paymentTimeline
+            .slice(0, total)
+            .filter(p => p.status === "paid").length;
+          return Math.round((paid / total) * 100);
+        }),
+        borderColor: "#0059ffae",
+        backgroundColor: "#ffffff",
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: "#ffffffff",
+        pointBorderColor: "#b2b2b2ff",
+        pointRadius: 5,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: "bottom", labels: { color: "#000", font: { weight: "500" } } },
+      tooltip: { enabled: true, titleColor: "#fff", bodyColor: "#fff" },
+    },
+    animation: { duration: 2000, easing: "easeInOutSine" },
+    scales: { x: { ticks: { color: "#000" } }, y: { ticks: { color: "#000" } } },
+  };
+
   return (
     <div className="min-h-screen bg-white text-black px-6 py-10">
       <div className="max-w-6xl mx-auto space-y-10 animate-fade-in">
-        {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-800 to-black mb-2 tracking-wide">
-             Overview
-          </h1>
+          <h1 className="text-4xl font-semibold text-black mb-2 tracking-wide">Overview</h1>
           <p className="text-gray-600 text-sm">
             Your inspection activity, payments, and performance insights
           </p>
         </div>
 
-        {/* Profile Section */}
-        <AnimatedCard glow="blue">
-          <SectionTitle icon={<FaUserCircle />} title="Profile Info" />
-          <InfoGrid
-            data={{
-              Name: customer.name,
-              Email: customer.email,
-              Mobile: customer.mobileNumber,
-            }}
-          />
-        </AnimatedCard>
+        <InfoCard
+          icon={<User />}
+          title="Profile Info"
+          data={{
+            Name: customer.name,
+            Email: customer.email,
+            Mobile: customer.mobileNumber,
+          }}
+          glow="blue"
+        />
 
-        {/* Inspection Stats */}
-        <AnimatedCard glow="green">
-          <SectionTitle icon={<FaClipboardList />} title="Inspection Stats" />
-          <InfoGrid
-            data={{
-              "Total Enquiries": stats.totalEnquiries,
-              "Completed Inspections": stats.completedInspections,
-              "Pending Inspections": stats.pendingInspections,
-              "Completion Rate": `${stats.completionRate}%`,
-            }}
-          />
-          <ProgressBar label="Completion Progress" value={animatedCompletion} color="green" />
-        </AnimatedCard>
+        <InfoCard
+          icon={<ClipboardList />}
+          title="Inspection Stats"
+          data={{
+            "Total Enquiries": totalEnquiries,
+            "Completed Inspections": completedInspections,
+            "Pending Inspections": pendingInspections,
+            "Completion Rate": `${completionRate}%`,
+          }}
+          progress={{ label: "Completion Progress", value: animatedCompletion }}
+          glow="purple"
+        />
 
-        {/* Payment Stats */}
-        <AnimatedCard glow="purple">
-          <SectionTitle icon={<FaMoneyBillWave />} title="Payment Stats" />
-          <InfoGrid
-            data={{
-              "Total Paid": `₹${stats.totalPaid}`,
-              "Pending Payments": `₹${stats.pendingPayment}`,
-              "Average Payment": `₹${stats.averagePayment}`,
-              "Payment Success Rate": `${stats.paymentSuccessRate}%`,
-            }}
-          />
-          <ProgressBar label="Payment Success" value={animatedPaymentSuccess} color="purple" />
-        </AnimatedCard>
+        <InfoCard
+          icon={<CreditCard />}
+          title="Payment Stats"
+          data={{
+            "Total Paid": `₹${totalPaid}`,
+            "Pending Payments": `₹${pendingPayment}`,
+            "Average Payment": `₹${averagePayment}`,
+            "Payment Success Rate": `${paymentSuccessRate}%`,
+          }}
+          progress={{ label: "Payment Success", value: animatedPaymentSuccess }}
+          glow="green"
+        />
 
-        {/* Chart Placeholder */}
-        <AnimatedCard glow="cyan" center>
-          <SectionTitle icon={<FaChartPie />} title="Visual Analysis" />
-          <p className="text-sm text-gray-600 mb-4">
-            Charts and graphs coming soon to visualize your inspection trends.
+        <div className="text-center">
+          <h1 className="text-4xl font-semibold text-black mb-2 tracking-wide">Visual Analytics</h1>
+          <p className="text-gray-600 text-sm">
+            Explore your inspection trends, payment performance, and key metrics
           </p>
-          <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 italic">
-            [Chart Placeholder]
-          </div>
-        </AnimatedCard>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          <ChartCard title="Inspection Analysis" type="doughnut" data={inspectionDoughnutData} options={chartOptions} />
+          <ChartCard title="Completion Rate Trend" type="line" data={inspectionLineData} options={chartOptions} />
+          <ChartCard title="Payment Analysis" type="doughnut" data={paymentDoughnutData} options={chartOptions} />
+          <ChartCard title="Payment Success Trend" type="line" data={paymentLineData} options={chartOptions} />
+        </div>
       </div>
 
-      {/* Styling */}
-      <style jsx>{`
+      <style>{`
         .animate-fade-in {
           animation: fadeIn 0.8s ease-out forwards;
         }
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
-    </div>
-  );
-}
-
-// 🔧 Reusable Components
-
-function SectionTitle({ icon, title }) {
-  return (
-    <h2 className="text-2xl font-semibold text-black mb-4 flex items-center gap-2">
-      {icon} {title}
-    </h2>
-  );
-}
-
-function InfoGrid({ data }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
-      {Object.entries(data).map(([label, value], i) => (
-        <p key={i}>
-          <strong>{label}:</strong> {value}
-        </p>
-      ))}
-    </div>
-  );
-}
-
-function ProgressBar({ label, value, color }) {
-  const colorMap = {
-    green: "bg-green-500",
-    purple: "bg-purple-500",
-    cyan: "bg-cyan-500",
-  };
-  return (
-    <div className="mt-4">
-      <div className="text-sm text-gray-700 mb-1">{label}</div>
-      <div className="w-full bg-gray-200 rounded-full h-3">
-        <div
-          className={`${colorMap[color]} h-3 rounded-full transition-all duration-500`}
-          style={{ width: `${value}%` }}
-        ></div>
-      </div>
-    </div>
-  );
-}
-
-function AnimatedCard({ children, glow, center = false }) {
-  const glowMap = {
-    blue: "hover:shadow-blue-200",
-    green: "hover:shadow-green-200",
-    purple: "hover:shadow-purple-200",
-    cyan: "hover:shadow-cyan-200",
-  };
-  return (
-    <div
-      className={`bg-white p-6 rounded-xl border border-gray-200 shadow-md transition-all duration-300 ${glowMap[glow]} ${
-        center ? "text-center" : ""
-      }`}
-    >
-      {children}
     </div>
   );
 }

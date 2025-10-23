@@ -80,8 +80,8 @@ export default function CustomerList() {
 
                   <div className="sm:w-2/4 space-y-1 text-center sm:text-left">
                     <p className="text-sm sm:text-lg font-semibold text-black">{customer.name}</p>
-                    <p className="text-xs text-gray-500">Commodity: {customer.commodity}</p>
-                    <p className="text-xs text-gray-500">Order ID: {customer.orderId}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">Commodity: {customer.commodity}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">Order ID: {customer.orderId}</p>
                   </div>
 
                   <div className="mt-4 sm:mt-0 sm:w-1/4 text-center sm:text-right">
