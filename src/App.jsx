@@ -56,6 +56,7 @@ import InspectorList from "./components/dashboard/CustomerDashboard/InspectorLis
 import Chat from "./components/dashboard/chat/Chat";
 import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList";
 import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
+import Carousel from "./components/Carousal";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
         <Route path="/about" element={ <About/> }/>
         <Route path="/contact" element={ <Contact/> }/>
         <Route path="/privacy-policy" element={ <PrivacyPolicy/> }/>
+        <Route path="/card" element={ <Carousel/> }/>
 
         <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
         <Route path="/verify-pending" element={<VerifyPendingPage />} />
