@@ -57,6 +57,7 @@ import Chat from "./components/dashboard/chat/Chat";
 import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList";
 import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
 import Carousel from "./components/Carousal";
+import NewRaiseEnquiryForm from "./components/dashboard/CustomerDashboard/NewRaiseEnquiryForm";
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
           <Route path="payments" element={<Payments />} />
           <Route path="payments/:enquiryId" element={<PaymentDetailPage/>} />
           <Route path="enquiry" element={<RaiseEnquiry />} />
+          <Route path="raiseEnquiry" element={<NewRaiseEnquiryForm />} />
           <Route path="inspection/:id" element={<InspectionDetailsPage />} />
           <Route path="enquiry/:id" element={<CustomerEnquiryDetailPage />} />
            <Route path="quick-requests" element={<QuickRequestsPage />} />
