@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, Play } from "lucide-react";
-import HomeWide from "../assets/16_9.gif"; 
+import HomeWide from "../assets/16_91.gif"; 
 import HomeTall from "../assets/9_16.gif"; 
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function HeroSection() {
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0 opacity-40"
+        className="absolute inset-0 z-0 opacity-70"
         style={{
           backgroundImage: `url(${bgUrl})`,
           backgroundPosition: "center center",
