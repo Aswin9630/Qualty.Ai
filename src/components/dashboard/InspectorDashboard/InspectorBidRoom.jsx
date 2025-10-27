@@ -8,7 +8,8 @@ import { useState } from "react";
 const InspectorBidRoom = () => {
   useFetchEnquiries();
   const dispatch = useDispatch();
-  const enquiries = useSelector((state) => state.enquiry.raisedEnquiry);      
+  const enquiries = useSelector((state) => state.enquiry.raisedEnquiry);   
+     
   const isArray = Array.isArray(enquiries);
   const [bidAmounts, setBidAmounts] = useState({});
 
@@ -88,7 +89,7 @@ const InspectorBidRoom = () => {
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
                   <strong>Customer:</strong>{" "}
-                  <span className="text-black">{enquiry.contact?.contactPersonName}</span>
+                  <span className="text-black">{enquiry.contact?.name}</span>
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
                   <strong>Inspection Needs:</strong>{" "}
