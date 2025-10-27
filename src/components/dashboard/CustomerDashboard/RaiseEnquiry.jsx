@@ -771,12 +771,12 @@ const RaiseEnquiry = () => {
         <div className="fixed inset-0 bg-white bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full transform transition-all duration-300 scale-100">
             <div className="flex items-center justify-between p-6 border-b border-gray-700">
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-2xl font-bold text-black">
                 Generic Physical Parameters
               </h3>
               <button
                 onClick={() => closeModal("genericPhysical")}
-                className="text-gray-400 hover:text-gray-800 transition-colors p-1 rounded-full hover:bg-white"
+                className="text-white bg-black cursor-pointer hover:text-gray-800 transition-colors p-1 rounded-full hover:bg-white"
               >
                 <X size={24} />
               </button>
@@ -788,7 +788,7 @@ const RaiseEnquiry = () => {
                 onChange={(e) =>
                   handleGenericParamChange("physical", e.target.value)
                 }
-                placeholder="Specify the physical parameters you need tested (e.g., dimensions, weight, texture, appearance, moisture content, etc.)"
+                placeholder="Specify the physical parameters you need tested (e.g.,broken(2/3 or 3/4), damaged & discolor, avg.length,chalky,foreign matter,moisture content, etc.)"
                 rows={8}
                 className="w-full px-4 py-3 bg-white border border-gray-500 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition duration-150 ease-in-out"
               />
@@ -801,13 +801,13 @@ const RaiseEnquiry = () => {
             <div className="flex justify-end gap-3 p-6 border-t border-gray-700">
               <button
                 onClick={() => closeModal("genericPhysical")}
-                className="px-4 py-2 text-black hover:text-gray-800 transition-colors rounded-lg bg-white"
+                className="px-4 py-2 text-white hover:bg-gray-800 cursor-pointer transition-colors rounded-lg bg-black"
               >
                 Cancel
               </button>
               <button
                 onClick={() => saveGenericParameters("physical")}
-                className="px-6 py-2 bg-black cursor-pointer hover:bg-gray-700 rounded-lg text-gray-800 font-norma transition-colors shadow-lg"
+                className="px-6 py-2 bg-black cursor-pointer hover:bg-gray-900 rounded-lg text-white font-norma transition-colors shadow-lg"
               >
                 Save Parameters
               </button>
@@ -825,7 +825,7 @@ const RaiseEnquiry = () => {
               </h3>
               <button
                 onClick={() => closeModal("genericChemical")}
-                className="text-gray-400 hover:text-gray-800 transition-colors p-1 rounded-full hover:bg-white"
+                className="text-gray-400 cursor-pointer hover:text-gray-800 transition-colors p-1 rounded-full hover:bg-white"
               >
                 <X size={24} />
               </button>
