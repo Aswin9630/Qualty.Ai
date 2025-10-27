@@ -15,7 +15,7 @@ const achievements = [
   { icon: <Award size={32} />, number: 250, label: "Global Inspectors" },
   { icon: <Users size={32} />, number: 30, label: "Countries Covered" },
   { icon: <Target size={32} />, number: 69, label: "Productivity & Cost Saving (%)" },
-  { icon: <TrendingUp size={32} />, number: 24, label: "Platform Support (hrs/day)" },
+  { icon: <TrendingUp size={32} />, number: 24, label: "Platform Support (24/7)" },
 ];
 
 export default function AboutSection() {
@@ -26,9 +26,6 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7 lg:col-span-8 space-y-6">
             <div className="text-left border border-gray-900 p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
-              <span className="inline-block bg-white text-black text-sm sm:text-base font-semibold px-3 py-1 mb-3 rounded">
-                About
-              </span>
 
               <h2 className="text-xl sm:text-2xl font-normal mt-3">
                 Qualty.AI — Global Inspection Marketplace
