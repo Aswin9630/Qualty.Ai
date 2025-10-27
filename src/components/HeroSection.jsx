@@ -19,7 +19,7 @@ export default function HeroSection() {
     if (typeof window === "undefined") return true;
     return window.matchMedia("(min-width: 768px)").matches;
   });
-
+ 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const onChange = (e) => setIsMdUp(e.matches);
