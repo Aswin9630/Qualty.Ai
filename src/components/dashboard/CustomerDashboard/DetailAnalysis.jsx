@@ -87,15 +87,15 @@ export default function DetailAnalysis() {
     );
   }
 
-  const totalEnquiries = stats.totalEnquiries || 50;
-  const completedInspections = stats.completedInspections || 35;
-  const pendingInspections = stats.pendingInspections || 15;
-  const completionRate = stats.completionRate || 70;
+  const totalEnquiries = stats.totalEnquiries || 0;
+  const completedInspections = stats.completedInspections || 0;
+  const pendingInspections = stats.pendingInspections || 0;
+  const completionRate = stats.completionRate || 0;
 
-  const totalPaid = stats.totalPaid || 5000;
-  const pendingPayment = stats.pendingPayment || 2000;
-  const paymentSuccessRate = stats.paymentSuccessRate || 85;
-  const averagePayment = stats.averagePayment || 2000;
+  const totalPaid = stats.totalPaid || 0;
+  const pendingPayment = stats.pendingPayment || 0;
+  const paymentSuccessRate = stats.paymentSuccessRate || 0;
+  const averagePayment = stats.averagePayment || 0;
 
   const inspectionDoughnutData = {
     labels: ["Completed", "Pending"],
