@@ -1,86 +1,78 @@
 import React from "react";
-import image8 from "../assets/Maharashtra.jpg"
-import China from "../assets/QualtyLogo.png"
-import image1 from "../assets/Services1.png"
-import image2 from "../assets/Services2.png"
-import image3 from "../assets/services3.jpeg"
-import image4 from "../assets/services4.webp"
-import image5 from "../assets/UP.jpg"
-import image6 from "../assets/USA.jpg"
-import image7 from "../assets/Vietnam.jpg"
+import { FilePlus, BadgeCheck, Eye, Globe2 } from "lucide-react";
 
-const images = [
-  image1,
-  China,
-  image2,
-  image3,
-  image4,
-  image5,
-  image6,
-  image7,
-  image8
+const values = [
+  {
+    title: "Raise Inspection Query",
+    description:
+      "Create your inspection requirements with budget and timeline specifications on our platform.",
+    icon: <FilePlus size={28} className="text-white" />,
+  },
+  {
+    title: "Choose the Best Quote",
+    description:
+      "Compare multiple quotes from verified global inspectors and select the best fit for your needs.",
+    icon: <BadgeCheck size={28} className="text-white" />,
+  },
+  {
+    title: "Better Transparency",
+    description:
+      "Track inspection progress with live updates and comprehensive reporting for complete visibility.",
+    icon: <Eye size={28} className="text-white" />,
+  },
+  {
+    title: "Global Inspector Network",
+    description:
+      "Access our vast network of certified inspectors across 50+ countries for worldwide coverage.",
+    icon: <Globe2 size={28} className="text-white" />,
+  },
 ];
 
-export default function Carousel() {
+const Carousal = () => {
   return (
-    <div className="w-full h-[300px] flex items-center justify-center overflow-hidden relative">
+    <div className="w-full h-[400px] flex items-center justify-center relative overflow-hidden bg-black">
       <div
-        className="absolute top-[25%] left-1/2 -translate-x-1/2 w-[100px] h-[150px] animate-slow-rotate"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[200px] animate-rotate3d"
         style={{
           transformStyle: "preserve-3d",
-          perspective: "1000px",
+          perspective: "800px",
         }}
       >
-        {images.map((src, index) => (
+        {values.map((item, index) => (
           <div
             key={index}
-            className="absolute inset-0 w-full h-full rounded-xl overflow-hidden border-2"
+            className="absolute inset-0 rounded-xl border border-gray-700 overflow-hidden bg-gradient-to-b from-neutral-900 via-black to-neutral-800 flex flex-col items-center justify-center text-center p-3 shadow-md"
             style={{
-              transform: `rotateY(${(360 / images.length) * index}deg) translateZ(250px)`,
-              borderColor: `rgba(${getColor(index)}, 0.6)`,
-              background: `radial-gradient(circle, rgba(${getColor(index)}, 0.2) 0%, rgba(${getColor(index)}, 0.6) 80%, rgba(${getColor(index)}, 0.9) 100%)`,
+              transform: `rotateY(${(360 / values.length) * index}deg) translateZ(180px)`,
             }}
           >
-            <img
-              src={src}
-              alt={`card-${index}`}
-              className="w-full h-full object-cover"
-            />
+            <div className="mb-2">{item.icon}</div>
+            <h3 className="text-base font-semibold text-white mb-1">
+              {item.title}
+            </h3>
+            <p className="text-gray-300 text-xs leading-snug">
+              {item.description}
+            </p>
           </div>
         ))}
       </div>
 
-      <style>
-        {`
-          @keyframes slow-rotate {
-            from {
-              transform: perspective(1000px) rotateX(-15deg) rotateY(0deg);
-            }
-            to {
-              transform: perspective(1000px) rotateX(-15deg) rotateY(360deg);
-            }
+      {/* CSS for 3D rotation */}
+      <style>{`
+        @keyframes rotate3d {
+          from {
+            transform: rotateX(-10deg) rotateY(360deg);
           }
-          .animate-slow-rotate {
-            animation: slow-rotate 60s linear infinite;
+          to {
+            transform: rotateX(-10deg) rotateY(0deg);
           }
-        `}
-      </style>
+        }
+        .animate-rotate3d {
+          animation: rotate3d 18s linear infinite;
+        }
+      `}</style>
     </div>
   );
-}
+};
 
-function getColor(index) {
-  const colors = [
-    "142,249,252",
-    "142,252,204",
-    "142,252,157",
-    "215,252,142",
-    "252,252,142",
-    "252,208,142",
-    "252,142,142",
-    "252,142,239",
-    "204,142,252",
-    "142,202,252",
-  ];
-  return colors[index % colors.length];
-}
+export default Carousal;
