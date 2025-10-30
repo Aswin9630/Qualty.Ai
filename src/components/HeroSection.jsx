@@ -83,18 +83,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-
-      <div className="relative z-20 max-w-6xl mx-auto px-6  grid grid-cols-2 md:grid-cols-4 gap-6">
-        {stats.map((stat, i) => (
-          <div
-            key={i}
-            className="border border-white p-4 text-center bg-black/40 backdrop-blur-sm shadow hover:shadow-xl transition-transform transform hover:-translate-y-1"
-          >
-            <div className="text-2xl md:text-3xl font-bold">{stat.number}</div>
-            <div className="text-gray-300 text-sm mt-1">{stat.label}</div>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }

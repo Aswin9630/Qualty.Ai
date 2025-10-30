@@ -141,7 +141,7 @@ export default function ProgressCard() {
           <div
             key={index}
             onClick={() => handleClick(index)}
-            className={`group relative w-full min-h-[180px] bg-gradient-to-b from-white/10 to-transparent border border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)] text-white overflow-hidden transition-all duration-700 ease-out transform cursor-pointer rounded-xl px-4 py-6
+            className={`group rounded-xl relative w-full min-h-[180px] bg-gradient-to-b from-white/10 to-transparent border border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)] text-white overflow-hidden transition-all duration-700 ease-out transform cursor-pointer px-4 py-6
               ${isMobile && isActive ? "h-auto" : ""}
               hover:scale-[1.06] hover:shadow-[0_0_35px_rgba(255,255,255,0.25)] hover:border-white/30 hover:-translate-y-2 hover:rotate-[0.5deg]`}
           >

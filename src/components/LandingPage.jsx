@@ -9,8 +9,8 @@ const LandingPage = () => {
     <div className="min-h-screen bg-white">
       <Header/>
       <HeroSection/>
-      <ServicesSection/> 
       <AboutSection/>
+      <ServicesSection/> 
       <NewFooter/>
     </div>
   );

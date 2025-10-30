@@ -35,7 +35,7 @@ export default function ServicesSection() {
   return (
     <section className="bg-black text-white py-5 md:py-16 px-6 sm:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-br from-black via-black to-gray-900 border border-gray-900  p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] space-y-16">
+        <div className="  p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300  space-y-16">
           
           <div className="text-center">
             <span className="inline-block bg-white text-black text-base sm:text-lg font-normal px-4 py-2  mb-14 shadow-md">
@@ -56,7 +56,7 @@ export default function ServicesSection() {
             {featuredServices.map((service, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-black via-black to-gray-900 border border-gray-900 p-6 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
+                className=" p-6 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300  hover:scale-[1.02]"
               >
                 <div className="flex items-center mb-4 text-white">
                   {service.icon}

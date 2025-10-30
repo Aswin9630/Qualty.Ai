@@ -1,31 +1,30 @@
 import React from "react";
 import {
-  Award,
-  Users,
-  Target,
+  Globe2,
+  MapPin,
+  Clock,
   TrendingUp,
 } from "lucide-react";
-import Scene1 from "../assets/Scene1.mp4";
 import Scene2 from "../assets/scrollingVideo.gif";
 import CountUpOnView from "./CountUpOnView";
 import ProgressCard from "./WillGetCard";
 
 
 const achievements = [
-  { icon: <Award size={32} />, number: 250, label: "Global Inspectors" },
-  { icon: <Users size={32} />, number: 30, label: "Countries Covered" },
-  { icon: <Target size={32} />, number: 69, label: "Productivity & Cost Saving (%)" },
-  { icon: <TrendingUp size={32} />, number: 24, label: "Platform Support (24/7)" },
+  { icon: <Globe2 size={32} />, number: 250, label: "Global Inspectors" },
+  { icon: <MapPin size={32} />, number: 30, label: "Countries Covered" },
+  { icon: <TrendingUp size={32} />, number: 69, label: "Productivity & Cost Saving (%)" },
+  { icon: <Clock size={32} />, number: 24, label: "Platform Support (24/7)" },
 ];
 
 export default function AboutSection() {
   return (
-    <section className="bg-black text-white py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-20 text-sm sm:text-base">
+    <section className="bg-black text-white py-20 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-20 text-sm sm:text-base">
       <div className="max-w-7xl mx-auto">
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7 lg:col-span-8 space-y-6">
-            <div className="text-left border border-gray-900 p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
+            <div className="text-left  p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
 
               <h2 className="text-xl sm:text-2xl font-normal mt-3">
                 Qualty.AI — Global Inspection Marketplace
@@ -39,7 +38,7 @@ export default function AboutSection() {
               {achievements.map((item, idx) => (
                 <div
                   key={idx}
-                  className="border border-gray-900 p-4 text-center shadow-[inset_0_0_0.5px_rgba(255,255,255,0.04)] backdrop-blur rounded-lg transition hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:scale-[1.02]"
+                  className=" p-4 text-center shadow-[inset_0_0_0.5px_rgba(255,255,255,0.04)] backdrop-blur rounded-lg transition hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:scale-[1.02]"
                 >
                   <div className="flex items-center justify-center mb-2 text-white">
                     {item.icon}
@@ -69,7 +68,7 @@ export default function AboutSection() {
         </div>
 
         <div className="mt-10">
-          <div className="text-center border border-gray-900 p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
+          <div className="text-center  p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
             <h3 className="text-lg sm:text-2xl font-normal mb-3">
               What You Get With Qualty.AI
             </h3>

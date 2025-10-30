@@ -1,31 +1,23 @@
 import {
-  Award,
-  Users,
-  Target,
+  Globe2,
+  MapPin,
+  Clock,
   TrendingUp,
   FilePlus,
   BadgeCheck,
   Eye,
-  Globe2,
+  // Globe2,
 } from "lucide-react";
 import HomeScene from "../assets/HomeScene.mp4";
 import Scene1 from "../assets/Scene1.mp4";
-import CountUpOnView from "./CountUpOnView";
+import CountUpOnView from "./CountUpOnView";  
 import NewHeader from "./NewHeader";
 
 const achievements = [
-  { icon: <Award size={32} />, number: 250, label: "Global Inspectors" },
-  { icon: <Users size={32} />, number: 30, label: "Countries Covered" },
-  {
-    icon: <Target size={32} />,
-    number: 69,
-    label: "Productivity & Cost Saving (%)",
-  },
-  {
-    icon: <TrendingUp size={32} />,
-    number: 24,
-    label: "Platform Support (hrs/day)",
-  },
+  { icon: <Globe2 size={32} />, number: 250, label: "Global Inspectors" },
+  { icon: <MapPin size={32} />, number: 30, label: "Countries Covered" },
+  { icon: <TrendingUp size={32} />, number: 69, label: "Productivity & Cost Saving (%)" },
+  { icon: <Clock size={32} />, number: 24, label: "Platform Support (24/7)" },
 ];
 
 const values = [
@@ -62,9 +54,9 @@ export default function About() {
       <section className="bg-black text-white py-20 px-6 sm:px-12 lg:px-20 text-sm sm:text-base">
         <div className="max-w-7xl mx-auto space-y-16">
           {/* About Intro Card */}
-          <div className=" border-gray-700  p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+          <div className="   p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 ">
             <span className="inline-block bg-white text-black text-base sm:text-xl font-normal px-4 py-1  mb-6 shadow-md">
-              About
+              About 
             </span>
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="w-full md:w-1/2">
@@ -100,7 +92,7 @@ export default function About() {
             {achievements.map((item, index) => (
               <div
                 key={index}
-                className=" border-gray-700  p-6 text-center shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
+                className="   p-6 text-center shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300  hover:scale-[1.02]"
               >
                 <div className="text-white mb-3 flex justify-center">{item.icon}</div>
                 <CountUpOnView end={item.number} />
@@ -124,7 +116,7 @@ export default function About() {
           </div>
 
           {/* Value Proposition */}
-          <div className=" border-gray-700  p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md text-center transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+          <div className="   p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md text-center transition-all duration-300 ">
             <h3 className="text-xl sm:text-2xl md:text-3xl mb-4">
               What You Get With Qualty.AI
             </h3>
@@ -140,7 +132,7 @@ export default function About() {
             {values.map((value, index) => (
               <div
                 key={index}
-                className=" border border-gray-700  p-6 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
+                className="rounded-full p-6 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]  hover:scale-[1.02]"
               >
                 <div className="mb-4 text-md flex items-center justify-center">
                   {value.icon}
