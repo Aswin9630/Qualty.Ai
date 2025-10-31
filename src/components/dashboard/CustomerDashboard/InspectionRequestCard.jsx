@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 export default function InspectionRequestCard({ request }) {
   const {
     _id,
-    commodityCategory,
-    inspectionLocation,
-    urgencyLevel,
+    category,
+    location,
+    urgency,
     inspectionBudget,
-    bids,
-    lowestBid,
+    status,
+    selectionSummary,
     createdAt,
+    commodity
   } = request;
 
   const navigate = useNavigate();
@@ -24,37 +25,33 @@ export default function InspectionRequestCard({ request }) {
 
   return (
     <div className="bg-white text-black p-5 rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-      {/* Header */}
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold">{commodityCategory}</h3>
+        <h3 className="text-lg font-semibold">Category: {category}</h3>
         <span
-          className={`px-3 py-1 text-xs font-semibold rounded-full ${
-            priorityStyles[urgencyLevel]
-          }`}
+          className={`px-3 py-1 text-xs font-semibold rounded-full ${priorityStyles[urgency]}`}
         >
-          {urgencyLevel}
+          {urgency}
         </span>
       </div>
 
-      {/* Location */}
-      <p className="text-sm text-gray-600 flex items-center gap-1 mb-2">
+      <p className="text-sm text-gray-600 flex items-center gap-3 mb-2">
         <FaMapMarkerAlt className="text-gray-400" />
-        {inspectionLocation}
+        {location}
       </p>
 
-      {/* Details */}
       <div className="text-sm text-gray-700 space-y-1 mb-4">
         <p>
           <strong>Budget:</strong> ₹{inspectionBudget}/-
         </p>
-       {bids &&  <p>
-          <strong>Bid Amount:</strong>{bids} 
-        </p>}
-        {lowestBid !== undefined && (
-          <p>
-            <strong>Lowest Bid:</strong> ₹{lowestBid}
-          </p>
-        )}
+        <p>
+          <strong>Status:</strong>{" "}
+          <span className="text-xs px-2 py-1 rounded bg-gray-100 border border-gray-300">
+            {status}
+          </span>
+        </p>
+        <p>
+          <strong>Commodity:</strong> {commodity}
+        </p>
         <p>
           <strong>Date of Enquiry:</strong> {formatted}
         </p>
@@ -63,7 +60,9 @@ export default function InspectionRequestCard({ request }) {
       {/* CTA */}
       <div className="text-center">
         <button
-          onClick={() => navigate(`/customer/inspection/${_id}`)}
+          onClick={() => navigate(`/customer/inspection/${_id}`,{
+      state: { inspectionBudget },
+    })}
           className="px-6 py-2 bg-black hover:bg-gray-900 text-white text-sm w-full font-medium rounded-lg cursor-pointer transition-all"
         >
           View Bids

@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import useFetchInspectorAnalytics from "../../../hooks/useFetchInspectorAnalytics";
 import ShimmerUI from "../../ShimmerUI";
@@ -34,7 +33,6 @@ const InspectorAnalysis = () => {
     <div className="max-w-6xl mx-auto px-6 py-10 text-black animate-fade-in">
       <h1 className="text-3xl font-bold mb-6">Inspector Performance Overview</h1>
 
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {[
           { label: "Total Bids", value: totalBids },
@@ -49,7 +47,6 @@ const InspectorAnalysis = () => {
         ))}
       </div>
 
-      {/* Profile Section */}
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-10">
         <h2 className="text-xl font-semibold mb-4">Inspector Profile</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
@@ -73,7 +70,6 @@ const InspectorAnalysis = () => {
         </div>
       </div>
 
-      {/* Recent Bids Table */}
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
         <h2 className="text-xl font-semibold mb-4">Recent Bids</h2>
         <div className="overflow-x-auto">
@@ -89,7 +85,7 @@ const InspectorAnalysis = () => {
             <tbody>
               {recentBids.map((bid) => (
                 <tr key={bid._id} className="border-t hover:bg-gray-50 transition">
-                  <td className="px-4 py-2">{bid.enquiry?.commodityCategory || "N/A"}</td>
+                  <td className="px-4 py-2">{bid.enquiry?.commodity}</td>
                   <td className="px-4 py-2">₹ {bid.amount}</td>
                   <td className="px-4 py-2 capitalize">{bid.status}</td>
                   <td className="px-4 py-2">{new Date(bid.createdAt).toLocaleDateString()}</td>
@@ -100,7 +96,6 @@ const InspectorAnalysis = () => {
         </div>
       </div>
 
-      {/* Fade-in animation */}
       <style jsx>{`
         @keyframes fade-in {
           from {

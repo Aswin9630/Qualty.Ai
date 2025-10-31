@@ -54,10 +54,10 @@ const CompanyLayout = () => {
     location.pathname.includes(item.path)
   )?.label;
 
-  if (!user) {
-    navigate("/")
-    return <div className="text-center py-10 text-gray-400">Loading user details...</div>;
-  }
+  // if (!user) {
+  //   navigate("/")
+  //   return <div className="text-center py-10 text-gray-400">Loading user details...</div>;
+  // }
 
   return (
     <div className="min-h-screen bg-gray-900 flex">

@@ -24,121 +24,110 @@ export default function CustomerEnquiryDetailPage() {
           toast.error(data.message);
         }
       } catch (err) {
-        toast.error("Failed to load enquiry details");
+        toast.error("Failed to load details");
       }
     };
     fetchDetails();
-  }, [id]);
+  }, [id]); 
 
-  if (!enquiry) {
+  if (!enquiry && !bid && !payment) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-gray-600 text-lg">
-        Loading inspection details...
+      <div className="min-h-screen bg-white px-6 py-10 text-black flex items-center justify-center">
+        <div className="max-w-md text-center border border-gray-300 rounded-lg p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">No Inspection Data Found</h2>
+          <p className="text-sm text-gray-600 mb-6">
+            It looks like this inspection hasn’t been initiated or completed yet.
+          </p>
+          <button
+            onClick={() => window.location.href = "/customer/raiseEnquiry"}
+            className="px-6 py-2 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition"
+          >
+            Raise New Enquiry
+          </button>
+        </div>
       </div>
     );
   }
 
+  // Safe date handling
+  let invoiceDate = "";
+  let dueDate = "";
+  if (payment?.updatedAt) {
+    invoiceDate = new Date(payment.updatedAt).toLocaleDateString();
+    dueDate = new Date(new Date(payment.updatedAt).getTime() + 7 * 86400000).toLocaleDateString();
+  }
+
   return (
-    <div className="min-h-screen bg-white text-black px-6 py-10">
-      <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
-        <div className="text-center">
-          <h1 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-800 to-black mb-2">
-            Inspection Details
-          </h1>
-          <p className="text-gray-600 text-sm">
-            Full breakdown of your confirmed inspection
-          </p>
-        </div>
-
-        <div className="glass-card hover:shadow-blue-200/40">
-          <h2 className="section-title">📋 Enquiry Info</h2>
-          <div className="info-grid">
-            <p><strong>Category:</strong> {enquiry.commodityCategory}</p>
-            <p><strong>Location:</strong> {enquiry.inspectionLocation}</p>
-            <p><strong>Volume:</strong> {enquiry.volume}</p>
-            <p><strong>Status:</strong> {enquiry.status}</p>
+    <div className="min-h-screen bg-white px-6 py-10 text-black">
+      <div className="max-w-4xl mx-auto border border-black rounded-md p-8">
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <h1 className="text-3xl font-bold tracking-wide">Qualty.ai</h1>
+            <p className="text-sm text-gray-700 mt-1">Inspection Services Summary</p>
+          </div>
+          <div className="text-sm text-gray-800 text-right">
+            <p><strong>Date Issued:</strong> {invoiceDate || "—"}</p>
+            <p><strong>Due Date:</strong> {dueDate || "—"}</p>
+            <p><strong>Reference ID:</strong> {payment?._id || "—"}</p>
           </div>
         </div>
 
-        {bid ? (
-          <div className="glass-card hover:shadow-green-200/40">
-            <h2 className="section-title">✅ Confirmed Bid</h2>
-            <div className="info-grid">
-              <p><strong>Inspector:</strong> {bid.inspector.name} ({bid.inspector.company})</p>
+        {enquiry && (
+          <div className="mb-6">
+            <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Customer Information</h2>
+            <div className="text-sm text-gray-800 space-y-1">
+              <p><strong>Customer ID:</strong> {enquiry.customer}</p>
+              <p><strong>Location:</strong> {enquiry.location}</p>
+              <p><strong>Country:</strong> {enquiry.country}</p>
+            </div>
+          </div>
+        )}
+
+        {enquiry && (
+          <div className="mb-6">
+            <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Inspection Details</h2>
+            <div className="text-sm text-gray-800 grid grid-cols-2 gap-4">
+              <p><strong>Commodity:</strong> {enquiry.commodity}</p>
+              <p><strong>Category:</strong> {enquiry.category}</p>
+              <p><strong>Volume:</strong> {enquiry.volume} {enquiry.unit}</p>
+              <p><strong>Inspection Type:</strong> {enquiry.physicalInspection ? "Physical" : ""} {enquiry.chemicalInspection ? "Chemical" : ""}</p>
+              <p><strong>Services:</strong> {enquiry.services?.join(", ")}</p>
+              <p><strong>Certifications:</strong> {enquiry.certifications?.join(", ")}</p>
+              <p><strong>Inspection Window:</strong> {new Date(enquiry.dateFrom).toLocaleDateString()} to {new Date(enquiry.dateTo).toLocaleDateString()}</p>
+            </div>
+          </div>
+        )}
+
+        {bid && (
+          <div className="mb-6">
+            <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Inspector</h2>
+            <div className="text-sm text-gray-800 space-y-1">
+              <p><strong>Name:</strong> {bid.inspector.name}</p>
               <p><strong>Bid Amount:</strong> ₹{bid.customerViewAmount}</p>
-              <p><strong>Note:</strong> {bid.note || "Inspector Note"}</p>
             </div>
-          </div>
-        ) : (
-          <div className="glass-card animate-fade-in-slow text-center hover:shadow-yellow-200/40">
-            <h2 className="section-title text-yellow-600">⚠️ No Bid Found</h2>
-            <p className="text-sm text-gray-600">
-              This enquiry hasn’t received any confirmed bids yet.
-            </p>
           </div>
         )}
 
-        {payment ? (
-          <div className="glass-card hover:shadow-purple-200/40">
-            <h2 className="section-title">💳 Payment Info</h2>
-            <div className="info-grid">
+        {payment && (
+          <div className="mb-6">
+            <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Payment Summary</h2>
+            <div className="text-sm text-gray-800 space-y-1">
+              <p><strong>Payment Mode:</strong> Razorpay</p>
               <p><strong>Order ID:</strong> {payment.razorpayOrderId}</p>
-              <p><strong>Razorpay Payment ID:</strong> {payment.razorpayPaymentId}</p>
+              <p><strong>Payment ID:</strong> {payment.razorpayPaymentId}</p>
               <p><strong>Amount Paid:</strong> ₹{payment.amount}</p>
-              <p><strong>Status:</strong> {payment.status}</p>
-              <p><strong>Date:</strong> {new Date(payment.updatedAt).toLocaleString()}</p>
             </div>
           </div>
-        ) : (
-          <div className="glass-card animate-fade-in-slow text-center hover:shadow-pink-200/40">
-            <h2 className="section-title text-pink-600">🕒 No Payment Yet</h2>
-            <p className="text-sm text-gray-600">
-              You haven’t completed payment for this inspection.
-            </p>
+        )}
+
+        {bid && payment && (
+          <div className="border-t border-black pt-4 text-right text-sm text-gray-900">
+            <p><strong>Total Amount:</strong> ₹{bid.customerViewAmount}</p>
+            <p><strong>Amount Paid:</strong> ₹{payment.amount}</p>
+            <p><strong>Balance Due:</strong> ₹{Math.max(0, bid.customerViewAmount - payment.amount)}</p>
           </div>
         )}
-      </div> 
-
-      <style jsx>{`
-        .animate-fade-in {
-          animation: fadeIn 0.8s ease-out forwards;
-        }
-        .animate-fade-in-slow {
-          animation: fadeIn 1.2s ease-out forwards;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .glass-card {
-          background: rgba(255, 255, 255, 0.7);
-          backdrop-filter: blur(12px);
-          border: 1px solid #e5e7eb;
-          padding: 1.5rem;
-          border-radius: 1rem;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-          transition: box-shadow 0.3s ease;
-        }
-        .section-title {
-          font-size: 1.5rem;
-          font-weight: 600;
-          margin-bottom: 1rem;
-          color: #111827;
-        }
-        .info-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 1rem;
-          font-size: 0.875rem;
-          color: #374151;
-        }
-      `}</style>
+      </div>
     </div>
   );
 }

@@ -58,6 +58,7 @@ import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList
 import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
 import Carousel from "./components/Carousal";
 import NewRaiseEnquiryForm from "./components/dashboard/CustomerDashboard/NewRaiseEnquiryForm";
+import InspectorEnquiryDetailPage from "./components/dashboard/InspectorDashboard/InspectorEnquiryDetailPage";
 
 function App() {
   return (
@@ -70,7 +71,7 @@ function App() {
         <Route path="/signup" element={ <Signup/> }/>
         <Route path="/services" element={ <Services/> }/>
         <Route path="/about" element={ <About/> }/>
-        <Route path="/contact" element={ <Contact/> }/>
+        <Route path="/contact" element={ <Contact/> }/> 
         <Route path="/privacy-policy" element={ <PrivacyPolicy/> }/>
         <Route path="/card" element={ <Carousel/> }/>
 
@@ -110,6 +111,8 @@ function App() {
           <Route path="history" element={<InspectorMyHistory />} />
           <Route path="payments" element={<InspectorPayment />} />
           <Route path="pending-inspections" element={<WonBidsDashboard />} />
+          <Route path="enquiry/:id" element={<InspectorEnquiryDetailPage />} />
+
         </Route>
 
         <Route path="/company" element={ <CompanyLayout/> }>

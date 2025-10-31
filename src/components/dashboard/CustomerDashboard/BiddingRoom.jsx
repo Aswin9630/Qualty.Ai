@@ -16,6 +16,7 @@ const BiddingRoom = () => {
       })
       const data=await response.json()
       setEnquiryData(data.enquiries)
+
   }
 
   return <div className="p-6 min-h-screen">

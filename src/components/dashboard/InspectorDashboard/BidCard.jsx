@@ -64,7 +64,6 @@ const BidCard = () => {
             key={id}
             className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center shadow-sm hover:shadow-md transition-all duration-300"
           >
-            {/* Left Section */}
             <div className="space-y-2 text-sm text-gray-700">
               <p><span className="font-medium text-gray-500">Commodity:</span> <span className="text-black">{commodityCategory}</span></p>
               <p><span className="font-medium text-gray-500">SubCommodity:</span> <span className="text-black">{subCommodity}</span></p>
@@ -73,7 +72,6 @@ const BidCard = () => {
               <p><span className="font-medium text-gray-500">Budget:</span> <span className="text-green-600 font-semibold">₹{inspectionBudget}/-</span></p>
             </div>
 
-            {/* Right Section */}
             <div className="mt-4 md:mt-0 flex flex-col items-end gap-2 w-full md:w-auto">
               {bidPlaced ? (
                 <div className="text-green-600 font-semibold text-2xl">✅ Bid Placed</div>

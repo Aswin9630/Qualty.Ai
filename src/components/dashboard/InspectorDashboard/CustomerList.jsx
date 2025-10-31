@@ -18,6 +18,7 @@ export default function CustomerList() {
           credentials: "include",
         });
         const data = await response.json();
+        
         if (data.success) {
           setCustomers(data.customers);
 

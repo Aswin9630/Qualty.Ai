@@ -8,14 +8,23 @@ import {
   addInspectionStats,
 } from "../../../redux/slice/enquiryBidSlice";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 export default function InspectionDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const location = useLocation();
   const { bids, stats } = useSelector((store) => store.enquiryBid);
   const [confirmedBidId, setConfirmedBidId] = useState(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isFinalPaid, setIsFinalPaid] = useState(false);
+  const [amountPaid, setAmountPaid] = useState(null);
+const [balanceAmount, setBalanceAmount] = useState(null);
+
+  
+const { inspectionBudget } = location.state || {};
+
+
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -46,11 +55,9 @@ export default function InspectionDetailsPage() {
   }, [id]);
 
   const handleConfirmBid = async (bidId, enquiryId, amount) => {
-    console.log("amount", amount);
 
     try {
       const initialAmount = amount * 0.3;
-      console.log("Sending initialAmount:", initialAmount);
 
       const orderRes = await fetch(
         `${BASE_URL}/payment/createInitialOrder/${enquiryId}`,
@@ -62,7 +69,6 @@ export default function InspectionDetailsPage() {
         }
       );
       const orderData = await orderRes.json();
-      console.log("order", orderData);
 
       if (!orderData.success) {
         toast.error(orderData.message || "Failed to create payment order");
@@ -106,11 +112,13 @@ export default function InspectionDetailsPage() {
             if (verifyData?.success) {
               toast.success("Bid confirmed successfully!");
               setConfirmedBidId(bidId);
+               setAmountPaid(verifyData.amountPaid);
+  setBalanceAmount(verifyData.balanceAmount);
             } else {
               toast.error("Payment verification failed");
             }
           } catch (err) {
-            console.log(err);
+            console.error(err);
 
             toast.error("Error verifying payment");
           } finally {
@@ -236,19 +244,25 @@ export default function InspectionDetailsPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm text-gray-700">
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
+                  {inspectionBudget}
+                </p>
+                <p>My Amount</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
+                <p className="text-lg font-bold text-black">
                   {stats.totalBids}
                 </p>
                 <p>Total Bids</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
-                  ₹{stats.lowestBid}
+                  ₹{stats.lowestBid || 0}
                 </p>
                 <p>Lowest Bid</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
-                  ₹{stats.highestBid}
+                  ₹{stats.highestBid || 0}
                 </p>
                 <p>Highest Bid</p>
               </div>
@@ -305,6 +319,7 @@ export default function InspectionDetailsPage() {
                         {bid.status.toUpperCase()}
                       </span>
                     </div>
+
                     <div className="text-sm text-gray-700 space-y-1 mb-4">
                       <p>
                         <strong>Bid Amount:</strong> ₹{bid.customerViewAmount}/-
@@ -316,7 +331,15 @@ export default function InspectionDetailsPage() {
                       <p>
                         <strong>Enquiry ID:</strong> {bid.enquiry}
                       </p>
+                      {confirmedBidId === bid._id && amountPaid !== null && balanceAmount !== null && (
+  <>
+    <p><strong>Paid (30%):</strong> ₹{amountPaid}</p>
+    <p><strong>Balance (70%):</strong> ₹{balanceAmount}</p>
+  </>
+)}
+
                     </div>
+
                     {isConfirmed ? (
                       <div>
                         <button

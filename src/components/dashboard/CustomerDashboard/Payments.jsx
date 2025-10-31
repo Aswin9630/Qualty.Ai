@@ -51,9 +51,16 @@ export default function CustomerPaymentHistoryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {enquiryIds.map((id, index) => {
+
               const payments = groupedByEnquiry[id];
               const enquiry = payments[0]?.enquiry;
               const date = new Date(payments[0]?.updatedAt).toLocaleString();
+                            const paidAmount = payments
+  .filter((p) => p.status === "paid")
+  .reduce((sum, p) => sum + (p.amount || 0), 0);
+
+const totalBudget = enquiry?.inspectionBudget || 0;
+const balanceAmount = Math.max(0, totalBudget - paidAmount);
 
               return (
                 <div
@@ -62,9 +69,12 @@ export default function CustomerPaymentHistoryPage() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="text-sm text-gray-700 space-y-2 mb-4">
-                    <p><strong>Enquiry:</strong> {enquiry?.commodityCategory} — {enquiry?.inspectionLocation}</p>
+                    <p><strong>Commodity:</strong> {enquiry?.commodity} — {enquiry?.location}</p>
                     <p><strong>Enquiry ID:</strong> {enquiry?._id}</p>
                     <p><strong>Date:</strong> {date}</p>
+                    <p><strong className="text-green-600">Paid:</strong> ₹{paidAmount}</p>
+<p><strong className="text-red-600">Balance:</strong> ₹{balanceAmount}</p>
+
                   </div>
                   <button
                     onClick={() => navigate(`/customer/payments/${id}`)}

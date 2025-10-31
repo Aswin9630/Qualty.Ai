@@ -1,12 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getCurrencySymbol } from "../../../utils/constants";
 
 const LiveBids = () => {
   const raisedEnquiries = useSelector((state) => state.enquiry.raisedEnquiry);
   const navigate = useNavigate();
 
-  const limitedEnquiries = raisedEnquiries?.slice(0, 2) || [];
+  const limitedEnquiries = (raisedEnquiries || [])
+    .filter(
+      (e) =>
+        e.category &&
+        e.subcategory &&
+        e.commodity &&
+        e.location &&
+        e.inspectionBudget
+    )
+    .slice(0, 2);
 
   return (
     <section className="bg-white text-black p-6 rounded-xl shadow-md max-w-4xl mx-auto border border-gray-200">
@@ -26,39 +36,45 @@ const LiveBids = () => {
               key={bid._id || index}
               className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center shadow-sm hover:shadow-md transition-all duration-300"
             >
-              {/* Left Section */}
               <div className="space-y-2 text-sm text-gray-700">
                 <p>
-                  <span className="font-medium text-gray-500">Commodity:</span>{" "}
-                  <span className="text-black">{bid.commodityCategory}</span>
+                  <span className="font-medium text-gray-500">Category:</span>{" "}
+                  <span className="text-black">{bid.category || "—"}</span>
                 </p>
                 <p>
-                  <span className="font-medium text-gray-500">SubCommodity:</span>{" "}
-                  <span className="text-black">{bid.subCommodity}</span>
+                  <span className="font-medium text-gray-500">Subcategory:</span>{" "}
+                  <span className="text-black">{bid.subcategory || "—"}</span>
+                </p>
+                <p>
+                  <span className="font-medium text-gray-500">Commodity:</span>{" "}
+                  <span className="text-black">{bid.commodity || "—"}</span>
                 </p>
                 <p>
                   <span className="font-medium text-gray-500">Location:</span>{" "}
-                  <span className="text-black">{bid.inspectionLocation}</span>
+                  <span className="text-black">{bid.location || "—"}</span>
                 </p>
                 <p>
                   <span className="font-medium text-gray-500">Urgency:</span>{" "}
                   <span
                     className={`font-semibold ${
-                      bid.urgencyLevel === "High"
+                      bid.urgency === "High"
                         ? "text-red-500"
-                        : "text-yellow-500"
+                        : bid.urgency === "Medium"
+                        ? "text-yellow-500"
+                        : "text-green-600"
                     }`}
                   >
-                    {bid.urgencyLevel}
+                    {bid.urgency || "—"}
                   </span>
                 </p>
                 <p>
                   <span className="font-medium text-gray-500">Budget:</span>{" "}
-                  <span className="text-green-600 font-semibold">₹{bid.inspectionBudget}/-</span>
+                  <span className="text-green-600 font-semibold">
+  {getCurrencySymbol(bid.country)}{bid.inspectionBudget || "—"}/-
+</span>
                 </p>
               </div>
 
-              {/* Right Section */}
               <div className="mt-4 md:mt-0 flex flex-col items-end gap-2 w-full md:w-auto">
                 <button
                   onClick={() => navigate("/inspector/bidding")}
@@ -87,4 +103,3 @@ const LiveBids = () => {
 };
 
 export default LiveBids;
-

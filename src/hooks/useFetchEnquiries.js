@@ -15,7 +15,7 @@ const useFetchEnquiries = () => {
           method: "GET",
           credentials: "include",
         });
-        const data = await response.json();        
+        const data = await response.json(); 
         if (data.enquiries) {
           
           dispatch(addEnquiries(data.enquiries));

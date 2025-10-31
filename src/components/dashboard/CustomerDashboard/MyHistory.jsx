@@ -5,7 +5,7 @@ import CustomerHistoryCard from "./CustomerHistoryCard";
 export default function CustomerMyHistoryPage() {
   useFetchCustomerEnquiry();
   const enquiries = useSelector((state) => state.customerEnquiry.customerEnquiry);
-
+  
   return (
     <div className="min-h-screen bg-white text-black px-6 py-10">
       <div className="max-w-6xl mx-auto space-y-10 animate-fade-in">
@@ -18,7 +18,7 @@ export default function CustomerMyHistoryPage() {
           </p>
         </div>
 
-        {enquiries && enquiries.length === 0 ? (
+        {!Array.isArray(enquiries) || enquiries.length === 0 ? (
           <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 text-center text-gray-500 shadow-sm animate-fade-in-slow">
             <p className="text-lg font-semibold mb-2">No inspection history found</p>
             <p className="text-sm">Once you complete inspections, they’ll appear here.</p>
@@ -29,15 +29,16 @@ export default function CustomerMyHistoryPage() {
               const bid = e.confirmedBid;
               const formatted = {
                 _id: e._id,
-                title: e.commodityCategory,
+                title: `${e.category} - ${e.commodity}`,
                 status: e.status,
-                category: e.subCommodity,
-                location: e.inspectionLocation,
-                date: e.createdAt,
+                category: e.subcategory,
+                location: e.location,
+                date: e.dateFrom || e.createdAt,
                 cost: e.inspectionBudget,
                 bidClosed: bid?.customerViewAmount || 0,
                 savings: e.inspectionBudget - (bid?.customerViewAmount || 0),
                 inspector: bid?.inspector,
+                country: e.country,
               };
 
               return (

@@ -18,6 +18,7 @@ export default function InspectorList() {
           credentials: "include",
         });
         const data = await response.json();
+        
         if (data.success) {
           setInspectors(data.inspectors);
           const orderIds = data.inspectors.map((i) => i.orderId);
