@@ -1,28 +1,28 @@
 export const BASE_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "/api";
 
 export const CATEGORY_OPTIONS = [
-  { value: "Agri_food", label: "Agricultural & Food Commodities" },
-  { value: "Industrial_raw", label: "Industrial Raw Materials" },
-  { value: "Textiles", label: "Textiles & Apparel" },
-  { value: "Machinery", label: "Machinery & Industrial Equipment" },
-  { value: "Automotive", label: "Automotive & Transport Equipment" },
-  { value: "Chemicals_Pharmaceuticals", label: "Chemicals & Pharmaceuticals" },
-  { value: "Goods_Household_Items", label: "Consumer Goods & Household Items" },
-  { value: "Electronics", label: "Electronics & Technology" },
-  { value: "Construction", label: "Construction Materials" },
-  { value: "Luxury", label: "Luxury & Lifestyle Commodities" },
-  { value: "Emerging_green", label: "Emerging & Green Trade Items" },
+  { value: "agri_food", label: "Agricultural & Food Commodities" },
+  { value: "industrial_raw", label: "Industrial Raw Materials" },
+  { value: "textiles", label: "Textiles & Apparel" },
+  { value: "machinery", label: "Machinery & Industrial Equipment" },
+  { value: "automotive", label: "Automotive & Transport Equipment" },
+  { value: "chem_pharma", label: "Chemicals & Pharmaceuticals" },
+  { value: "consumer_goods", label: "Consumer Goods & Household Items" },
+  { value: "electronics", label: "Electronics & Technology" },
+  { value: "construction", label: "Construction Materials" },
+  { value: "luxury", label: "Luxury & Lifestyle Commodities" },
+  { value: "emerging_green", label: "Emerging & Green Trade Items" },
 ];
   
 export const SUBCATEGORY_OPTIONS = {
   agri_food: [
-    { value: "Food_grains", label: "Food Grains & Cereals" },
-    { value: "Pulses_legumes", label: "Pulses & Legumes" },
-    { value: "Oilseeds", label: "Oilseeds & Edible Oils" },
-    { value: "Spices", label: "Spices & Condiments" },
-    { value: "Fruits_veggies", label: "Fruits & Vegetables" },
-    { value: "Beverage_crops", label: "Beverage Crops" },
-    { value: "Others_food", label: "Others (Sugar, Dairy, Meat, Seafood)" },
+    { value: "food_grains", label: "Food Grains & Cereals" },
+    { value: "pulses_legumes", label: "Pulses & Legumes" },
+    { value: "oilseeds", label: "Oilseeds & Edible Oils" },
+    { value: "spices", label: "Spices & Condiments" },
+    { value: "fruits_veggies", label: "Fruits & Vegetables" },
+    { value: "beverage_crops", label: "Beverage Crops" },
+    { value: "others_food", label: "Others (Sugar, Dairy, Meat, Seafood)" },
   ],
   industrial_raw: [
     { value: "metals_minerals", label: "Metals & Minerals" },
@@ -83,7 +83,7 @@ export const SUBCATEGORY_OPTIONS = {
   
 export const COMMODITY_OPTIONS = {
   food_grains: [
-    { value: "rice", label: "Rice (basmati/non-basmati)" },
+    { value: "rice_basmati", label: "Rice (basmati/non-basmati)" },
     { value: "wheat", label: "Wheat" },
     { value: "maize", label: "Maize (Corn)" },
     { value: "barley", label: "Barley / Oats / Sorghum" },
