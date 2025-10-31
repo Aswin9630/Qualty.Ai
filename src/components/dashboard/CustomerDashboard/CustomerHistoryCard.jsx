@@ -58,7 +58,7 @@ export default function CustomerHistoryCard({ enquiry }) {
 
       {/* CTA */}
       <button
-        onClick={() => navigate(`/customer/enquiry/${_id}`)}
+        onClick={() => navigate(`/customer/raiseEnquiry/${_id}`)}
         className="w-full cursor-pointer bg-black text-white px-4 py-2 rounded font-semibold text-sm hover:bg-gray-900 transition duration-200 flex items-center justify-center gap-2 shadow hover:shadow-md"
       >
         <FaCheckCircle />

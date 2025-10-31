@@ -12,7 +12,7 @@ export default function CustomerEnquiryDetailPage() {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/customer/enquiry/${id}/details`, {
+        const res = await fetch(`${BASE_URL}/customer/raiseEnquiry/${id}/details`, {
           credentials: "include",
         });
         const data = await res.json();

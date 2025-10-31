@@ -24,7 +24,7 @@ import { removeUser } from "../../../redux/slice/userSlice";
 const navItems = [
   { label: "Home", icon: <Home size={25} />, path: "/" },
   { label: "Dashboard", icon: <LayoutDashboard size={25} />, path: "/customer/dashboard" },
-  { label: "Raise Enquiry", icon: <HelpCircle size={25} />, path: "/customer/enquiry" },
+  { label: "Raise Enquiry", icon: <HelpCircle size={25} />, path: "/customer/raiseEnquiry" },
   { label: "Bidding Room", icon: <Gavel size={25} />, path: "/customer/bidding" },
   { label: "Inspection Chat Room", icon: <MessageCircle size={25} />, path: "/customer/inspectorList" },
   { label: "Detail Analysis", icon: <LineChart size={25} />, path: "/customer/analysis" },
@@ -229,7 +229,7 @@ export default CustomerLayout;
 // const navItems = [
 //   { label: "Home", icon: <Home size={25} />, path: "/" },
 //   { label: "Dashboard", icon: <LayoutDashboard size={25} />, path: "/customer/dashboard" },
-//   { label: "Raise Enquiry", icon: <HelpCircle size={25} />, path: "/customer/enquiry" },
+//   { label: "Raise Enquiry", icon: <HelpCircle size={25} />, path: "/customer/raiseEnquiry" },
 //   { label: "Bidding Room", icon: <Gavel size={25} />, path: "/customer/bidding" },
 //   { label: "Inspection Chat Room", icon: <MessageCircle size={25} />, path: "/customer/inspectorList" },
 //   { label: "Detail Analysis", icon: <LineChart size={25} />, path: "/customer/analysis" },
