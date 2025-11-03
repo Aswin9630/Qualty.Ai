@@ -12,7 +12,7 @@ const LandingPage = () => {
 <div id="hero"><HeroSection /></div>
 <div id="why-us"><AboutSection /></div>
 <div id="services"><ServicesSection /></div>
-<div id="how-it-works"><FaqSection /></div>
+<FaqSection />
 <NewFooter/>
     </div> 
   );

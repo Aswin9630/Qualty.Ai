@@ -42,7 +42,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        <div className="mt-10">
+        <div  id="how-it-works" className="mt-10">
           <div className="text-center p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
             <h3 className="text-3xl font-bold mb-3">How it works</h3>
             <div className="w-full flex items-center justify-center">
