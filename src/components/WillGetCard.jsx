@@ -1,7 +1,7 @@
 import React from "react";
-import step1 from "../assets/step1.png";
-import step2 from "../assets/step2.png";
-import step3 from "../assets/step3.png";
+import step1 from "../assets/Step1.png";
+import step2 from "../assets/Step2.png";
+import step3 from "../assets/Step3.png";
 
 const values = [
   {
