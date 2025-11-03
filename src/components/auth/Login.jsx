@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/slice/userSlice";
 import { Mail, Lock, User } from "lucide-react";
-import NewHeader from "../NewHeader";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -68,8 +67,8 @@ const Login = () => {
   };
 
   return (
+
     <div className="min-h-screen bg-white flex items-center justify-center">
-      <NewHeader/>
       <div className="flex flex-col lg:flex-row items-center justify-center px-4 py-35 sm:py-25 lg:py-25 gap-5 w-full max-w-7xl mb-5">
         <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-8 space-y-6 mb-8 lg:mb-0">
           <h1 className="text-2xl sm:text-3xl font-bold text-black">
@@ -90,7 +89,7 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="max-w-md w-full space-y-8">
+        <div className="max-w-md w-full space-y-2">
           {/* Header */}
           <div className="text-center">
             <div className="mb-8">

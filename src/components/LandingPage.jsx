@@ -3,16 +3,18 @@ import NewFooter from "./NewFooter";
 import ServicesSection from "./ServicesSection";
 import AboutSection from "./AboutSection";
 import HeroSection from "./HeroSection";
+import FaqSection from "./FAQSection";
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header/>
-      <HeroSection/>
-      <AboutSection/>
-      <ServicesSection/> 
-      <NewFooter/>
-    </div>
+<div id="hero"><HeroSection /></div>
+<div id="why-us"><AboutSection /></div>
+<div id="services"><ServicesSection /></div>
+<div id="how-it-works"><FaqSection /></div>
+<NewFooter/>
+    </div> 
   );
 };
 

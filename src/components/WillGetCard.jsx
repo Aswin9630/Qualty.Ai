@@ -1,84 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { FilePlus, BadgeCheck, Eye, Globe2 } from "lucide-react";
+import React from "react";
+import step1 from "../assets/step1.png";
+import step2 from "../assets/step2.png";
+import step3 from "../assets/step3.png";
 
 const values = [
   {
-    title: "Raise Inspection Query",
+    steps: 1,
+    title: "Raise an Inspection Query",
     description:
       "Create your inspection requirements with budget and timeline specifications on our platform.",
-    icon: <FilePlus size={36} className="text-white" />,
+    image: step1,
   },
   {
+    steps: 2,
     title: "Choose the Best Quote",
     description:
       "Compare multiple quotes from verified global inspectors and select the best fit for your needs.",
-    icon: <BadgeCheck size={36} className="text-white" />,
+    image: step2,
   },
   {
-    title: "Better Transparency",
+    steps: 3,
+    title: "Track Your Global Inspection",
     description:
-      "Track inspection progress with live updates and comprehensive reporting for complete visibility.",
-    icon: <Eye size={36} className="text-white" />,
-  },
-  {
-    title: "Global Inspector Network",
-    description:
-      "Access our vast network of certified inspectors across 50+ countries for worldwide coverage.",
-    icon: <Globe2 size={36} className="text-white" />,
+      "Engage directly with your assigned inspector for real-time updates and clarifications.",
+    image: step3,
   },
 ];
 
 export default function ProgressCard() {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const handleClick = (index) => {
-    if (isMobile) {
-      setActiveIndex(index === activeIndex ? null : index);
-    }
-  };
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-12 px-4 sm:px-6 md:px-12 bg-black">
-      {values.map((item, index) => {
-        const isActive = activeIndex === index;
-        return (
+    <section className="py-12 px-4 sm:px-6 md:px-12 bg-white text-black">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {values.map((step, index) => (
           <div
             key={index}
-            onClick={() => handleClick(index)}
-            className={`group rounded-xl relative w-full min-h-[180px] bg-gradient-to-b from-white/10 to-transparent border border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)] text-white overflow-hidden transition-all duration-700 ease-out transform cursor-pointer px-4 py-6
-              ${isMobile && isActive ? "h-auto" : ""}
-              hover:scale-[1.06] hover:shadow-[0_0_35px_rgba(255,255,255,0.25)] hover:border-white/30 hover:-translate-y-2 hover:rotate-[0.5deg]`}
+            className="rounded-xl overflow-hidden  transition-all duration-500 bg-white"
           >
-            <div className="flex justify-center mt-2 mb-3 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-1">
-              {item.icon}
+            <div className="p-4 text-center">
+              <p className="text-lg font-medium text-gray-500 mb-1">
+                Step {step.steps}
+              </p>
+              <h3 className="text-lg sm:text-xl font-semibold text-black">
+                {step.title}
+              </h3>
             </div>
-
-            <h2 className="text-center text-base sm:text-lg font-semibold text-[rgb(218,244,237)] mb-2 transition-all duration-700 ease-out group-hover:text-white break-words">
-              {item.title}
-            </h2>
-
-            <p
-              className={`text-center text-xs sm:text-sm text-gray-300 px-2 sm:px-4 leading-snug transition-all duration-700 ease-in-out break-words
-                ${isMobile
-                  ? isActive
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                  : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"
-              }`}
-            >
-              {item.description}
-            </p>
+            <img
+              src={step.image}
+              alt={step.title}
+              className="w-full h-auto object-contain"
+            />
           </div>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 }

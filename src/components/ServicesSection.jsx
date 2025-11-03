@@ -6,25 +6,23 @@ import Sourcing from "../assets/Sourcing.mp4";
 import { useRef } from "react";
 
 export default function ServicesSection() {
-  const navigate = useNavigate();
-  const destinationRef = useRef(null);
-  const sourcingRef = useRef(null);
+  // const navigate = useNavigate();
+  // const destinationRef = useRef(null);
+  // const sourcingRef = useRef(null);
 
-  // ▶️ Play video when hovered
-  const handlePlay = (ref) => {
-    if (ref.current) {
-      ref.current.currentTime = 0; // start from beginning
-      ref.current.play();
-    }
-  };
+  // const handlePlay = (ref) => {
+  //   if (ref.current) {
+  //     ref.current.currentTime = 0;
+  //     ref.current.play();
+  //   }
+  // };
 
-  // 🧠 Stop video automatically after it finishes once
-  const handleVideoEnd = (ref) => {
-    if (ref.current) {
-      ref.current.pause();
-      ref.current.currentTime = 0;
-    }
-  };
+  // const handleVideoEnd = (ref) => {
+  //   if (ref.current) {
+  //     ref.current.pause();
+  //     ref.current.currentTime = 0;
+  //   }
+  // };
 
   return (
     <section className="bg-black text-white py-5 md:py-16 px-6 sm:px-12 lg:px-20">
@@ -49,9 +47,8 @@ export default function ServicesSection() {
           <QuickInspection />
 
           {/* Videos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             
-            {/* Destination Video */}
             <div
               className="rounded-xl overflow-hidden shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
               onMouseEnter={() => handlePlay(destinationRef)}
@@ -66,7 +63,6 @@ export default function ServicesSection() {
               />
             </div>
 
-            {/* Sourcing Video */}
             <div
               className="rounded-xl overflow-hidden shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
               onMouseEnter={() => handlePlay(sourcingRef)}
@@ -80,7 +76,7 @@ export default function ServicesSection() {
                 className="w-full h-auto object-cover"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Optional button */}
           {/* <div className="text-center">
