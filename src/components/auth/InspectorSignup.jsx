@@ -186,7 +186,7 @@ export default function InspectorSignup() {
 
   return (
     <div className="min-h-screen bg-white text-black flex items-center justify-center p-6 py-25">
-      <NewHeader/>
+      {/* <NewHeader/> */}
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-2xl bg-white border border-gray-200 p-8 rounded-xl shadow-xl space-y-6"

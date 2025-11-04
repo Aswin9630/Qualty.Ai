@@ -90,7 +90,6 @@ const Login = () => {
         </div>
 
         <div className="max-w-md w-full space-y-2">
-          {/* Header */}
           <div className="text-center">
             <div className="mb-8">
               <div className="mx-auto h-12 w-12 bg-black rounded-xl flex items-center justify-center mb-4">

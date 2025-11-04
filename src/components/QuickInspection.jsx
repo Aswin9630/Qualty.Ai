@@ -75,7 +75,7 @@ export default function QuickInspection() {
               </Link>
             ))}
           </div>
-
+            
           {regionList.length > 5 && (
             <div className="text-center mt-10">
               <button

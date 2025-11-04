@@ -445,7 +445,7 @@ const Contact = () => {
 
   return (
     <div>
-    <NewHeader/>
+    {/* <NewHeader/> */}
     <section style={contactStyles.contact} id="contact">
       <div style={contactStyles.backgroundEffect}></div>
       

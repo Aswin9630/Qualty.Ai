@@ -137,7 +137,7 @@ const QuickInspectionForm = ({ closeForm, onSubmit }) => {
 
   return (
   <div className="min-h-screen bg-white text-black px-4 py-10">
-    <NewHeader/>
+    {/* <NewHeader/> */}
     <form
       onSubmit={handleFormSubmit}
       className="space-y-6 py-25 bg-white text-black p-8 rounded-2xl shadow-xl border border-gray-300 max-w-2xl mx-auto animate-fade-in"
