@@ -81,7 +81,7 @@ export default function Header() {
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
-            {cartItems.length > 0 && (
+            {/* {cartItems.length > 0 && (
               <button
                 onClick={() => navigate("/cart")}
                 className="relative flex items-center bg-black text-white font-medium px-3 cursor-pointer py-2 rounded-full border border-gray-200 hover:bg-gray-100 transition"
@@ -92,7 +92,7 @@ export default function Header() {
                   {cartItems.length}
                 </span>
               </button>
-            )}
+            )} */}
 
             {user ? (
               <button
