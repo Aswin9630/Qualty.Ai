@@ -58,7 +58,7 @@ import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList
 import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
 import NewRaiseEnquiryForm from "./components/dashboard/CustomerDashboard/NewRaiseEnquiryForm";
 import InspectorEnquiryDetailPage from "./components/dashboard/InspectorDashboard/InspectorEnquiryDetailPage";
-import CartPage from "./components/QuickServices/CartPage";
+// import CartPage from "./components/QuickServices/CartPage";
 import HowSafeIsYourData from "./components/HowSafeIsYourData";
 
 function App() {
@@ -74,7 +74,7 @@ function App() {
         <Route path="/about" element={ <About/> }/>
         <Route path="/contact" element={ <Contact/> }/> 
         <Route path="/privacy-policy" element={ <PrivacyPolicy/> }/>
-         <Route path="/cart" element={<CartPage />} />
+         {/* <Route path="/cart" element={<CartPage />} /> */}
         <Route path="/how-safe-is-your-data" element={<HowSafeIsYourData />} />
 
 
