@@ -15,7 +15,7 @@ export default function Header() {
   useFetchUser();
 
   const user = useSelector((state) => state?.user?.user);
-  const cartItems = useSelector((state) => state.cart.items);
+  // const cartItems = useSelector((state) => state.cart.items);
 
   const navItems = [
     { label: "Why us", targetId: "why-us" },
@@ -149,7 +149,7 @@ export default function Header() {
               </li>
             ))}
 
-            {cartItems.length > 0 && (
+            {/* {cartItems.length > 0 && (
               <button
                 onClick={() => {
                   navigate("/cart");
@@ -160,7 +160,7 @@ export default function Header() {
                 <ShoppingCart size={18} />
                  ({cartItems.length})
               </button>
-            )}
+            )} */}
 
             {user ? (
               <button
