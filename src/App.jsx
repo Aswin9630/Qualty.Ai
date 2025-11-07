@@ -56,9 +56,10 @@ import InspectorList from "./components/dashboard/CustomerDashboard/InspectorLis
 import Chat from "./components/dashboard/chat/Chat";
 import CustomerList from "./components/dashboard/InspectorDashboard/CustomerList";
 import PaymentDetailPage from "./components/dashboard/CustomerDashboard/PaymentDetailPage";
-import Carousel from "./components/Carousal";
 import NewRaiseEnquiryForm from "./components/dashboard/CustomerDashboard/NewRaiseEnquiryForm";
 import InspectorEnquiryDetailPage from "./components/dashboard/InspectorDashboard/InspectorEnquiryDetailPage";
+import CartPage from "./components/QuickServices/CartPage";
+import HowSafeIsYourData from "./components/HowSafeIsYourData";
 
 function App() {
   return (
@@ -73,7 +74,9 @@ function App() {
         <Route path="/about" element={ <About/> }/>
         <Route path="/contact" element={ <Contact/> }/> 
         <Route path="/privacy-policy" element={ <PrivacyPolicy/> }/>
-        <Route path="/card" element={ <Carousel/> }/>
+         <Route path="/cart" element={<CartPage />} />
+        <Route path="/how-safe-is-your-data" element={<HowSafeIsYourData />} />
+
 
         <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
         <Route path="/verify-pending" element={<VerifyPendingPage />} />
@@ -112,7 +115,6 @@ function App() {
           <Route path="payments" element={<InspectorPayment />} />
           <Route path="pending-inspections" element={<WonBidsDashboard />} />
           <Route path="enquiry/:id" element={<InspectorEnquiryDetailPage />} />
-
         </Route>
 
         <Route path="/company" element={ <CompanyLayout/> }>

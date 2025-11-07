@@ -56,6 +56,11 @@ export default function NewFooter() {
                 Privacy Policy
               </Link>
             </li>
+            <li>
+              <Link to="/how-safe-is-your-data" className="hover:text-white">
+                How Safe Is Your Data
+              </Link>
+            </li>
           </ul>
         </div>
 

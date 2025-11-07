@@ -4,6 +4,7 @@ import ServicesSection from "./ServicesSection";
 import AboutSection from "./AboutSection";
 import HeroSection from "./HeroSection";
 import FaqSection from "./FAQSection";
+import Services from "./QuickServices/services";
 
 const LandingPage = () => {
   return (
@@ -12,6 +13,7 @@ const LandingPage = () => {
 <div id="hero"><HeroSection /></div>
 <div id="why-us"><AboutSection /></div>
 <div id="services"><ServicesSection /></div>
+<Services/>
 <FaqSection />
 <NewFooter/>
     </div> 
