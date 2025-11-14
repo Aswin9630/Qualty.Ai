@@ -9,6 +9,7 @@ import inspectorAnalysisReducer from "./slice/inspectorAnalysisSlice"
 import inspectionProgressReducer from "./slice/inspectionProgressSlice"
 import dashboardStatsReducer from "./slice/dashboardStatsSlice"
 import paymentReducer from "./slice/paymentSlice"
+import cartReducer from "./slice/cartSlice"
 
 const appStore = configureStore({
     reducer:{
@@ -22,6 +23,7 @@ const appStore = configureStore({
         inspectionProgress:inspectionProgressReducer,
         dashboardStatus:dashboardStatsReducer,
         payments: paymentReducer,
+        cart:cartReducer,
     }
 })
 

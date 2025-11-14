@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, X, User, ShoppingCart } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setRedirectAfterLogin } from "../redux/slice/userSlice";
@@ -15,7 +15,7 @@ export default function Header() {
   useFetchUser();
 
   const user = useSelector((state) => state?.user?.user);
-  // const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector((state) => state.cart.items);
 
   const navItems = [
     { label: "Why us", targetId: "why-us" },
@@ -81,18 +81,7 @@ export default function Header() {
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
-            {/* {cartItems.length > 0 && (
-              <button
-                onClick={() => navigate("/cart")}
-                className="relative flex items-center bg-black text-white font-medium px-3 cursor-pointer py-2 rounded-full border border-gray-200 hover:bg-gray-100 transition"
-              >
-                <ShoppingCart size={18} />
-                <span className="hidden sm:inline"></span>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-black text-xs font-bold px-2 py-0.5 rounded-full">
-                  {cartItems.length}
-                </span>
-              </button>
-            )} */}
+
 
             {user ? (
               <button
@@ -149,18 +138,6 @@ export default function Header() {
               </li>
             ))}
 
-            {/* {cartItems.length > 0 && (
-              <button
-                onClick={() => {
-                  navigate("/cart");
-                  setIsOpen(false);
-                }}
-                className="flex items-center gap-2 bg-white text-black font-medium px-4 py-2 rounded-full border border-gray-200 hover:bg-gray-100 transition"
-              >
-                <ShoppingCart size={18} />
-                 ({cartItems.length})
-              </button>
-            )} */}
 
             {user ? (
               <button

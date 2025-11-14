@@ -1,13 +1,14 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import {useDispatch} from "react-redux"
-import {addUser} from "../redux/slice/userSlice"
+import { useDispatch } from "react-redux";
+import {
+  addUser
+} from "../redux/slice/userSlice";
 
 const useFetchUser = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,11 +18,12 @@ const useFetchUser = () => {
           credentials: "include",
         });
         const data = await response.json();
-        
+        console.log("user", data);
+
         if (data.userInfo) {
-          dispatch(addUser(data.userInfo))
+          dispatch(addUser(data.userInfo));
         } else {
-          navigate("/");   
+          navigate("/");
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -30,8 +32,7 @@ const useFetchUser = () => {
     };
 
     fetchUser();
-  }, [navigate]);
-  
+  }, [navigate, dispatch]);
 };
-
+  
 export default useFetchUser;

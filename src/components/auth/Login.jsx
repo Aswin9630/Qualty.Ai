@@ -35,6 +35,8 @@ const Login = () => {
       });
 
       const result = await response.json();
+      console.log("result",result);
+      
       if (!result.success) {
         setError(result.errors?.[0]?.msg || result.message);
       } else {
@@ -47,7 +49,7 @@ const Login = () => {
               state: location.state.payload,
             });
           } else {
-            navigate(`/${result.user.role}/dashboard`);
+            navigate(`/${result?.user.role}/dashboard`);
           }
         }, 500);
       }

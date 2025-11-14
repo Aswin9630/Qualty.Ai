@@ -43,7 +43,7 @@ export default function CustomerList() {
 
   const getStatusLabel = (level) => {
     if (level >= 4) return "Completed";
-    if (level >= 1) return "In Progress";
+    if (level >= 1) return "Inspection in progress";
     return "Not Started";
   };
 
@@ -69,7 +69,7 @@ export default function CustomerList() {
                         className={`px-1 sm:px-2 py-1 text-xs rounded-full ${
                           status === "Completed"
                             ? "bg-green-100 text-green-700"
-                            : status === "In Progress"
+                            : status === "Inspection in progress"
                             ? "bg-yellow-100 text-yellow-700"
                             : "bg-gray-100 text-gray-500"
                         }`}
