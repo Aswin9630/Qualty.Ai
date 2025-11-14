@@ -17,7 +17,7 @@ export default function Dashboard() {
       </div>
       <div className="mt-8 flex flex-col gap-10 mb-10">
         <Services/>
-        <QuickServicesSection /> 
+        {/* <QuickServicesSection />  */}
         <QuickActions />
       </div>
     </div>
