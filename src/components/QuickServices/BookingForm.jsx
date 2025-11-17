@@ -9,7 +9,7 @@ import { useCart } from "../../hooks/useCart";
 import { setPendingCart, setRedirectAfterLogin } from "../../redux/slice/userSlice";
 
 const libraries = ["places"];
-const units = ["kg", "ton", "litre", "unit"];
+const units = ["kg", "ton", "litre","container"];
 const GMAP_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 export default function BookingForm({ service, onClose = () => {} }) {

@@ -170,8 +170,10 @@ export default function CartPage() {
           unit: it.unit,
           date: it.date,
         })),
-        notes: "Raised from cart UI",
+        notes: "Raised from cart",
       };
+      console.log("raiseEnquiryPayload", payload);
+
       const res = await fetch(`${BASE_URL}/quickService/other-location-request`, {
         method: "POST",
         credentials: "include",
@@ -179,6 +181,8 @@ export default function CartPage() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
+      console.log("data",data);
+      
       if (!res.ok) throw new Error(data?.error || "Failed to raise enquiry");
 
       await fetchCart();
