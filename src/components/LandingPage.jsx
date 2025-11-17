@@ -9,9 +9,9 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header/>
-<div id="hero" className="md:py-22"><HeroSection /></div>
+<div id="hero" className=""><HeroSection /></div>
 <div id="why-us"><AboutSection /></div>
-<Services/>
+<div id="services"><Services/></div>
 <FaqSection />
 <NewFooter/>
     </div> 
