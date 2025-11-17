@@ -43,7 +43,7 @@ export default function FaqSection() {
 
   return (
     <section className="py-16 px-4 sm:px-6 md:px-12 bg-white text-black">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10"  style={{ backgroundImage: "linear-gradient(90deg, #ff7a18 0%, #af00ff 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
         Frequently Asked Questions
       </h2>
 
