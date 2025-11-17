@@ -49,7 +49,6 @@ export default function CustomerEnquiryDetailPage() {
     );
   }
 
-  // Safe date handling
   let invoiceDate = "";
   let dueDate = "";
   if (payment?.updatedAt) {

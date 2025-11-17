@@ -115,7 +115,14 @@ export default function NewRaiseEnquiryFormWithMap() {
     }
   };
 
-  const getCurrencySymbol = () => (String(country || "").toLowerCase() === "india" ? "₹" : "$");
+  function countryLooksLikeIndia(countryStr) {
+  if (!countryStr) return false;
+  const c = String(countryStr).trim().toLowerCase();
+  return c === "india" || c === "in" || c.includes("india");
+}
+
+const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹" : "$");
+
 
   const handleCountryPlace = () => {
     const place = countryAuto?.getPlace();
@@ -329,6 +336,7 @@ export default function NewRaiseEnquiryFormWithMap() {
       volume: volumeVal,
       unit,
       inspectionBudget: budgetVal,
+      currency: countryLooksLikeIndia(data.country) ? "INR" : "USD",
       physicalInspection: !!data.physicalInspection,
       chemicalInspection: !!data.chemicalInspection,
       physicalInspectionParameters,
@@ -375,7 +383,6 @@ export default function NewRaiseEnquiryFormWithMap() {
       resetField("services");
       resetField("certifications");
       setInspectionParams({ physical: { selected: [], extra: [] }, chemical: { selected: [], extra: [] } });
- 
       navigate("/customer/bidding");
     }
   } catch (err) {
@@ -384,8 +391,6 @@ export default function NewRaiseEnquiryFormWithMap() {
      toast.error("Something went wrong. Please try again.")|| setError("Something went wrong. Please try again.");
   }
 };
-
-
 
   if (loadError) {
     return <div className="max-w-4xl mx-auto p-6 bg-white text-red-600 rounded">Google Maps failed to load. Check API key.</div>;

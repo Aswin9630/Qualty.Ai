@@ -13,6 +13,7 @@ export default function CustomerHistoryCard({ enquiry }) {
     bidClosed,
     savings,
     inspector,
+    currency
   } = enquiry;
 
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function CustomerHistoryCard({ enquiry }) {
           {location}
         </p>
         <p><strong>Date:</strong> {new Date(date).toLocaleDateString()}</p>
-        <p><strong>Cost:</strong> ₹{cost}</p>
+        <p><strong>Cost:</strong> {currency==="INR"?"₹":"$"}{cost}</p>
         <p><strong>Bid Closed:</strong> ₹{bidClosed}</p>
         <p><strong>Savings:</strong> ₹{savings}</p>
         {inspector && (

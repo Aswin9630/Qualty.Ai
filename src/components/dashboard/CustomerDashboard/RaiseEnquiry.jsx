@@ -657,7 +657,7 @@ const RaiseEnquiry = () => {
               className={`w-full md:w-auto px-10 py-4 rounded-xl text-white cursor-pointer font-semibold shadow-lg transition-all transform tracking-wide ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-black hover:bg-gray-800 active:bg-black hover:scale-[1.02] active:scale-100" // Premium Black/Gray Look
+                  : "bg-black hover:bg-gray-800 active:bg-black hover:scale-[1.02] active:scale-100"
               }`}
             >
               {loading ? "Submitting..." : "Submit Inspection Enquiry "}

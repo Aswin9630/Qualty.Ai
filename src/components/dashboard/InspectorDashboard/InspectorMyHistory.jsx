@@ -87,7 +87,7 @@ const InspectorHistory = () => {
                     <p><strong>Commodity:</strong> {enquiry.commodity || "—"}</p>
                     <p><strong>Location:</strong> {enquiry.location || "—"}</p>
                     <p><strong>Inspection Date:</strong> {formatDateRange(enquiry.dateFrom, enquiry.dateTo)}</p>
-                    <p><strong>Bid Amount:</strong> ₹{amount ?? "—"}</p>
+                    <p><strong>Bid Amount:</strong> {enquiry.currency==="INR"?"₹":"$"}{amount ?? "—"}</p>
                     <p><strong>Status:</strong> <span className={`font-semibold ${
                       status === "won" ? "text-green-600" : "text-yellow-500"
                     }`}>{status || "—"}</span></p>

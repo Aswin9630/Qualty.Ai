@@ -11,7 +11,8 @@ export default function InspectionRequestCard({ request }) {
     status,
     selectionSummary,
     createdAt,
-    commodity
+    commodity,
+    currency
   } = request;
 
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export default function InspectionRequestCard({ request }) {
 
       <div className="text-sm text-gray-700 space-y-1 mb-4">
         <p>
-          <strong>Budget:</strong> ₹{inspectionBudget}/-
+          <strong>Budget:</strong> {currency==="INR"?"₹":"$"}{inspectionBudget}/-
         </p>
         <p>
           <strong>Status:</strong>{" "}

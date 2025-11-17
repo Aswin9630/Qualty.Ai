@@ -54,8 +54,8 @@ export default function InspectorEnquiryDetailPage() {
         </div>
 
         <div className="border-t border-gray-300 pt-4 text-sm text-gray-800">
-          <p><strong>Bid Amount:</strong> ₹{bid.amount}</p>
-          <p><strong>Customer View Amount:</strong> ₹{bid.customerViewAmount}</p>
+          <p><strong>Bid Amount:</strong> {bid.currency==="INR"?"₹":"$"}{bid.amount}</p>
+          <p><strong>Customer View Amount:</strong> {bid.currency==="INR"?"₹":"$"}{bid.customerViewAmount}</p>
           <p><strong>Status:</strong> {bid.status}</p>
           <p><strong>Submitted On:</strong> {new Date(bid.createdAt).toLocaleString()}</p>
         </div>

@@ -24,8 +24,6 @@ const [balanceAmount, setBalanceAmount] = useState(null);
   
 const { inspectionBudget } = location.state || {};
 
-
-
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -69,7 +67,7 @@ const { inspectionBudget } = location.state || {};
         }
       );
       const orderData = await orderRes.json();
-
+      
       if (!orderData.success) {
         toast.error(orderData.message || "Failed to create payment order");
         return;
@@ -322,7 +320,7 @@ const { inspectionBudget } = location.state || {};
 
                     <div className="text-sm text-gray-700 space-y-1 mb-4">
                       <p>
-                        <strong>Bid Amount:</strong> ₹{bid.customerViewAmount}/-
+                        <strong>Bid Amount:</strong> {bid.currency==="INR"?"₹":"$"}{bid.customerViewAmount}/-
                       </p>
                       <p>
                         <strong>Submitted:</strong>{" "}
@@ -337,8 +335,7 @@ const { inspectionBudget } = location.state || {};
     <p><strong>Balance (70%):</strong> ₹{balanceAmount}</p>
   </>
 )}
-
-                    </div>
+   </div>
 
                     {isConfirmed ? (
                       <div>

@@ -18,7 +18,6 @@ const useFetchUser = () => {
           credentials: "include",
         });
         const data = await response.json();
-        console.log("user", data);
 
         if (data.userInfo) {
           dispatch(addUser(data.userInfo));
