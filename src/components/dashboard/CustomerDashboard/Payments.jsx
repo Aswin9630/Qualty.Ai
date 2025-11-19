@@ -136,7 +136,6 @@ export default function CustomerPaymentHistoryPage() {
   const navigate = useNavigate();
   const { groupedByEnquiry } = useSelector((state) => state.payments);
 
-  // New state: whether user has quick service payments and a sample count
   const [hasQuickPayments, setHasQuickPayments] = useState(false);
   const [quickPaymentsCount, setQuickPaymentsCount] = useState(0);
   const [quickCheckLoading, setQuickCheckLoading] = useState(true);
@@ -174,7 +173,6 @@ export default function CustomerPaymentHistoryPage() {
             setHasQuickPayments((data.total || data.items.length) > 0);
             setQuickPaymentsCount(Number(data.total || data.items.length || 0));
           } else {
-            // if endpoint returns 4xx/5xx, keep card hidden and log
             setHasQuickPayments(false);
           }
         }
@@ -206,7 +204,6 @@ export default function CustomerPaymentHistoryPage() {
           </p>
         </div>
 
-        {/* Top action cards row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {quickCheckLoading ? (
             <div className="col-span-1 bg-gray-50 border border-gray-100 rounded-xl p-5 shadow-sm animate-pulse" />
@@ -251,6 +248,8 @@ export default function CustomerPaymentHistoryPage() {
 
               const totalBudget = enquiry?.inspectionBudget || 0;
               const balanceAmount = Math.max(0, totalBudget - paidAmount);
+               const currency = enquiry?.currency || "INR";
+              const currencySymbol = currency === "INR" ? "₹" : "$";
 
               return (
                 <div
@@ -262,8 +261,8 @@ export default function CustomerPaymentHistoryPage() {
                     <p><strong>Commodity:</strong> {enquiry?.commodity} — {enquiry?.location}</p>
                     <p><strong>Enquiry ID:</strong> {enquiry?._id}</p>
                     <p><strong>Date:</strong> {date}</p>
-                    <p><strong className="text-green-600">Paid:</strong> ₹{paidAmount}</p>
-                    <p><strong className="text-red-600">Balance:</strong> ₹{balanceAmount}</p>
+                    <p><strong className="text-green-600">Paid:</strong> {currencySymbol}{paidAmount}</p>
+                    <p><strong className="text-red-600">Balance:</strong> {currencySymbol}{balanceAmount}</p>
                   </div>
                   <button
                     onClick={() => navigate(`/customer/payments/${id}`)}

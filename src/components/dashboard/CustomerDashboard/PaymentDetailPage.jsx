@@ -14,6 +14,8 @@ export default function PaymentDetailPage() {
 
 const totalBudget = enquiry?.inspectionBudget || payments[0]?.bid?.customerViewAmount || 0;
 const balanceAmount = Math.max(0, totalBudget - paidAmount);
+const currency = enquiry?.currency || "INR";
+  const currencySymbol = currency === "INR" ? "₹" : "$";
   
 
   return (
@@ -28,6 +30,10 @@ const balanceAmount = Math.max(0, totalBudget - paidAmount);
               <p><strong>Commodity:</strong> {enquiry.commodity}</p>
               <p><strong>Inspection Location:</strong> {enquiry.location}</p>
               <p><strong>Quantity:</strong> {enquiry.volume} {enquiry.unit}</p>
+               <p>
+                <strong>Total Budget:</strong> {currencySymbol}
+                {totalBudget.toLocaleString()}
+              </p>
             </div>
      
           </div>
@@ -39,7 +45,7 @@ const balanceAmount = Math.max(0, totalBudget - paidAmount);
           payments.map((p) => (
             <div key={p._id} className="border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold">₹{p.amount}/-</h3>
+                <h3 className="text-lg font-semibold">{currencySymbol}{p.amount}/-</h3>
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                   {p.status.toUpperCase()}
                 </span>
@@ -62,7 +68,7 @@ const balanceAmount = Math.max(0, totalBudget - paidAmount);
   }  
   className="mt-4 px-6 py-2 bg-black hover:bg-gray-700 cursor-pointer text-white text-sm font-medium rounded-lg transition-all"
 >
-  Pay Balance ₹{balanceAmount}
+  Pay Balance {currencySymbol}{balanceAmount}
 </button>
 
     )}

@@ -229,3 +229,15 @@ export const getCurrencySymbol = (country) => {
 };
 
 
+
+export function formatMajor(amount, currency = "INR", decimals = 2, locale = "en-IN") {
+  if (amount == null || Number.isNaN(Number(amount))) return "-";
+  const v = Number(amount);
+  const loc = (String(currency || "").toUpperCase() === "USD") ? "en-US" : locale;
+  return `${getCurrencySymbol(currency)}${v.toLocaleString(loc, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}`;
+}
+
+export function formatFromSmallest(amountSmallest = 0, currency = "INR", decimals = 2) {
+  const major = Number(amountSmallest || 0) / 100;
+  return formatMajor(major, currency, decimals);
+}
