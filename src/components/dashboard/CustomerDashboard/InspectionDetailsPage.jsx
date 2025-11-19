@@ -254,19 +254,19 @@ const { inspectionBudget } = location.state || {};
               </div>
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
-                  ₹{stats.lowestBid || 0}
+                  {stats.lowestBid || 0}
                 </p>
                 <p>Lowest Bid</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
-                  ₹{stats.highestBid || 0}
+                  {stats.highestBid || 0}
                 </p>
                 <p>Highest Bid</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg hover:shadow transition">
                 <p className="text-lg font-bold text-black">
-                  ₹{Math.round(stats.averageBid)}
+                  {Math.round(stats.averageBid)}
                 </p>
                 <p>Average Bid</p>
               </div>
