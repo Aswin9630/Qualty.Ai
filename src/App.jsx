@@ -139,11 +139,12 @@ import HowSafeIsYourData from "./components/HowSafeIsYourData";
 import OrdersPage from "./components/QuickServices/OrdersPage";
 import QuickServiceInvoice from "./components/QuickServices/QuickServiceInvoice";
 import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickServiceList";
+import NewChat from "./components/dashboard/chat/NewChat";
 
 function App() {
   return (
     <Router>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} />
       <Suspense fallback={<ShimmerUI />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
