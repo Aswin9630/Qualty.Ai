@@ -139,7 +139,7 @@ import HowSafeIsYourData from "./components/HowSafeIsYourData";
 import OrdersPage from "./components/QuickServices/OrdersPage";
 import QuickServiceInvoice from "./components/QuickServices/QuickServiceInvoice";
 import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickServiceList";
-import NewChat from "./components/dashboard/chat/NewChat";
+// import NewChat from "./components/dashboard/chat/NewChat";
 
 function App() {
   return (
