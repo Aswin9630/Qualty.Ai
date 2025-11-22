@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { createSocketConnection } from "../../../utils/socket";
 import { useSelector, useDispatch } from "react-redux";
 import { BASE_URL } from "../../../utils/constants";
@@ -14,6 +14,8 @@ function genTempId() {
 
 export default function Chat() {
   const { targetId, orderId } = useParams();
+  const location = useLocation();
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [file, setFile] = useState(null);
@@ -23,11 +25,13 @@ export default function Chat() {
   const [progressLevel, setProgressLevel] = useState(0);
   const [modalImage, setModalImage] = useState(null);
 
-  // controls whether top inspection progress is shown under header
-  const [progressOpen, setProgressOpen] = useState(false);
+  const seededName =
+    (location && location.state && location.state.name) ||
+    new URLSearchParams(location.search).get("name") ||
+    null;
+  const [opponent, setOpponent] = useState(seededName ? { name: seededName } : null);
 
-  // opponent details
-  const [opponent, setOpponent] = useState(null);
+  const [progressOpen, setProgressOpen] = useState(false);
 
   const socketRef = useRef(null);
   const scrollRef = useRef(null);
@@ -56,32 +60,51 @@ export default function Chat() {
     }
   };
 
-  // fetch opponent profile to display name (fallback to targetId)
   useEffect(() => {
-    if (!targetId) return;
+    if (!orderId) return;
     let mounted = true;
-    const fetchOpponent = async () => {
+    const fetchHistory = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/users/${targetId}`, { credentials: "include" });
-        if (!mounted) return;
-        if (!res.ok) {
-          setOpponent({ name: String(targetId) });
-          return;
-        }
+        const res = await fetch(`${BASE_URL}/chat/history/${orderId}`, { credentials: "include" });
         const data = await res.json();
-        const u = data?.user || data?.result || null;
-        if (u) setOpponent({ name: u.name || u.displayName || String(targetId) });
-        else setOpponent({ name: String(targetId) });
-      } catch (e) {
-        console.warn("Failed to fetch opponent profile:", e);
-        if (mounted) setOpponent({ name: String(targetId) });
+        if (mounted && data && data.success) {
+          const normalized = (data.messages || [])
+            .filter((m) => {
+              if (m.messageType === "system" && m.audience) {
+                return m.audience === "all" || m.audience === role;
+              }
+              return true;
+            })
+            .map((msg) => ({
+              _id: msg._id,
+              sender: msg.sender?.refId || msg.senderId || msg.sender || null,
+              name: msg.sender?.name || msg.senderName || msg.name || "",
+              text: msg.text,
+              fileUrl: msg.fileUrl,
+              fileType: msg.fileType,
+              originalName: msg.originalName,
+              sentAt: msg.sentAt,
+              role: msg.sender?.role || msg.role,
+              messageType: msg.messageType,
+              audience: msg.audience,
+              seen: !!msg.seen,
+              seenAt: msg.seenAt || null,
+            }));
+          setMessages(normalized);
+
+          requestAnimationFrame(() => {
+            if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch chat history:", err);
       }
     };
-    fetchOpponent();
+    fetchHistory();
     return () => {
       mounted = false;
     };
-  }, [targetId]);
+  }, [orderId, role]);
 
   useEffect(() => {
     if (!userId || !targetId || !orderId) return;
@@ -124,9 +147,7 @@ export default function Chat() {
       try {
         if (msg?.messageType === "system" && msg?.audience) {
           const aud = String(msg.audience);
-          if (aud !== "all" && aud !== role) {
-            return;
-          }
+          if (aud !== "all" && aud !== role) return;
         }
 
         setMessages((prev) => {
@@ -139,8 +160,8 @@ export default function Chat() {
               const copy = prev.slice();
               copy[idx] = {
                 _id: serverId,
-                sender: msg.senderId,
-                name: copy[idx].name || "",
+                sender: msg.senderId || msg.sender || null,
+                name: copy[idx].name || msg.sender?.name || msg.senderName || msg.name || "",
                 text: msg.text,
                 fileUrl: msg.fileUrl,
                 fileType: msg.fileType,
@@ -164,8 +185,8 @@ export default function Chat() {
 
           const newMsg = {
             _id: serverId,
-            sender: msg.senderId,
-            name: "",
+            sender: msg.senderId || msg.sender || null,
+            name: msg.sender?.name || msg.senderName || msg.name || "",
             text: msg.text,
             fileUrl: msg.fileUrl,
             fileType: msg.fileType,
@@ -229,7 +250,6 @@ export default function Chat() {
         socket.disconnect();
       } catch (e) {}
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, targetId, orderId, name, role]);
 
   const mergeStageIntoLocal = (incomingStage) => {
@@ -254,60 +274,58 @@ export default function Chat() {
     return 0;
   };
 
-  // load history then scroll to bottom (ensures latest is visible when entering chat)
   useEffect(() => {
-    if (!orderId) return;
-    let mounted = true;
-    const fetchHistory = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/chat/history/${orderId}`, { credentials: "include" });
-        const data = await res.json();
-        if (mounted && data.success) {
-          const normalized = data.messages
-            .filter((m) => {
-              if (m.messageType === "system" && m.audience) {
-                return m.audience === "all" || m.audience === role;
-              }
-              return true;
-            })
-            .map((msg) => ({
-              _id: msg._id,
-              sender: msg.sender?.refId,
-              name: "",
-              text: msg.text,
-              fileUrl: msg.fileUrl,
-              fileType: msg.fileType,
-              originalName: msg.originalName,
-              sentAt: msg.sentAt,
-              role: msg.sender?.role,
-              messageType: msg.messageType,
-              audience: msg.audience,
-              seen: !!msg.seen,
-              seenAt: msg.seenAt || null,
-            }));
-          setMessages(normalized);
+    if (!targetId) {
+      setOpponent(null);
+      return;
+    }
+    if (opponent && opponent.name) return;
 
-          // wait for DOM to update then scroll to bottom
-          requestAnimationFrame(() => {
-            if (scrollRef.current) {
-              scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }
-          });
+    let mounted = true;
+
+    const nameFromMessages = (() => {
+      if (!messages || messages.length === 0) return null;
+      for (let i = messages.length - 1; i >= 0; i--) {
+        const m = messages[i];
+        if (!m) continue;
+        if (m.sender && String(m.sender) === String(targetId) && m.name) return m.name;
+      }
+      return null;
+    })();
+
+    if (nameFromMessages) {
+      setOpponent({ name: nameFromMessages });
+      return () => {
+        mounted = false;
+      };
+    }
+
+    const fetchName = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/users/user/${targetId}`, { credentials: "include" });
+        if (!mounted) return;
+        if (!res.ok) {
+          setOpponent({ name: String(targetId) });
+          return;
         }
+        const data = await res.json();
+        const apiName = data?.user?.displayName || data?.user?.name || data?.displayName || null;
+        setOpponent({ name: apiName || String(targetId) });
       } catch (err) {
-        console.error("Failed to fetch chat history:", err);
+        if (!mounted) return;
+        setOpponent({ name: String(targetId) });
+        console.warn("Failed to fetch opponent name:", err);
       }
     };
-    fetchHistory();
+
+    fetchName();
     return () => {
       mounted = false;
     };
-  }, [orderId, role]);
+  }, [targetId, messages, opponent]);
 
-  // always scroll to bottom when messages change (new message arrives / is sent)
   useEffect(() => {
     if (!scrollRef.current) return;
-    // small timeout to let images/layout settle before jumping
     const id = setTimeout(() => {
       try {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -316,7 +334,6 @@ export default function Chat() {
     return () => clearTimeout(id);
   }, [messages]);
 
-  // When local user views incoming messages, notify server once per message id
   useEffect(() => {
     if (!socketRef.current || !userId || !messages || messages.length === 0) return;
 
@@ -337,7 +354,6 @@ export default function Chat() {
 
     ids.forEach((id) => seenAckRef.current.add(id));
 
-    // Optimistically mark as seen locally
     setMessages((prev) =>
       prev.map((m) => {
         const id = String(m._id || m.tempId);
@@ -462,9 +478,7 @@ export default function Chat() {
   const handleAdvance = (stageIndex) => {
     if (!socketRef.current) return;
     const stage = (stageStatuses || []).find((s) => s.stageIndex === stageIndex) || { status: "pending" };
-    if (stage.status === "pending_customer") {
-      return;
-    }
+    if (stage.status === "pending_customer") return;
 
     socketRef.current.emit("inspectorFinishStage", { orderId, stageIndex, inspectorId: userId });
     upsertStage({ stageIndex, status: "pending_customer", inspectorFinishedAt: new Date().toISOString() });
@@ -492,8 +506,19 @@ export default function Chat() {
     updateProgressMapRedux(orderId, 1);
   };
 
-  const otherName = opponent?.name || (targetId && targetId !== userId ? String(targetId) : "Assistant");
-  const otherInitial = (otherName && otherName[0]) || "A";
+  const headerName = (() => {
+    const fetched = opponent?.name;
+    if (fetched) return fetched;
+    if (messages && messages.length) {
+      for (let i = messages.length - 1; i >= 0; i--) {
+        const m = messages[i];
+        if (!m) continue;
+        if (m.sender && String(m.sender) === String(targetId) && m.name) return m.name;
+      }
+    }
+    return targetId && targetId !== userId ? String(targetId) : "Assistant";
+  })();
+  const headerInitial = (headerName && headerName[0]) || "A";
 
   const handleCallClick = () => {
     toast.info("Real-time calls coming soon — this feature will be available in a future release.");
@@ -522,14 +547,12 @@ export default function Chat() {
     }
   };
 
-  // layout sizes (used to compute scroll area)
-  const HEADER_HEIGHT = 64; // px
-  const PROGRESS_HEIGHT = 160; // px when progressOpen === true (adjust to match InspectionProgress rendered height)
-  const INPUT_HEIGHT = 88; // px (input bar + preview area on mobile)
+  const HEADER_HEIGHT = 64; 
+  const PROGRESS_HEIGHT = 160; 
+  const INPUT_HEIGHT = 88; 
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-white text-black font-sans">
-      {/* Sidebar: Inspection progress (visible on large screens only) */}
       <aside className="hidden lg:block w-80 lg:w-96 border-r border-gray-100 bg-white z-10">
         <div className="px-3 md:px-4 py-4">
           <InspectionProgress
@@ -547,25 +570,22 @@ export default function Chat() {
         </div>
       </aside>
 
-      {/* Right: Chat area */}
       <main className="flex-1 flex flex-col relative">
-        {/* fixed header */}
         <div
           className="w-full bg-white border-b border-gray-200 px-4 md:px-6 py-3 flex items-center justify-between z-40"
           style={{ height: HEADER_HEIGHT, position: "sticky", top: 0 }}
         >
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-800 to-black text-white flex items-center justify-center font-semibold text-base md:text-sm flex-shrink-0">
-              {otherInitial}
+              {headerInitial}
             </div>
             <div className="min-w-0">
-              <div className="text-sm md:text-base font-semibold truncate">{otherName === user?.name ? "You" : otherName}</div>
+              <div className="text-sm md:text-base font-semibold truncate">{headerName}</div>
               <div className="text-xs md:text-sm text-green-600">Active now</div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* progress dropdown toggle */}
             <button
               onClick={() => setProgressOpen((s) => !s)}
               title="Toggle inspection progress"
@@ -596,7 +616,6 @@ export default function Chat() {
           </div>
         </div>
 
-        {/* top inspection progress (dropdown) — rendered under the sticky header and accounted for in scroll area height */}
         {progressOpen && (
           <div
             className="w-full lg:hidden border-b border-gray-100 bg-white z-30"
@@ -619,7 +638,6 @@ export default function Chat() {
           </div>
         )}
 
-        {/* messages area: height calculated so header (+ progress if open) + input remain fixed; only this div scrolls */}
         <div
           className="flex-1 bg-gray-50 px-3 md:px-6 py-4 overflow-hidden"
           style={{
@@ -651,7 +669,7 @@ export default function Chat() {
                     {!isSelf && !isSystem && (
                       <div className="flex-shrink-0">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-800 to-black text-white flex items-center justify-center font-semibold text-sm">
-                          {otherInitial}
+                          {headerInitial}
                         </div>
                       </div>
                     )}
@@ -662,7 +680,7 @@ export default function Chat() {
                       {msg.fileUrl && msg.fileType?.startsWith("image/") && (
                         <img src={msg.fileUrl} alt={msg.originalName || "image"} className="mt-2 rounded max-w-[220px] sm:max-w-[280px] max-h-[220px] object-cover cursor-pointer hover:opacity-90 transition" onClick={() => setModalImage(msg.fileUrl)} />
                       )}
-
+ 
                       {msg.fileUrl && !msg.fileType?.startsWith("image/") && (
                         <a href={msg.fileUrl} target="_blank" rel="noopener noreferrer" className="underline mt-2 block text-sm">{msg.originalName || "Open file"}</a>
                       )}
@@ -697,7 +715,6 @@ export default function Chat() {
           </div>
         </div>
 
-        {/* Input area fixed to bottom */}
         <div
           className="w-full bg-white border-t border-gray-200 px-3 md:px-6 py-3 z-50"
           style={{ position: "sticky", bottom: 0, background: "white" }}
@@ -716,7 +733,7 @@ export default function Chat() {
 
             <div className="flex items-center gap-2">
               <input type="file" id="fileUpload" onChange={handleFileSelect} disabled={loading} className="hidden" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-              <label htmlFor="fileUpload" className={`cursor-pointer ${loading ? "opacity-50 pointer-events-none" : "text-gray-600 hover:text-black"}`} title="Attach file">
+              <label htmlFor="fileUpload" className={`cursor-pointer ${loading ? "opacity-50 pointer-events-none" : "text-gray-600 hover:text-black"}`} title="Attach file"> 
                 <FiPaperclip size={20} />
               </label>
 

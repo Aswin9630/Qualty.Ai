@@ -1,33 +1,52 @@
-import React, { useState } from "react";
-import { User, Mail, Phone, MapPin, FileText } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { User, Mail, Phone, MapPin, FileText, X as XIcon } from "lucide-react";
 import { BASE_URL } from "../../../utils/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
+const cloudinaryRawForPdf = (u) => {
+  if (!u || typeof u !== "string") return u;
+  try {
+    if (u.includes("res.cloudinary.com") && /\.pdf($|\?)/i.test(u)) {
+      if (u.includes("/image/upload/")) return u.replace("/image/upload/", "/raw/upload/");
+      if (u.includes("/upload/")) return u.replace("/upload/", "/raw/upload/");
+    }
+  } catch (e) {}
+  return u;
+};
+
 const MyAccount = () => {
   const [tradeLicenseFile, setTradeLicenseFile] = useState(null);
   const [importExportFile, setImportExportFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [localPreviewTrade, setLocalPreviewTrade] = useState(null);
+  const [localPreviewImport, setLocalPreviewImport] = useState(null);
+  const [viewerUrl, setViewerUrl] = useState(null);
+  const [viewerTitle, setViewerTitle] = useState(null);
+
   const user = useSelector((store) => store?.user?.user);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    return () => {
+      if (localPreviewTrade) URL.revokeObjectURL(localPreviewTrade);
+      if (localPreviewImport) URL.revokeObjectURL(localPreviewImport);
+    };
+  }, [localPreviewTrade, localPreviewImport]);
+
   if (!user) {
     navigate("/login");
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 mx-auto mb-4 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-gray-600 text-sm">Loading profile...</div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
-  const { name, email, mobileNumber, address, profilePhoto, documents } = user;
+  const { name, email, mobileNumber, address, profilePhoto, documents } = user || {};
 
   const handleUpload = async () => {
-    if (!tradeLicenseFile && !importExportFile) return;
+    if (!tradeLicenseFile && !importExportFile) {
+      toast.info("Choose at least one file to upload");
+      return;
+    }
 
     const formData = new FormData();
     if (tradeLicenseFile) formData.append("tradeLicense", tradeLicenseFile);
@@ -35,20 +54,32 @@ const MyAccount = () => {
 
     try {
       setUploading(true);
-      const response = await fetch(`${BASE_URL}/customer/profile/updateDocuments`, {
+      const res = await fetch(`${BASE_URL}/customer/profile/updateDocuments`, {
         method: "PATCH",
         credentials: "include",
         body: formData,
       });
-
-      const data = await response.json();
-      if (data.success) {
-        toast.success(data.message);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        toast.success(data.message || "Documents updated");
+      } else {
+        toast.error(data.message || "Upload failed");
       }
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error("Upload failed");
     } finally {
       setUploading(false);
+      setTradeLicenseFile(null);
+      setImportExportFile(null);
+      if (localPreviewTrade) {
+        URL.revokeObjectURL(localPreviewTrade);
+        setLocalPreviewTrade(null);
+      }
+      if (localPreviewImport) {
+        URL.revokeObjectURL(localPreviewImport);
+        setLocalPreviewImport(null);
+      }
     }
   };
 
@@ -66,14 +97,9 @@ const MyAccount = () => {
         {/* Profile Info */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Profile Photo */}
             <div className="flex flex-col items-center space-y-2">
               {profilePhoto ? (
-                <img
-                  src={profilePhoto}
-                  alt="Profile"
-                  className="w-20 h-20 rounded-full object-cover border border-black"
-                />
+                <img src={profilePhoto} alt="Profile" className="w-20 h-20 rounded-full object-cover border border-black" />
               ) : (
                 <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 border border-gray-300">
                   <User size={32} />
@@ -82,7 +108,6 @@ const MyAccount = () => {
               <p className="text-xs text-gray-500">Profile Photo</p>
             </div>
 
-            {/* Info Fields */}
             <div className="space-y-3">
               <InfoBlock icon={<User size={16} />} label="Name" value={name} />
               <InfoBlock icon={<Mail size={16} />} label="Email" value={email} />
@@ -92,7 +117,6 @@ const MyAccount = () => {
           </div>
         </div>
 
-        {/* Certificates */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <FileText size={20} />
@@ -103,12 +127,39 @@ const MyAccount = () => {
             <CertificateBlock
               label="Trade License"
               fileUrl={documents?.tradeLicense}
-              onFileChange={(file) => setTradeLicenseFile(file)}
+              localPreview={localPreviewTrade}
+              onFileChange={(file) => {
+                setTradeLicenseFile(file);
+                if (localPreviewTrade) URL.revokeObjectURL(localPreviewTrade);
+                if (file && file.type && file.type.startsWith("image/")) {
+                  setLocalPreviewTrade(URL.createObjectURL(file));
+                } else {
+                  setLocalPreviewTrade(null);
+                }
+              }}
+              onView={(url) => {
+                setViewerUrl(url);
+                setViewerTitle("Trade License");
+              }}
             />
+
             <CertificateBlock
               label="Import/Export Certificate"
               fileUrl={documents?.importExportCertificate}
-              onFileChange={(file) => setImportExportFile(file)}
+              localPreview={localPreviewImport}
+              onFileChange={(file) => {
+                setImportExportFile(file);
+                if (localPreviewImport) URL.revokeObjectURL(localPreviewImport);
+                if (file && file.type && file.type.startsWith("image/")) {
+                  setLocalPreviewImport(URL.createObjectURL(file));
+                } else {
+                  setLocalPreviewImport(null);
+                }
+              }}
+              onView={(url) => {
+                setViewerUrl(url);
+                setViewerTitle("Import / Export Certificate");
+              }}
             />
           </div>
 
@@ -123,52 +174,106 @@ const MyAccount = () => {
           </div>
         </div>
       </div>
+
+      {viewerUrl && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          onClick={() => {
+            setViewerUrl(null);
+            setViewerTitle(null);
+          }}
+        >
+          <div className="bg-white rounded-lg overflow-hidden w-full max-w-4xl h-[85vh] relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => {
+                setViewerUrl(null);
+                setViewerTitle(null);
+              }}
+              className="absolute right-3 top-3 z-40 bg-black text-white rounded-full w-8 h-8 flex items-center justify-center"
+              aria-label="Close viewer"
+            >
+              <XIcon size={16} />
+            </button>
+
+            <div className="w-full h-full">
+              <iframe src={cloudinaryRawForPdf(viewerUrl)} title={viewerTitle || "Document"} className="w-full h-full border-0" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-// Compact Info Block
 const InfoBlock = ({ icon, label, value, multiline }) => (
   <div className="bg-gray-50 rounded border border-gray-200 px-3 py-2 text-sm">
     <div className="flex items-center gap-2 mb-1 text-gray-600">
       {icon}
       <span className="text-xs font-medium">{label}</span>
     </div>
-    <p className={`text-black ml-6 ${multiline ? "whitespace-pre-line leading-snug" : ""}`}>
-      {value}
-    </p>
+    <p className={`text-black ml-6 ${multiline ? "whitespace-pre-line leading-snug" : ""}`}>{value || "-"}</p>
   </div>
 );
 
-// Certificate Block with PDF support
-const CertificateBlock = ({ label, fileUrl, onFileChange }) => {
-  const isPDF = fileUrl?.toLowerCase().endsWith(".pdf");
+const CertificateBlock = ({ label, fileUrl, onFileChange, localPreview = null, onView }) => {
+  const candidate = fileUrl && fileUrl.startsWith("http") ? fileUrl : fileUrl ? `${BASE_URL}/${fileUrl}` : null;
+  const finalUrl = cloudinaryRawForPdf(candidate);
+
+  const lower = (finalUrl || "").toLowerCase();
+  const isPDF = /\.pdf($|\?)/i.test(lower);
+  const isDoc = /\.(docx?|odt|rtf)($|\?)/i.test(lower);
+  const isImage = /\.(png|jpeg|webp|gif|svg)($|\?)/i.test(lower);
 
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+
       <div className="bg-gray-50 border border-gray-200 rounded overflow-hidden h-40 flex items-center justify-center">
-        {fileUrl ? (
+        {localPreview ? (
+          <img src={localPreview} alt={label} className="max-h-full max-w-full object-contain" />
+        ) : finalUrl ? (
           isPDF ? (
-            <iframe src={fileUrl} title={label} className="w-full h-full" />
+            <div className="flex flex-col items-center gap-2">
+              <div className="text-sm text-gray-700">PDF document</div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => onView && onView(finalUrl)}
+                  className="px-3 py-1 text-xs bg-black text-white rounded hover:bg-gray-900"
+                >
+                  View
+                </button>
+                <a href={finalUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-1 text-xs bg-gray-100 text-gray-800 rounded hover:bg-gray-200">
+                  Open in New Tab
+                </a>
+              </div>
+            </div>
+          ) : isDoc ? (
+            <a href={finalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm">
+              Download {label}
+            </a>
+          ) : isImage ? (
+            <img src={finalUrl} alt={label} className="max-h-full max-w-full object-contain" />
           ) : (
-            <img src={fileUrl} alt={label} className="max-h-full max-w-full object-contain" />
+            <a href={finalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm">
+              Open {label}
+            </a>
           )
         ) : (
-          <div className="text-gray-400 text-xs text-center">
+          <div className="text-gray-400 text-xs text-center px-2">
             <FileText size={32} className="mx-auto mb-1" />
             No {label.toLowerCase()} uploaded
           </div>
         )}
       </div>
+
       <input
         type="file"
-        accept="image/*,application/pdf"
+        accept="image/*,application/pdf,.doc,.docx"
         onChange={(e) => onFileChange(e.target.files[0])}
         className="mt-2 text-xs text-gray-600 file:bg-black file:text-white file:px-3 file:py-1 file:rounded file:border-none file:cursor-pointer"
       />
     </div>
   );
-};
+}; 
 
 export default MyAccount;

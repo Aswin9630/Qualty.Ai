@@ -87,7 +87,10 @@ export default function CustomerList() {
 
                   <div className="mt-4 sm:mt-0 sm:w-1/4 text-center sm:text-right">
                     <button
-                      onClick={() => navigate(`/inspector/chat/${customer.id}/${customer.orderId}`)}
+                      onClick={() => navigate(
+                    `/inspector/chat/${customer.id}/${customer.orderId}?name=${encodeURIComponent(customer.name)}`,
+                    { state: { name: customer.name } }
+                  )}
                       className="bg-black text-white cursor-pointer px-2 sm:px-4 py-1 sm:py-2 rounded hover:bg-gray-900 transition w-full sm:w-auto"
                     > 
                       Chat

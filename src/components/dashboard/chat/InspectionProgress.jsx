@@ -21,7 +21,7 @@ export default function InspectionProgress({
       <div className="bg-white p-3 sm:p-6 rounded-xl shadow-sm">
         <h2 className="text-sm sm:text-base font-semibold mb-4 text-center">Inspection Progress</h2>
 
-        <div className="flex flex-col gap-0"> {/* gap removed so we control separators explicitly */}
+        <div className="flex flex-col gap-0"> 
           {stages.map((label, index) => {
             const stage = getStageObj(index);
             const status = stage.status || "pending";
@@ -31,14 +31,14 @@ export default function InspectionProgress({
             const isRejected = status === "rejected";
             const isCurrent = progressLevel === index;
 
-            const badgeLabel = (() => {
+             const badgeLabel = (() => {
               if (isCompleted) return "Completed";
               if (isPendingCustomer) return isInspector ? "Pending Customer" : "In Progress";
               if (isRejected) return "Rejected";
               if (isInProgress) return "In Progress";
               return "Pending";
-            })();
-
+            })(); 
+          
             const badgeClass = (() => {
               if (isCompleted) return "bg-green-100 text-green-700";
               if (isPendingCustomer) return isInspector ? "bg-yellow-100 text-yellow-800" : "bg-slate-100 text-slate-500";
