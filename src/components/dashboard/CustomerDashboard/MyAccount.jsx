@@ -62,6 +62,7 @@ const MyAccount = () => {
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.success) {
         toast.success(data.message || "Documents updated");
+        window.location.reload()
       } else {
         toast.error(data.message || "Upload failed");
       }
@@ -117,6 +118,7 @@ const MyAccount = () => {
           </div>
         </div>
 
+        {/* Certificates */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <FileText size={20} />
@@ -129,9 +131,10 @@ const MyAccount = () => {
               fileUrl={documents?.tradeLicense}
               localPreview={localPreviewTrade}
               onFileChange={(file) => {
+                if (!file) return;
                 setTradeLicenseFile(file);
                 if (localPreviewTrade) URL.revokeObjectURL(localPreviewTrade);
-                if (file && file.type && file.type.startsWith("image/")) {
+                if (file.type && file.type.startsWith("image/")) {
                   setLocalPreviewTrade(URL.createObjectURL(file));
                 } else {
                   setLocalPreviewTrade(null);
@@ -148,9 +151,10 @@ const MyAccount = () => {
               fileUrl={documents?.importExportCertificate}
               localPreview={localPreviewImport}
               onFileChange={(file) => {
+                if (!file) return;
                 setImportExportFile(file);
                 if (localPreviewImport) URL.revokeObjectURL(localPreviewImport);
-                if (file && file.type && file.type.startsWith("image/")) {
+                if (file.type && file.type.startsWith("image/")) {
                   setLocalPreviewImport(URL.createObjectURL(file));
                 } else {
                   setLocalPreviewImport(null);
@@ -259,9 +263,15 @@ const CertificateBlock = ({ label, fileUrl, onFileChange, localPreview = null, o
             </a>
           )
         ) : (
-          <div className="text-gray-400 text-xs text-center px-2">
-            <FileText size={32} className="mx-auto mb-1" />
-            No {label.toLowerCase()} uploaded
+          <div className="flex flex-col items-center justify-center text-gray-500 text-sm px-2">
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-2">
+              <FileText size={28} />
+            </div>
+            <div className="text-xs text-center leading-tight">
+              No {label.toLowerCase()} uploaded
+              <br />
+              Please upload a valid certificate
+            </div>
           </div>
         )}
       </div>
@@ -272,8 +282,9 @@ const CertificateBlock = ({ label, fileUrl, onFileChange, localPreview = null, o
         onChange={(e) => onFileChange(e.target.files[0])}
         className="mt-2 text-xs text-gray-600 file:bg-black file:text-white file:px-3 file:py-1 file:rounded file:border-none file:cursor-pointer"
       />
+      <p className="text-[11px] text-gray-500 mt-1">Maximum file size: 10 MB</p>
     </div>
   );
-}; 
+};
 
 export default MyAccount;
