@@ -173,7 +173,7 @@ const MyAccount = () => {
               disabled={uploading}
               className="px-4 py-1 text-sm bg-black cursor-pointer text-white rounded hover:bg-gray-900 transition disabled:opacity-50"
             >
-              {uploading ? "Uploading..." : "Update Certificates"}
+              {uploading ? "Uploading..." : "Upload Certificates"}
             </button>
           </div>
         </div>
