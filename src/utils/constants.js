@@ -86,7 +86,6 @@ export const COMMODITY_OPTIONS = {
     { value: "rice_basmati", label: "Rice (basmati/non-basmati)" },
     { value: "wheat", label: "Wheat" },
     { value: "maize", label: "Maize (Corn)" },
-    { value: "cashew", label: "Raw Cashew" },
     { value: "barley", label: "Barley / Oats / Sorghum" },
   ],
   pulses_legumes: [
@@ -98,6 +97,7 @@ export const COMMODITY_OPTIONS = {
     { value: "soybean", label: "Soybean" },
     { value: "sunflower", label: "Sunflower" },
     { value: "groundnut", label: "Groundnut" },
+    { value: "cashew", label: "Raw Cashew" },
     { value: "mustard", label: "Mustard" },
   ],
   spices: [
