@@ -437,7 +437,6 @@ export default function InspectionDetailsPage() {
 
   const { inspectionBudget } = location.state || {};
 
-  // fetchDetails extracted so it can be reused after verification
   const fetchDetails = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_URL}/customer/bids/${id}`, {
@@ -446,7 +445,6 @@ export default function InspectionDetailsPage() {
       const data = await response.json();
       console.log("Biddata", data);
       if (data.success) {
-        // guard: ensure data.enquiry exists before reading currency
         if (data.enquiry && data.enquiry.currency) {
           setCurrency(data.enquiry.currency);
         } else {
@@ -551,10 +549,8 @@ export default function InspectionDetailsPage() {
               setAmountPaid(verifyData.amountPaid ?? 0);
               setBalanceAmount(verifyData.balanceAmount ?? 0);
 
-              // refresh server state so enquiry and bids are up-to-date
               await fetchDetails();
             } else {
-              // If server returned a helpful message, show it
               const msg = verifyData?.message || "Payment verification failed";
               toast.error(msg);
             }
