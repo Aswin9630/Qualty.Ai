@@ -46,11 +46,11 @@ export default function NewFooter() {
         <div>
           <h3 className="text-sm sm:text-base font-semibold mb-4">Legal</h3>
           <ul className="space-y-2 text-gray-400">
-            <li>
+            {/* <li>
               <Link to="/privacy-policy" className="hover:text-white">
                 Terms of Service
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/privacy-policy" className="hover:text-white">
                 Privacy Policy
