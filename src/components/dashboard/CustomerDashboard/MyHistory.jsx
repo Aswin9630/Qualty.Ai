@@ -39,6 +39,7 @@ export default function CustomerMyHistoryPage() {
                 savings: e.inspectionBudget - (bid?.customerViewAmount || 0),
                 inspector: bid?.inspector,
                 country: e.country,
+                currency:e.currency
               };
 
               return (
