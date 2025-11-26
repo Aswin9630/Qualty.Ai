@@ -64,7 +64,6 @@ export default function BookingForm({ service, onClose = () => {} }) {
     return () => document.removeEventListener("click", onDocClick);
   }, []);
 
-  // --- utilities for country detection and options ---
   const countryNameToIso = (name = "") => {
     const n = String(name).trim().toLowerCase();
     if (!n) return "";
@@ -86,13 +85,11 @@ export default function BookingForm({ service, onClose = () => {} }) {
     };
   }
 
-  // Autocomplete base options
   const countryAutoOptions = {
     types: ["(regions)"],
     fields: ["address_components", "formatted_address", "name"],
   };
 
-  // helpers to extract nice labels from PlaceResult
   function extractCountryFromPlace(place) {
     if (!place) return "";
     if (!place.address_components) return place.formatted_address || place.name || "";
@@ -137,7 +134,6 @@ export default function BookingForm({ service, onClose = () => {} }) {
     try {
       const place = locationAutoRef.current?.getPlace?.();
       if (!place || (!place.address_components && !place.formatted_address && !place.name)) {
-        // User typed without selecting a prediction; keep typed text
         return;
       }
       const location = extractLocationFromPlace(place);
@@ -161,12 +157,23 @@ export default function BookingForm({ service, onClose = () => {} }) {
     return Object.keys(errors).length === 0;
   };
 
+   const looksLikeIndia = (countryName = "") => {
+    const n = String(countryName || "").trim().toLowerCase();
+    if (!n) return false;
+    if (n === "in" || n === "india") return true;
+    if (n.includes("india")) return true;
+    return false;
+  };
+
   const handleSubmit = async () => {
     setGlobalMessage({ type: "", text: "" });
     if (!validateFields()) {
       setGlobalMessage({ type: "error", text: "Please fix the highlighted fields." });
       return;
     }
+
+     const isIndia = looksLikeIndia(data.country);
+    const currency = isIndia ? "INR" : "USD";
 
     const payload = {
       serviceType: service?.name || "UNKNOWN",
@@ -176,15 +183,16 @@ export default function BookingForm({ service, onClose = () => {} }) {
       volume: Number(data.volume),
       unit: data.unit,
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
+      currency
     };
-
+ 
     if (!user) {
       dispatch(setPendingCart(payload));
       dispatch(setRedirectAfterLogin("cart"));
       setGlobalMessage({ type: "info", text: "Please login to complete booking." });
       setTimeout(() => {
         onClose();
-        navigate("/login");
+        navigate("/login"); 
       }, 600);
       return;
     }
@@ -218,7 +226,6 @@ export default function BookingForm({ service, onClose = () => {} }) {
     }
   };
 
-  // If maps failed to load show friendly fallback and allow manual input
   if (loadError) {
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -256,7 +263,6 @@ export default function BookingForm({ service, onClose = () => {} }) {
     );
   }
 
-  // show spinner while maps load
   if (!isLoaded) {
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -268,10 +274,8 @@ export default function BookingForm({ service, onClose = () => {} }) {
     );
   }
 
-  // MAIN MODAL UI (maps loaded)
-  // Determine location options dynamically based on selected country
+
   const detectedIsoFromCountryName = countryNameToIso(data.country);
-  // Also try to get short_name from countryAutoRef if user selected a place
   let detectedIsoFromPlace = "";
   try {
     const place = countryAutoRef.current?.getPlace?.();
