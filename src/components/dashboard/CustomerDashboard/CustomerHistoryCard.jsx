@@ -16,6 +16,9 @@ export default function CustomerHistoryCard({ enquiry }) {
     currency
   } = enquiry;
 
+  console.log("currency",currency); 
+  
+
   const navigate = useNavigate();
 
   const statusColor = {
@@ -48,13 +51,13 @@ export default function CustomerHistoryCard({ enquiry }) {
         <p><strong>Cost:</strong> {currency==="INR"?"₹":"$"}{cost}</p>
         <p><strong>Bid Closed:</strong> {currency==="INR"?"₹":"$"}{bidClosed}</p>
         <p><strong>Savings:</strong> {currency==="INR"?"₹":"$"}{savings}</p>
-        {inspector && (
+        {/* {inspector && (
           <p>
             <strong>Inspector:</strong>{" "}
             <FaUserTie className="inline mr-1 text-gray-500" />
             {inspector.name} - {inspector.company}
           </p>
-        )}
+        )} */}
       </div>
 
       {/* CTA */}
