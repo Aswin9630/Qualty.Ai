@@ -111,6 +111,7 @@ export const COMMODITY_OPTIONS = {
     { value: "mangoes", label: "Mangoes" },
     { value: "apples", label: "Apples" },
     { value: "onions", label: "Onions" },
+    { value: "grapes", label: "Grapes" },
   ],
   beverage_crops: [
     { value: "coffee", label: "Coffee" },
@@ -157,6 +158,7 @@ export const COMMODITY_OPTIONS = {
     { value: "mobile", label: "Mobile Phones" },
     { value: "laptop", label: "Laptops" },
   ],
+
   semiconductors: [{ value: "chips", label: "Chips / ICs" }],
   components: [{ value: "pcbs", label: "PCBs" }],
 
@@ -166,17 +168,20 @@ export const COMMODITY_OPTIONS = {
     { value: "sodium_chloride", label: "Sodium Chloride" },
     { value: "hydrochloric_acid", label: "Hydrochloric Acid" },
   ],
+
   specialty_chemicals: [
     { value: "adhesives", label: "Adhesives" },
     { value: "coatings", label: "Paints & Coatings" },
     { value: "solvents", label: "Industrial Solvents" },
     { value: "additives", label: "Polymer Additives" },
   ],
+
   pharma: [
     { value: "paracetamol", label: "Paracetamol " },
     { value: "ibuprofen", label: "Ibuprofen " },
     { value: "antibiotic", label: "Generic Antibiotic " },
   ],
+
   cosmetics: [
     { value: "shampoo", label: "Shampoo / Hair Care" },
     { value: "cream", label: "Creams / Lotions" },
@@ -187,16 +192,25 @@ export const COMMODITY_OPTIONS = {
     { value: "cement", label: "Cement" },
     { value: "steel_rebar", label: "Steel Rebar" },
   ],
+
   tiles_paints: [
     { value: "tiles", label: "Tiles" },
     { value: "paints", label: "Paints" },
     { value: "glass", label: "Glass" },
   ],
+
   hardware: [{ value: "tools", label: "Hardware Tools" }, { value: "fittings", label: "Fittings" }],
+  organic_recyclable:[
+     { value: "wood_handicraft", label: "Wood & Handicraft" },
+     { value: "herbs", label: "Herbs" },
+  ],
+  renewable_equip:[ 
+    {value:"waste_paper",label:"Waste Paper"}
+  ],
 
   default: [{ value: "other", label: "Other Commodity" }],
 };
-  
+
 export const URGENCY_OPTIONS = [
   { value: "Low", label: "Low" },
   { value: "Medium", label: "Medium" },
@@ -229,8 +243,6 @@ export const getCurrencySymbol = (country) => {
   return String(country).toLowerCase() === "india" ? "₹" : "$";
 };
 
-
-
 export function formatMajor(amount, currency = "INR", decimals = 2, locale = "en-IN") {
   if (amount == null || Number.isNaN(Number(amount))) return "-";
   const v = Number(amount);
@@ -242,3 +254,12 @@ export function formatFromSmallest(amountSmallest = 0, currency = "INR", decimal
   const major = Number(amountSmallest || 0) / 100;
   return formatMajor(major, currency, decimals);
 }
+
+// export function formatMajor(amount = 0, currency = "INR") {
+//   const num = Number(amount || 0);
+//   const code = (currency || "INR").toString().toUpperCase();
+//   const locale = code === "INR" ? "en-IN" : "en-US";
+//   const formatted = num.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+//   const symbol = code === "INR" ? "₹" : code === "USD" ? "$" : code;
+//   return `${symbol}${formatted}`;
+// }
