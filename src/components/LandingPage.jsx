@@ -4,7 +4,6 @@ import AboutSection from "./AboutSection";
 import HeroSection from "./HeroSection";
 import FaqSection from "./FAQSection";
 import Services from "./QuickServices/services";
-import SupportChatWidget from "./SupportChatWidget";
 import SupportChatBot from "./SupportChatBot";
 
 const LandingPage = () => {
@@ -16,7 +15,6 @@ const LandingPage = () => {
 <div id="services"><Services/></div>
 <FaqSection />
 <NewFooter/>
-{/* <SupportChatWidget /> */}
 <SupportChatBot/>
     </div> 
   );
