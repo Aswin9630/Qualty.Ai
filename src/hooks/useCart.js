@@ -1,4 +1,3 @@
-// src/hooks/useCart.js
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems, addCartItem, removeCartItem } from "../redux/slice/cartSlice";
@@ -19,7 +18,7 @@ export function useCart() {
         throw new Error(err?.error || "Failed to fetch cart");
       }
       const data = await res.json();
-      // update redux once
+      console.log("cartdata",data)
       dispatch(setCartItems(data));
       return data;
     } catch (err) {

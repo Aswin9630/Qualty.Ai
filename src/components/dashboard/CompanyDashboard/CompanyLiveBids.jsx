@@ -1,72 +1,35 @@
-import React, { useState } from "react";
-import { FileText } from "lucide-react";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getCurrencySymbol } from "../../../utils/constants";
 
-const CompanyLiveBids = () => {
-  const [bidAmount, setBidAmount] = useState("");
+export default function LiveBidsCompany() { 
+   const enquiries = useSelector((s) => s.companyEnquiry.enquiries);
+  const navigate = useNavigate();
 
-  const handleBid = () => {
-    console.log("Bid submitted:", bidAmount);
-    // Add your bid submission logic here
-  };
+  if (!enquiries.length) return <p className="text-gray-500 text-center">No live enquiries available</p>;
 
   return (
-    <div className="bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-xl p-6 shadow-xl w-full max-w-3xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-white">Live Bids</h2>
-        <span className="bg-green-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-          2 Active Bids
-        </span>
+    <section className="bg-white text-black p-6 rounded-xl shadow-md border border-gray-200">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Live Requests</h2>
+        <span className="text-sm text-gray-500">{enquiries.length} Active</span>
       </div>
 
-      {/* Bid Card */}
-      <div className="bg-gray-800/60 border border-gray-700 rounded-lg p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        {/* Left Section */}
-        <div className="flex-1">
-          <h3 className="text-lg font-bold text-white">Inspection</h3>
-          <p className="text-sm text-gray-400">ID: SAMPLE-003</p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-sm text-gray-300">
-            <div>
-              <p className="font-medium">Location</p>
-              <p className="text-gray-400">—</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {enquiries.slice(0, 6).map((e) => (
+          <div key={e._id} className="bg-white border border-gray-200 rounded-xl p-5 flex justify-between items-start">
+            <div className="text-sm text-gray-700">
+              <p><strong>Commodity:</strong> <span className="text-black">{e.commodity || e.category}</span></p>
+              <p><strong>Location:</strong> <span className="text-black">{e.inspectionLocation || e.location}</span></p>
+              <p><strong>Budget:</strong> <span className="text-green-600 font-semibold">{e.currency==="INR"?"₹":"$"}{e.inspectionBudget}</span></p>
             </div>
-            <div>
-              <p className="font-medium">Volume</p>
-              <p className="text-gray-400">—</p>
-            </div>
-            <div>
-              <p className="font-medium">Urgency</p>
-              <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full mt-1">
-                High
-              </span>
-            </div>
-            <div>
-              <p className="font-medium">Budget</p>
-              <p className="text-green-400 font-semibold mt-1">$800 - $1200</p>
+            <div className="flex flex-col gap-2">
+              <button onClick={() => navigate("/inspection_company/bidding")} className="bg-black text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-900">View</button>
             </div>
           </div>
-        </div>
-
-        {/* Right Section */}
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            placeholder="$ Enter"
-            value={bidAmount}
-            onChange={(e) => setBidAmount(e.target.value)}
-            className="bg-gray-700 text-white placeholder-gray-400 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <button
-            onClick={handleBid}
-            className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-4 py-2 rounded-lg transition"
-          >
-            Bid
-          </button>
-        </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
-};
-
-export default CompanyLiveBids;
+}

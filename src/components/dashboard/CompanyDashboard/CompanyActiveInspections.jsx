@@ -9,15 +9,14 @@ export default function CompanyActiveInspection() {
       bid: "$420",
       status: "In Progress",
     },
-    // Add more inspections here if needed
   ];
 
   return (
-    <div className="bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-xl p-6 shadow-xl w-full max-w-3xl mx-auto">
+    <div className="bg-white border border-gray-300 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-3xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-white">My Active Inspections</h2>
-        <span className="bg-blue-700 text-white text-xs font-medium px-3 py-1 rounded-full">
+        <h2 className="text-xl font-semibold text-gray-900">My Active Inspections</h2>
+        <span className="border border-gray-800 text-gray-800 text-xs font-medium px-3 py-1 rounded-full">
           {inspections.length} Active
         </span>
       </div>
@@ -26,31 +25,31 @@ export default function CompanyActiveInspection() {
       {inspections.map((inspection) => (
         <div
           key={inspection.id}
-          className="bg-gray-800/60 border border-gray-700 rounded-lg p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4"
+          className="bg-white border border-gray-300 rounded-lg p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4"
         >
           {/* Left Section */}
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-white">{inspection.title}</h3>
-            <p className="text-sm text-gray-400">ID: {inspection.id}</p>
+            <h3 className="text-lg font-semibold text-gray-900">{inspection.title}</h3>
+            <p className="text-sm text-gray-600">ID: {inspection.id}</p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-sm text-gray-300">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-sm">
               <div>
-                <p className="font-medium">Quote</p>
-                <p className="text-green-400 font-semibold">{inspection.quote}</p>
+                <p className="font-medium text-gray-600">Quote</p>
+                <p className="text-gray-900 font-semibold">{inspection.quote}</p>
               </div>
               <div>
-                <p className="font-medium">My Bid</p>
-                <p className="text-blue-400 font-semibold">{inspection.bid}</p>
+                <p className="font-medium text-gray-600">My Bid</p>
+                <p className="text-gray-900 font-semibold">{inspection.bid}</p>
               </div>
               <div>
-                <p className="font-medium">Status</p>
-                <span className="inline-block bg-orange-600 text-white text-xs px-2 py-1 rounded-full mt-1">
+                <p className="font-medium text-gray-600">Status</p>
+                <span className="inline-block border border-gray-800 text-gray-800 text-xs px-2 py-1 rounded-full mt-1">
                   {inspection.status}
                 </span>
               </div>
               <div>
-                <p className="font-medium">Type</p>
-                <p className="text-gray-400">Residential</p>
+                <p className="font-medium text-gray-600">Type</p>
+                <p className="text-gray-900">Residential</p>
               </div>
             </div>
           </div>

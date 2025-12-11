@@ -89,14 +89,8 @@ const CompanyDashboard = lazy(() =>
 const CompanyBidRoom = lazy(() =>
   import("./components/dashboard/CompanyDashboard/CompanyBidRoom")
 );
-const CompanyChatWithUs = lazy(() =>
-  import("./components/dashboard/CompanyDashboard/CompanyChatWithUs")
-);
 const CompanyAnalysis = lazy(() =>
   import("./components/dashboard/CompanyDashboard/CompanyAnalysis")
-);
-const CompanyLiveChat = lazy(() =>
-  import("./components/dashboard/CompanyDashboard/CompanyLiveChat")
 );
 const CompanyAccount = lazy(() =>
   import("./components/dashboard/CompanyDashboard/CompanyAccount")
@@ -139,7 +133,8 @@ import HowSafeIsYourData from "./components/HowSafeIsYourData";
 import OrdersPage from "./components/QuickServices/OrdersPage";
 import QuickServiceInvoice from "./components/QuickServices/QuickServiceInvoice";
 import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickServiceList";
-// import NewChat from "./components/dashboard/chat/NewChat";
+import CompanyBidDetail from "./components/dashboard/CompanyDashboard/CompanyBidDetail";
+import CustomersList from "./components/dashboard/CompanyDashboard/CustomersList";
 
 function App() {
   return (
@@ -206,14 +201,15 @@ function App() {
             />
           </Route>
 
-          <Route path="/company" element={<CompanyLayout />}>
+          <Route path="/inspection_company" element={<CompanyLayout />}>
             <Route path="dashboard" element={<CompanyDashboard />} />
             <Route path="bidding" element={<CompanyBidRoom />} />
-            <Route path="chat" element={<CompanyChatWithUs />} />
+            <Route path="customersList" element={<CustomersList />} />
+            <Route path="chat/:targetId/:orderId" element={<Chat />} />
             <Route path="analysis" element={<CompanyAnalysis />} />
-            <Route path="live-chat" element={<CompanyLiveChat />} />
             <Route path="account" element={<CompanyAccount />} />
             <Route path="history" element={<CompanyHistory />} />
+            <Route path="history/:bidId" element={<CompanyBidDetail />} />
             <Route path="payments" element={<CompanyPayment />} />
           </Route>
 

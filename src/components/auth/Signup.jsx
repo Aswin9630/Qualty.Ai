@@ -69,9 +69,9 @@ const Signup = () => {
         </div>
 
         {/* Company Card (optional) */}
-        {/* <div
+        <div
           onClick={(e) => handleCardClick("/signup/company", e)}
-          className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-orange-600 transition-all duration-200 hover:shadow-lg flex flex-col h-full"
+          className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
         >
           <div className="text-center flex-1 flex flex-col">
             <h3 className="text-lg font-semibold text-black mb-2">Inspection Company</h3>
@@ -80,12 +80,12 @@ const Signup = () => {
             </p>
             <button
               onClick={(e) => handleButtonClick("/signup/company", e)}
-              className="cursor-pointer w-full py-2 px-4 text-white rounded-md bg-orange-600 hover:bg-orange-700 transition-colors mt-auto"
-            >
+              className="cursor-pointer w-full py-2 px-4 text-white rounded-md bg-black hover:bg-grey-900 transition-colors mt-auto"
+            > 
               Sign up as Company
             </button>
           </div>
-        </div> */}
+        </div>
       </div>
 
       {/* Footer */}

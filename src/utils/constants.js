@@ -1,4 +1,5 @@
 export const BASE_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "/api";
+export const COMPANY_API = `${BASE_URL}/inspectionCompany`;
 
 export const CATEGORY_OPTIONS = [
   { value: "agri_food", label: "Agricultural & Food Commodities" },

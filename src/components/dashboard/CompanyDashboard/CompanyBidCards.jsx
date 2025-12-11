@@ -1,78 +1,88 @@
 import React, { useState } from "react";
-import { BASE_URL } from "../../../utils/constants";
+import { COMPANY_API, getCurrencySymbol } from "../../../utils/constants";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { placeBidSuccess } from "../../../redux/slice/companySlice/companyBidSlice";
 
-const CompanyBidCard = ({ bid }) => {
+export default function CompanyBidCard({ enquiry }) {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
-   const {
-    _id: id,
-    inspectionLocation: location,
-    urgencyLevel: urgency,
-    inspectionBudget: budget,
-    commodityCategory: commodity,
-    subCommodity,
+  const [loading, setLoading] = useState(false);
+
+  const {
+    _id,
+    commodity,
+    category,
+    subcategory,
+    urgency,
+    inspectionBudget,
+    currency,
+    location,
     volume,
-    inspectionDate,
-    inspectionTypes,
+    dateFrom,
+    dateTo,
     contact,
-    additionalServices,
-    certifications,
-    description,
-  } = bid;
-   
+  } = enquiry;
 
-   const handleBid = async (enquiryId) => {
+  const handleBid = async () => {
     const bidAmount = Number(amount);
-    if (!bidAmount || bidAmount <= 0) return alert("Enter a valid bid amount");
-
+    if (!bidAmount || bidAmount <= 0) return toast.error("Enter a valid bid amount");
     try {
-      const response = await fetch(`${BASE_URL}/company/bid/${enquiryId}`, {
+      setLoading(true);
+      const res = await fetch(`${COMPANY_API}/bid/${_id}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         credentials: "include",
-        body: JSON.stringify({ bidAmount }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: bidAmount }),
       });
-
-      const data = await response.json();
-      if (data.success) {
-        alert("Bid placed successfully");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        dispatch(placeBidSuccess(data.bid));
+        toast.success(data.message || "Bid placed successfully");
+        setAmount("");
       } else {
-        alert(data.message || "Failed to place bid");
+        toast.error(data.message || "Failed to place bid");
       }
     } catch (err) {
-      console.error("Bid error:", err);
-      alert("Error placing bid");
+      toast.error("Network error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg border border-gray-700 m-5 flex justify-around shadow-lg hover:shadow-blue-500/50">
-      <div className="mb-2 space-y-1">
-        <p className="text-md font-semibold text-gray-400">Commodity: <span className="text-gray-100">{commodity}</span> </p>
-        <p className="text-md font-semibold text-gray-400">SubCommodity: <span className="text-gray-100">{subCommodity}</span></p>
-        <p className="text-md font-semibold text-gray-400">Location: <span className="text-gray-100">{location}</span></p>
-        <p className="text-md font-semibold text-gray-400">Urgency: <span className={`font-semibold ${urgency === "High" ? "text-red-500" : "text-yellow-400"}`}>{urgency}</span></p>
-        <p className="text-md font-semibold text-gray-400">Budget: <span className="font-semibold text-green-400">₹{budget}/-</span></p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="space-y-1 text-sm text-gray-700 mb-4">
+        <p><span className="font-medium text-gray-500">Commodity:</span> <span className="text-black">{commodity || category}</span></p>
+        <p><span className="font-medium text-gray-500">Subcategory:</span> <span className="text-black">{subcategory || "—"}</span></p>
+        <p><span className="font-medium text-gray-500">Location:</span> <span className="text-black">{location || "—"}</span></p>
+        <p><span className="font-medium text-gray-500">Urgency:</span> <span className={`font-semibold ${urgency === "High" ? "text-red-500" : "text-yellow-500"}`}>{urgency || "—"}</span></p>
+        <p><span className="font-medium text-gray-500">Budget:</span> <span className="text-green-600 font-semibold">{currency==="INR"?"₹":"$"}{inspectionBudget}/-</span></p>
+        <p><span className="font-medium text-gray-500">Volume:</span> <span className="text-black">{volume || "—"}</span></p>
+        <p><span className="font-medium text-gray-500">Date:</span> <span className="text-black">{dateFrom ? new Date(dateFrom).toLocaleDateString() : "—"} → {dateTo ? new Date(dateTo).toLocaleDateString() : "—"}</span></p>
+        {contact?.name && <p><span className="font-medium text-gray-500">Customer:</span> <span className="text-black">{contact.name}</span></p>}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex gap-2">
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          placeholder="₹ Enter bid amount"
-          className="bg-gray-700 text-white px-3 py-2 rounded w-full outline-none"
+          placeholder={`${getCurrencySymbol(currency)} Enter bid`}
+          className="border border-gray-300 px-3 py-2 rounded-md w-full text-sm text-black focus:outline-none focus:ring-2 focus:ring-black"
         />
         <button
           onClick={handleBid}
-          className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-white font-semibold cursor-pointer"
+          disabled={loading || enquiry.hasPlacedBid}
+          className={`px-4 py-2 rounded-md text-sm font-semibold transition-all duration-200 cursor-pointer ${
+            enquiry.hasPlacedBid
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-black text-white hover:bg-gray-900"
+          }`}
         >
-          Bid
+          {enquiry.hasPlacedBid ? "Bid Placed" : loading ? "Placing…" : "Place Bid"}
         </button>
       </div>
     </div>
   );
-};
-
-export default CompanyBidCard;
+}

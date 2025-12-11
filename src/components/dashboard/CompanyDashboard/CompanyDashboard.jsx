@@ -1,27 +1,39 @@
-import CompanyActiveInspection from "./CompanyActiveInspections"
-import CompanyBids from "./CompanyBids"
-import CompanyLiveBids from "./CompanyLiveBids"
-import CompanyQueries from "./CompanyQueries"
-import CompanyRevenue from "./CompanyRevenue"
-import CompanyTotalInspections from "./CompanyTotalInspections"
+import React, { useEffect, useState } from "react";
+import useFetchCompanyEnquiries from "../../../hooks/companyHooks/useFetchCompanyEnquiries";
+import useFetchCompanyAnalytics from "../../../hooks/companyHooks/useFetchCompanyAnalytics";
+import LiveBidsCompany from "../../../components/dashboard/CompanyDashboard/CompanyLiveBids";
+import CompanyAnalysis from "../../../components/dashboard/CompanyDashboard/CompanyAnalysis";
+import { useDispatch } from "react-redux";
+import { addEnquiries } from "../../../redux/slice/companySlice/companyEnquirySlice";
+import { COMPANY_API } from "../../../utils/constants";
+import ShimmerUI from "../../../components/ShimmerUI";
+import { toast } from "react-toastify";
 
-const CompanyDashboard=()=>{
-  return(
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-6">
-        <CompanyTotalInspections/>
-        <CompanyRevenue/>
-        <CompanyQueries/>
-        <CompanyBids/>
-      </div>
-      <div className="mt-8">
-        <CompanyLiveBids/>
-      </div>
-      <div className="mt-8">
-        <CompanyActiveInspection/>
+export default function CompanyDashboard() {
+  useFetchCompanyEnquiries();
+  useFetchCompanyAnalytics();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(`${COMPANY_API}/enquiries`, { credentials: "include" });
+        const data = await res.json()
+        dispatch(addEnquiries(data.enquiries || []));
+      } catch (e) {
+        console.error("Dashboard load error:", e);
+      } 
+    }
+    load();
+  }, [dispatch]);
+
+
+  return (
+    <div className="min-h-screen bg-white py-10">
+      <div className="max-w-6xl mx-auto px-6 space-y-8">
+        <CompanyAnalysis />
+        <LiveBidsCompany />
       </div>
     </div>
-  )
-
+  );
 }
-export default CompanyDashboard

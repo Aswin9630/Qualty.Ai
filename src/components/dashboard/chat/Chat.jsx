@@ -558,6 +558,7 @@ export default function Chat() {
           <InspectionProgress
             progressLevel={progressLevel}
             isInspector={role === "inspector"}
+            isCompany={role === "inspection_company"}
             stageStatuses={stageStatuses}
             onAdvanceStage={handleAdvance}
             onAcceptStage={(idx) => handleAccept(idx)}
@@ -625,6 +626,7 @@ export default function Chat() {
               <InspectionProgress
                 progressLevel={progressLevel}
                 isInspector={role === "inspector"}
+                isCompany={role === "inspection_company"}
                 stageStatuses={stageStatuses}
                 onAdvanceStage={handleAdvance}
                 onAcceptStage={(idx) => handleAccept(idx)}
