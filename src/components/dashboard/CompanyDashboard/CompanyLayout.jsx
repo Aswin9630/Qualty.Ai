@@ -13,7 +13,7 @@ const navItems = [
   { label: "Bidding Room", icon: <Gavel />, path: "/inspection_company/bidding" },
   { label: "Chat with Customer", icon: <MessageCircle />, path: "/inspection_company/customersList" },
   { label: "Bid History", icon: <History />, path: "/inspection_company/history" },
-  { label: "Payments", icon: <CreditCard />, path: "/inspection_company/payments" },
+  // { label: "Payments", icon: <CreditCard />, path: "/inspection_company/payments" },
   { label: "Detail Analysis", icon: <LineChart />, path: "/inspection_company/analysis" },
   { label: "My Account", icon: <User />, path: "/inspection_company/account" },
 ];
