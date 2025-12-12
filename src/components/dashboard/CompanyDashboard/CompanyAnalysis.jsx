@@ -79,7 +79,7 @@ export default function CompanyAnalysis() {
             {(recentBids || []).map((b) => (
               <div key={b._id} className="text-sm text-gray-700">
                 <div className="font-medium text-black">{b.enquiry?.commodity || "—"}</div>
-                <div className="text-xs">{symbol}{b.customerViewAmount} • {new Date(b.createdAt).toLocaleDateString()}</div>
+                <div className="text-xs">{b.enquiry?.currency==="INR"?"₹":"$"}{b.amount} • {new Date(b.createdAt).toLocaleDateString()}</div>
               </div>
             ))}
             {(!recentBids || recentBids.length === 0) && <div className="text-sm text-gray-500">No recent bids</div>}
