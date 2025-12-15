@@ -97,6 +97,7 @@ export default function HeroSection() {
 
             <div className="mt-3">
               {visible.third && (
+                <>
                 <p
                   className="text-gray-200 opacity-0 animate-fade-slide delay-400"
                   style={{ fontSize: "clamp(0.95rem, 2.2vw, 1.4rem)" }}
@@ -108,14 +109,13 @@ export default function HeroSection() {
                   >
                     meets quality
                   </span>
-                  <br />
-  <div className="mt-4">
-  <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold shadow-md">
-    100% Free Platform
-  </span>
-</div>
-
                 </p>
+                <div className="mt-4 opacity-0 animate-fade-slide delay-600">
+      <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold shadow-md">
+        100% Free Platform
+      </span>
+    </div>
+                </>
               )}
             </div>
           </div>

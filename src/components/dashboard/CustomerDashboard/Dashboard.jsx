@@ -3,7 +3,6 @@ import ActiveOrdersCard from "./ActiveOrdersCard";
 import CompletedTasksCard from "./CompletedTasksCard";
 import TotalValueCard from "./TotalValueCard";
 import QuickActions from "./QuickActions";
-import QuickServicesSection from "./QuickServicesSection";
 import Services from "../../QuickServices/services";
 
 export default function Dashboard() {
@@ -17,7 +16,6 @@ export default function Dashboard() {
       </div>
       <div className="mt-8 flex flex-col gap-10 mb-10">
         <Services/>
-        {/* <QuickServicesSection />  */}
         <QuickActions />
       </div>
     </div>
