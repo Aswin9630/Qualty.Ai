@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import promoImg from "../assets/PromoPop.png";
+import promoImg from "../assets/PromoPoP.png";
 
 const PromoPopup = () => {
   const [visible, setVisible] = useState(false);
