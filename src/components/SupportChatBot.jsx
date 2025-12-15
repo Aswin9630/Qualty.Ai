@@ -111,7 +111,7 @@ export default function SupportChatBot() {
     <div className="fixed right-4 bottom-4 w-72 sm:w-80 md:w-96 h-96 bg-white shadow-xl rounded-xl border border-gray-100 z-50 flex flex-col overflow-hidden">
       <div className="bg-orange-500 text-white px-4 py-2 text-sm font-semibold flex items-center justify-between">
         <span className="flex items-center gap-2"><BsChatDots /> Answer to this Question</span>
-        <button onClick={() => setCollapsed(true)} className="text-white hover:text-gray-200">✕</button>
+        <button onClick={() => setCollapsed(true)} className="text-white hover:text-gray-200 cursor-pointer">✕</button>
       </div>
 
       <div className="flex-1 p-3 space-y-2 overflow-y-auto text-sm">
