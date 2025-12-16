@@ -34,7 +34,6 @@ export default function ContactForm() {
   return (
     <section className="px-6 py-12 bg-white text-black">
       <div className="max-w-xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-center">Contact Us</h2>
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10"  style={{ backgroundImage: "linear-gradient(90deg, #ff7a18 0%, #af00ff 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
         Contact Us
       </h2>
