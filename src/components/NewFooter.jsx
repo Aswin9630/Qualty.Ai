@@ -30,11 +30,7 @@ export default function NewFooter() {
                 About
               </Link>
             </li>
-            <li>
-              <Link to="/contact" className="hover:text-white">
-                Contact Us
-              </Link>
-            </li>
+
             <li>
               <Link to="/contact" className="hover:text-white">
                 Help Center
