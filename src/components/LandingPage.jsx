@@ -7,6 +7,7 @@ import Services from "./QuickServices/services";
 import SupportChatBot from "./SupportChatBot";
 import Discount from "./Discount";
 import PromoPopup from "./PromoPopUp";
+import ContactForm from "./ContactForm";
 
 const LandingPage = () => {
   return (
@@ -18,6 +19,7 @@ const LandingPage = () => {
 <div id="why-us"><AboutSection /></div>
 <div id="services"><Services/></div>
 <FaqSection />
+<ContactForm/>
 <NewFooter/>
 <SupportChatBot/>
     </div> 
