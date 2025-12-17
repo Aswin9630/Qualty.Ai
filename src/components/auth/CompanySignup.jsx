@@ -383,10 +383,10 @@ export default function CompanySignup() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <input
-                  placeholder="GST Number"
+                  placeholder="GST / VAT / Tax ID"
                   {...register("licenseNumber", {
-                    required: publishRequirements ? "Please enter your license number" : false,
-                    minLength: publishRequirements ? { value: 16, message: "License number must be at least 16 characters" } : undefined,
+                    required: publishRequirements ? "Please enter your GST number" : false,
+                    minLength: publishRequirements ? { value: 6, message: "License number must be at least 6 characters" } : undefined,
                     pattern: publishRequirements ? { value: /^[A-Za-z0-9-\s]+$/, message: "Use only letters, numbers, spaces, or hyphens" } : undefined,
                   })}
                   className={inputClass}
@@ -406,7 +406,7 @@ export default function CompanySignup() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-2">GST Certificate/Incorporation Certificate</label>
+              <label className="block text-sm font-medium text-black mb-2">Legal document (GST certificate / VAT registration / Incorporation certificate)</label>
 
               <div className="flex items-center gap-3">
                 <label
