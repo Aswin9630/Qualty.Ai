@@ -1,6 +1,41 @@
 export const BASE_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "/api";
 export const COMPANY_API = `${BASE_URL}/inspectionCompany`;
 
+export const countryCodes  = [
+  { code: "+91", country: "India" },
+  { code: "+1", country: "United States" },
+  { code: "+44", country: "United Kingdom" },
+  { code: "+86", country: "China" },
+  { code: "+81", country: "Japan" },
+  { code: "+49", country: "Germany" },
+  { code: "+33", country: "France" },
+  { code: "+61", country: "Australia" },
+  { code: "+82", country: "South Korea" },
+  { code: "+65", country: "Singapore" },
+  { code: "+60", country: "Malaysia" },
+  { code: "+66", country: "Thailand" },
+  { code: "+62", country: "Indonesia" },
+  { code: "+63", country: "Philippines" },
+  { code: "+64", country: "New Zealand" },
+  { code: "+55", country: "Brazil" },
+  { code: "+52", country: "Mexico" },
+  { code: "+34", country: "Spain" },
+  { code: "+39", country: "Italy" },
+  { code: "+31", country: "Netherlands" },
+  { code: "+41", country: "Switzerland" },
+  { code: "+43", country: "Austria" },
+  { code: "+45", country: "Denmark" },
+  { code: "+46", country: "Sweden" },
+  { code: "+47", country: "Norway" },
+  { code: "+48", country: "Poland" },
+  { code: "+90", country: "Turkey" },
+  { code: "+966", country: "Saudi Arabia" },
+  { code: "+971", country: "United Arab Emirates" },
+  { code: "+56", country: "Chile" },
+  { code: "+57", country: "Colombia" },
+  { code: "+54", country: "Argentina" },
+];
+
 export const CATEGORY_OPTIONS = [
   { value: "agri_food", label: "Agricultural & Food Commodities" },
   { value: "industrial_raw", label: "Industrial Raw Materials" },
@@ -13,6 +48,7 @@ export const CATEGORY_OPTIONS = [
   { value: "construction", label: "Construction Materials" },
   { value: "luxury", label: "Luxury & Lifestyle Commodities" },
   { value: "emerging_green", label: "Emerging & Green Trade Items" },
+  { value: "other", label: "other" },
 ];
   
 export const SUBCATEGORY_OPTIONS = {
@@ -79,6 +115,9 @@ export const SUBCATEGORY_OPTIONS = {
     { value: "ev", label: "Electric Vehicles & Components" },
     { value: "renewable_equip", label: "Renewable Energy Equipment" },
     { value: "organic_recyclable", label: "Organic & Recyclable Materials" },
+  ],
+   other: [
+    { value: "other", label: "Other" },
   ],
 };
   
@@ -208,10 +247,13 @@ export const COMMODITY_OPTIONS = {
   renewable_equip:[ 
     {value:"waste_paper",label:"Waste Paper"}
   ],
+   other: [
+    { value: "other", label: "Other Commodity" },
+  ],
 
   default: [{ value: "other", label: "Other Commodity" }],
 };
-
+ 
 export const URGENCY_OPTIONS = [
   { value: "Low", label: "Low" },
   { value: "Medium", label: "Medium" },
@@ -256,11 +298,3 @@ export function formatFromSmallest(amountSmallest = 0, currency = "INR", decimal
   return formatMajor(major, currency, decimals);
 }
 
-// export function formatMajor(amount = 0, currency = "INR") {
-//   const num = Number(amount || 0);
-//   const code = (currency || "INR").toString().toUpperCase();
-//   const locale = code === "INR" ? "en-IN" : "en-US";
-//   const formatted = num.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-//   const symbol = code === "INR" ? "₹" : code === "USD" ? "$" : code;
-//   return `${symbol}${formatted}`;
-// }
