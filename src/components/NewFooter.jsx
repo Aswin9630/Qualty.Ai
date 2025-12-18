@@ -10,12 +10,12 @@ export default function NewFooter() {
           <h3 className="text-sm sm:text-base font-semibold mb-4">Register</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link to="/login" className="hover:text-white">
+              <Link to="/login" className="hover:text-black">
                 Customer
               </Link>
             </li>
             <li>
-              <Link to="/login" className="hover:text-white">
+              <Link to="/login" className="hover:text-black">
                 Inspector
               </Link>
             </li>
@@ -26,13 +26,13 @@ export default function NewFooter() {
           <h3 className="text-sm sm:text-base font-semibold mb-4">Support</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link to="/about" className="hover:text-white">
+              <Link to="/about" className="hover:text-black">
                 About
               </Link>
             </li>
 
             <li>
-              <Link to="/contact" className="hover:text-white">
+              <Link to="/contact" className="hover:text-black">
                 Help Center
               </Link>
             </li>
@@ -43,17 +43,17 @@ export default function NewFooter() {
           <h3 className="text-sm sm:text-base font-semibold mb-4">Legal</h3>
           <ul className="space-y-2 text-gray-400">
             {/* <li>
-              <Link to="/privacy-policy" className="hover:text-white">
+              <Link to="/privacy-policy" className="hover:text-black">
                 Terms of Service
               </Link>
             </li> */}
             <li>
-              <Link to="/privacy-policy" className="hover:text-white">
+              <Link to="/privacy-policy" className="hover:text-black">
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link to="/how-safe-is-your-data" className="hover:text-white">
+              <Link to="/how-safe-is-your-data" className="hover:text-black">
                 How Safe Is Your Data
               </Link>
             </li>
@@ -63,19 +63,19 @@ export default function NewFooter() {
         <div>
   <h3 className="text-sm sm:text-base font-semibold mb-4">Social Media</h3>
   <div className="flex flex-wrap gap-4 sm:gap-6">
-    <a href="https://www.linkedin.com/company/qualty-ai-inspection" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+    <a href="https://www.linkedin.com/company/qualty-ai-inspection" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition">
       <FaLinkedin className="text-xl" />
     </a>
-    <a href="https://www.instagram.com/qualty.ai?igsh=d2ppcmRzY2U0dzl5&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+    <a href="https://www.instagram.com/qualty.ai?igsh=d2ppcmRzY2U0dzl5&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition">
       <FaInstagram className="text-xl" />
     </a>
-    <a href="https://www.youtube.com/@qualty_ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+    <a href="https://www.youtube.com/@qualty_ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition">
       <FaYoutube className="text-xl" />
     </a>
-    <a href="https://qualtyai.substack.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+    <a href="https://qualtyai.substack.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition">
       <SiSubstack className="text-xl" />
     </a>
-    <a href="https://twitter.com/qualty_ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
+    <a href="https://twitter.com/qualty_ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition">
       <FaTwitter className="text-xl" />
     </a>
   </div>
