@@ -135,6 +135,7 @@ import QuickServiceInvoice from "./components/QuickServices/QuickServiceInvoice"
 import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickServiceList";
 import CompanyBidDetail from "./components/dashboard/CompanyDashboard/CompanyBidDetail";
 import CustomersList from "./components/dashboard/CompanyDashboard/CustomersList";
+import WebinarRegistration from "./components/Webinar/WebinarRegistration";
 
 function App() {
   return (
@@ -148,7 +149,9 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/webinar/register" element={<WebinarRegistration />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        
           <Route
             path="/how-safe-is-your-data"
             element={<HowSafeIsYourData />}
