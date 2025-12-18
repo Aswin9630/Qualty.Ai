@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function NewFooter() {
   return (
-    <footer className="bg-black text-white py-10 px-6 sm:px-12 lg:px-20 text-xs sm:text-sm">
+    <footer className="bg-white text-black py-10 px-6 sm:px-12 lg:px-20 text-xs sm:text-sm">
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-10">
         <div>
           <h3 className="text-sm sm:text-base font-semibold mb-4">Register</h3>
