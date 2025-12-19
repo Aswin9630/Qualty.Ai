@@ -1,7 +1,9 @@
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { useState } from "react";
+import { FaMapMarkerAlt,FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../utils/constants";
 
-export default function InspectionRequestCard({ request }) {
+export default function InspectionRequestCard({ request,onDeleted  }) {
   const {
     _id,
     category,
@@ -9,7 +11,6 @@ export default function InspectionRequestCard({ request }) {
     urgency,
     inspectionBudget,
     status,
-    selectionSummary,
     createdAt,
     commodity,
     currency
@@ -17,6 +18,7 @@ export default function InspectionRequestCard({ request }) {
 
   const navigate = useNavigate();
   const formatted = new Date(createdAt).toLocaleDateString("en-GB");
+   const [showConfirm, setShowConfirm] = useState(false);
 
   const priorityStyles = {
     High: "bg-red-100 text-red-700 border border-red-300",
@@ -24,8 +26,34 @@ export default function InspectionRequestCard({ request }) {
     Low: "bg-green-100 text-green-700 border border-green-300",
   };
 
+    const handleDelete = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/customer/cancel-enquiry/${_id}`, {
+        method: "PATCH",
+        credentials: "include",
+      });
+      const data = await res.json();
+      console.log("canceldata",data)
+      if (data.success) {
+        onDeleted(_id); 
+      }
+    } catch (err) {
+      console.error("Cancel failed", err);
+    } finally {
+      setShowConfirm(false);
+    }
+  };
+
   return (
     <div className="bg-white text-black p-5 rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+      
+       <button
+        onClick={() => setShowConfirm(true)}
+        className="cursor-pointer absolute top-3 right-3 text-red-500 hover:text-red-700"
+        aria-label="Delete enquiry"
+      >
+        <FaTrash />
+      </button> 
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-semibold">Category: {category}</h3>
         <span
@@ -58,7 +86,6 @@ export default function InspectionRequestCard({ request }) {
         </p>
       </div>
 
-      {/* CTA */}
       <div className="text-center">
         <button
           onClick={() => navigate(`/customer/inspection/${_id}`,{
@@ -69,6 +96,33 @@ export default function InspectionRequestCard({ request }) {
           View Bids
         </button>
       </div>
+
+
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full">
+            <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to remove this enquiry? It will move to Deleted Enquiries.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="cursor-pointer px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+              >
+                No
+              </button>
+              <button
+                onClick={handleDelete}
+                className="cursor-pointer px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

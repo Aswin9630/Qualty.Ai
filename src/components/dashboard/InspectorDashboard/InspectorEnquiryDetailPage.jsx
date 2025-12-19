@@ -15,6 +15,7 @@ export default function InspectorEnquiryDetailPage() {
           credentials: "include",
         });
         const data = await res.json();
+
         if (data.success) {
           const matchedBid = data.bids.find((b) => b.enquiry?._id === id);
           if (matchedBid) {
@@ -48,14 +49,14 @@ export default function InspectorEnquiryDetailPage() {
           <p><strong>Location:</strong> {enquiry.location}</p>
           <p><strong>Volume:</strong> {enquiry.volume} {enquiry.unit}</p>
           <p><strong>Urgency:</strong> {enquiry.urgency}</p>
-          <p><strong>Inspection Window:</strong> {new Date(enquiry.dateFrom).toLocaleDateString()} → {new Date(enquiry.dateTo).toLocaleDateString()}</p>
+          <p><strong>Inspection Date:</strong> {new Date(enquiry.dateFrom).toLocaleDateString()} → {new Date(enquiry.dateTo).toLocaleDateString()}</p>
           <p><strong>Services:</strong> {enquiry.services?.join(", ") || "None"}</p>
           <p><strong>Certifications:</strong> {enquiry.certifications?.join(", ") || "None"}</p>
         </div>
 
         <div className="border-t border-gray-300 pt-4 text-sm text-gray-800">
-          <p><strong>Bid Amount:</strong> {bid?.enquiry.currency==="INR"?"₹":"$"}{bid.amount}</p>
-          <p><strong>Customer Amount:</strong> {bid?.enquiry.currency==="INR"?"₹":"$"}{bid.customerViewAmount}</p>
+          <p><strong>Bid Amount:</strong> {bid?.enquiry?.currency==="INR"?"₹":"$"}{bid.amount}</p>
+          <p><strong>Customer Amount:</strong> {bid?.enquiry.currency==="INR"?"₹":"$"}{bid?.enquiry?.inspectionBudget-bid?.enquiry?.platformFee}</p>
           <p><strong>Status:</strong> {bid.status}</p>
           <p><strong>Submitted On:</strong> {new Date(bid.createdAt).toLocaleString()}</p>
         </div>

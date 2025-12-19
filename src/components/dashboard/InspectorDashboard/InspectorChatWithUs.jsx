@@ -3,27 +3,25 @@ import React, { useState } from "react";
 const stages = ["Start", "Analysis", "Report", "Finish"];
 
 export default function InspectorChatWithProgress() {
-  const [progressLevel, setProgressLevel] = useState(-1); // -1 = not started
+  const [progressLevel, setProgressLevel] = useState(-1); 
 
   const handleStart = (index) => {
-    if (progressLevel < index) setProgressLevel(index - 0.5); // halfway
+    if (progressLevel < index) setProgressLevel(index - 0.5); 
   };
 
   const handleFinish = (index) => {
-    if (progressLevel < index + 1) setProgressLevel(index + 1); // full
+    if (progressLevel < index + 1) setProgressLevel(index + 1); 
   };
 
   const handleRevert = (index) => {
-    setProgressLevel(index - 0.5); // back to halfway
+    setProgressLevel(index - 0.5); 
   };
 
   return (
     <div className="flex h-screen bg-white text-black font-sans">
-      {/* Sidebar */}
       <aside className="w-64 border-r border-gray-200 p-6 flex flex-col items-center relative">
         <h2 className="text-lg font-bold mb-6">Inspection Progress</h2>
 
-        {/* Vertical Progress Line */}
         <div className="absolute left-8 top-20 bottom-20 w-1 bg-gray-300 rounded-full overflow-hidden">
           <div
             className="bg-green-500 w-full transition-all duration-500"
@@ -33,7 +31,6 @@ export default function InspectorChatWithProgress() {
           />
         </div>
 
-        {/* Stage Buttons */}
         <div className="flex flex-col gap-10 w-full pl-12">
           {stages.map((stage, index) => {
             const isStarted = progressLevel >= index - 0.5;
@@ -41,7 +38,6 @@ export default function InspectorChatWithProgress() {
 
             return (
               <div key={stage} className="relative z-10">
-                {/* Dot */}
                 <div
                   className={`absolute -left-8 top-1 w-4 h-4 rounded-full ${
                     isFinished
@@ -85,7 +81,6 @@ export default function InspectorChatWithProgress() {
         </div>
       </aside>
 
-      {/* Chat Interface */}
       <main className="flex-1 flex flex-col">
         <div className="border-b border-gray-200 px-6 py-4">
           <h1 className="text-xl font-bold">Inspector Chat</h1>

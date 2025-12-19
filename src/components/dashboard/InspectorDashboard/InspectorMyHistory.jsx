@@ -14,6 +14,7 @@ const InspectorHistory = () => {
           credentials: "include",
         });
         const data = await res.json();
+
         if (data.success && Array.isArray(data.bids)) {
           const cleanBids = data.bids.filter((bid) => bid && bid.enquiry);
           setBids(cleanBids);
@@ -78,7 +79,6 @@ const InspectorHistory = () => {
                   key={_id}
                   className="relative bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300 text-sm"
                 >
-                  {/* Urgency Badge */}
                   <span className={getUrgencyBadge(enquiry.urgency)}>
                     {enquiry.urgency || "—"}
                   </span>

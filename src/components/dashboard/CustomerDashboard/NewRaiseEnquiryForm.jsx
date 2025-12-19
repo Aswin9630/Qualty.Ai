@@ -333,6 +333,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
       category,
       subcategory,
       commodity,
+       otherRequirements: data.otherRequirements || "",
       volume: volumeVal,
       unit,
       inspectionBudget: budgetVal,
@@ -413,7 +414,6 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto p-6 bg-white text-black rounded shadow space-y-6">
         <h2 className="text-2xl font-bold text-center">Raise Inspection Enquiry</h2>
-
         <div>
           <h3 className="text-lg font-semibold mb-2">Inspection Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -536,6 +536,57 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
             <Controller name="subcategory" control={control} render={({ field }) => <Select {...field} options={currentSubcats} placeholder="Subcategory" styles={reactSelectStyles} />} />
 
             <Controller name="commodity" control={control} render={({ field }) => <Select {...field} options={currentCommodities} placeholder="Specific Commodity" styles={reactSelectStyles} />} />
+
+
+             {/* <div className="col-span-1 md:col-span-2">
+      <textarea
+        placeholder="Other commodity requirements (optional)"
+        {...register("otherRequirements")}
+        className={`${INPUT_CLASS} min-h-[80px]`}
+      />
+      {errors.otherRequirements && (
+        <div className="text-sm text-red-600 mt-1">{errors.otherRequirements.message}</div>
+      )}
+    </div>
+     <div className="col-span-1 md:col-span-2">
+      <label className="block text-sm font-medium text-gray-700 mb-2">Attach supporting file (optional)</label>
+      <input
+        type="file"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+        {...register("attachment")}
+        className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+                   file:rounded-md file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-black file:text-white
+                   hover:file:bg-gray-800"
+      />
+    </div> */}
+
+
+    <div className="col-span-1 md:col-span-2">
+  <label className="block text-sm font-medium text-gray-700 mb-1">Your commodity requirements (optional)</label>
+  <textarea
+    placeholder="Type here..."
+    rows={3}
+    {...register("otherRequirements")}
+    className={`${INPUT_CLASS} resize-none text-sm`}
+  />
+  {errors.otherRequirements && (
+    <div className="text-sm text-red-600 mt-1">{errors.otherRequirements.message}</div>
+  )}
+</div>
+
+<div className="col-span-1 md:col-span-2">
+  <label className="block text-sm font-medium text-gray-700 mb-1">Attach requirement file (optional)</label>
+  <input
+    type="file"
+    accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+    {...register("attachment")}
+    className="block w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
+  />
+</div>
+
+
 
             <div className="col-span-1 md:col-span-2 flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2">
@@ -691,7 +742,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
                     {...field}
                     isMulti
                     options={CERTIFICATION_OPTIONS}
-                    placeholder="Certifications Required"
+                    placeholder="Certifications Required (Select or type your own certificate)"
                     onChange={(v) => handleCertChange(v, field)}
                     value={field.value || []}
                     styles={reactSelectStyles}

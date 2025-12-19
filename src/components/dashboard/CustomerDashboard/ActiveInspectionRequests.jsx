@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import InspectionRequestCard from "./InspectionRequestCard";
 
-export default function ActiveInspectionRequests({ requests = [] }) {
+export default function ActiveInspectionRequests({ requests = [],onDeleted  }) {
+
   return (
     <section className="p-6 bg-white text-black rounded-xl shadow-xl animate-fade-in">
       <h2 className="text-3xl font-semibold text-center mb-6 bg-gradient-to-r from-black via-gray-800 to-black bg-clip-text text-transparent">
@@ -20,7 +22,7 @@ export default function ActiveInspectionRequests({ requests = [] }) {
               className="animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <InspectionRequestCard request={req} />
+              <InspectionRequestCard request={req} onDeleted={onDeleted } />
             </div>
           ))}
         </div>

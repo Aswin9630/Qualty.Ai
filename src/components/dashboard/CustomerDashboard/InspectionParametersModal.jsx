@@ -6,9 +6,7 @@ const DEFAULT_PHYSICAL = [
   { key: "appearance_color", label: "Appearance / Color", description: "Visual inspection for uniformity and defects." },
   { key: "odor_smell", label: "Odor / Smell", description: "Determines contamination or spoilage." },
   { key: "texture_feel", label: "Texture / Feel", description: "Indicates product consistency or processing quality." },
-  { key: "density_sg", label: "Density / Specific Gravity", description: "Used to assess purity and grade." },
   { key: "moisture", label: "Moisture Content", description: "Affects shelf life, weight, and stability." },
-  { key: "temp_stability", label: "Temperature Stability", description: "Checks resistance to heat/cold during transit." },
   { key: "purity_impurities", label: "Purity / Impurities", description: "Measures presence of unwanted material." },
   { key: "packaging_integrity", label: "Packaging Integrity", description: "Ensures packing meets transport and export norms." },
 ];
@@ -22,9 +20,9 @@ const DEFAULT_CHEMICAL = [
   { key: "composition", label: "Chemical Composition", description: "Determines presence of specific elements." },
   { key: "contaminants", label: "Contaminants / Impurities", description: "Checks for heavy metals, toxins, or residues." },
   { key: "tds", label: "Total Dissolved Solids (TDS)", description: "Indicates dissolved impurities." },
-  { key: "conductivity", label: "Conductivity", description: "Measures ionic content." },
-  { key: "orp", label: "Oxidation/Reduction Potential (ORP)", description: "Chemical reactivity or stability." },
-  { key: "residue", label: "Residue on Ignition / Evaporation", description: "Detects non-volatile impurities." },
+  // { key: "conductivity", label: "Conductivity", description: "Measures ionic content." },
+  // { key: "orp", label: "Oxidation/Reduction Potential (ORP)", description: "Chemical reactivity or stability." },
+  // { key: "residue", label: "Residue on Ignition / Evaporation", description: "Detects non-volatile impurities." },
 ];
 
 export default function InspectionParametersModal({
@@ -91,10 +89,7 @@ export default function InspectionParametersModal({
           <h3 className="text-lg font-semibold">
             {type === "chemical" ? "Chemical Inspection Parameters" : "Physical Inspection Parameters"}
           </h3>
-          <div className="flex gap-2">
-            <button onClick={onClose} className="px-3 py-1 rounded bg-gray-200 cursor-pointer">Close</button>
-            <button onClick={handleSave} className="px-3 py-1 rounded bg-black text-white cursor-pointer">Save</button>
-          </div>
+         
         </div>
 
         <div className="p-4 space-y-6">
@@ -139,7 +134,7 @@ export default function InspectionParametersModal({
                 <input
                   value={newReqText}
                   onChange={(e) => setNewReqText(e.target.value)}
-                  placeholder="New requirement"
+                  placeholder="Add your requirement"
                   className="p-2 border rounded flex-1 md:flex-initial w-full"
                 />
                 <button onClick={addExtraReq} className="px-3 py-1 rounded bg-blue-600 text-white cursor-pointer">Add</button>
@@ -157,6 +152,11 @@ export default function InspectionParametersModal({
                 </div>
               ))}
             </div>
+
+             <div className="flex gap-2  mt-5">
+            <button onClick={onClose} className="px-3 py-1 rounded bg-gray-200 cursor-pointer">Close</button>
+            <button onClick={handleSave} className="px-3 py-1 rounded bg-black text-white cursor-pointer">Save</button>
+          </div>
           </div>
 
         </div>
