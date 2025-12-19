@@ -105,10 +105,10 @@ export default function CompanySignup() {
 
     const pub = data.publishRequirements === "true" || data.publishRequirements === true;
     if (pub) {
-      const hasLicense = data.licenseNumber && String(data.licenseNumber).trim().length >= 16;
+      const hasLicense = data.licenseNumber && String(data.licenseNumber).trim().length >= 6;
       const hasFile = !!fileUploads.incorporationCertificate;
       if (!hasLicense) {
-        setSubmitError("License number is required when publishing requirements.");
+        setSubmitError("GST/VAT/TAX number is required when publishing requirements.");
         return;
       }
       if (!hasFile) {
