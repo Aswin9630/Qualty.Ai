@@ -280,6 +280,9 @@
 
 
 // src/pages/auth/Login.jsx
+
+
+
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BASE_URL } from "../../utils/constants";
@@ -467,6 +470,14 @@ const Login = () => {
                 )}
               </button>
             </form>
+            <button
+  type="button"
+  onClick={() => navigate("/forgot-password")}
+  className="text-sm text-blue-600 hover:text-blue-800 underline my-2 cursor-pointer"
+>
+  Forgot Password?
+</button>
+
           </div>
 
           <div className="text-center">
