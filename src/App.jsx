@@ -136,7 +136,7 @@ import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickSe
 import CompanyBidDetail from "./components/dashboard/CompanyDashboard/CompanyBidDetail";
 import CustomersList from "./components/dashboard/CompanyDashboard/CustomersList";
 import WebinarRegistration from "./components/Webinar/WebinarRegistration";
-import InspectorLandingPage from "./components/InspectorLandingPage/InspectorLandingPage";
+// import InspectorLandingPage from "./components/InspectorLandingPage/InspectorLandingPage";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 
@@ -154,7 +154,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/webinar/register" element={<WebinarRegistration />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/inspector/landingpage" element={<InspectorLandingPage />} />
+          {/* <Route path="/inspector/landingpage" element={<InspectorLandingPage />} /> */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
            <Route path="/reset-password/:token" element={<ResetPassword />} />
         
