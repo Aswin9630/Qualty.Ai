@@ -21,7 +21,6 @@ import { BASE_URL } from "../../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { removeUser } from "../../../redux/slice/userSlice";
-import Discount from "../../Discount";
 
 const navItems = [
   { label: "", icon: <Home size={25} />, path: "/" },
@@ -173,10 +172,6 @@ const CustomerLayout = () => {
 
           </div>
         </nav>
-
-        <div className="bg-white">
-          <Discount />
-        </div>
 
         <main className="px-2 bg-white min-h-screen">
           <Outlet />
