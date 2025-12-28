@@ -347,7 +347,6 @@ export default function CustomerEnquiryDetailPage() {
   const [payment, setPayment] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Helpers
   const getCurrencySymbol = (c) => (c === "USD" ? "$" : "₹");
   const formatDate = (d) => {
     if (!d) return "—";
@@ -379,6 +378,7 @@ export default function CustomerEnquiryDetailPage() {
           credentials: "include",
         });
         const data = await res.json();
+        console.log("Hisdata",data);
         if (data.success) {
           setEnquiry(data.enquiry || null);
           setBid(data.bid || null);
@@ -395,7 +395,6 @@ export default function CustomerEnquiryDetailPage() {
     fetchDetails();
   }, [id]);
 
-  // Derive currency and amounts safely
   const currency =
     payment?.currency ||
     bid?.currency ||
@@ -404,11 +403,10 @@ export default function CustomerEnquiryDetailPage() {
   const symbol = getCurrencySymbol(currency);
 
   const enquiryBudget = Number(enquiry?.inspectionBudget || 0);
-  const bidAmount = Number(bid?.customerViewAmount || 0) || enquiryBudget; // fallback to budget if bid missing
+  const bidAmount = Number(bid?.customerViewAmount || 0) || enquiryBudget; 
   const paidAmount = Number(payment?.amount || 0);
   const balanceAmount = Math.max(0, bidAmount - paidAmount);
 
-  // Dates (with solid fallbacks)
   const invoiceDate =
     payment?.updatedAt
       ? formatDateTime(payment.updatedAt)
@@ -456,7 +454,6 @@ export default function CustomerEnquiryDetailPage() {
   return (
     <div className="min-h-screen bg-white px-6 py-10 text-black">
       <div className="max-w-4xl mx-auto border border-black rounded-md p-8">
-        {/* Header */}
         <div className="flex justify-between items-start mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-wide">Qualty.ai</h1>
@@ -468,7 +465,6 @@ export default function CustomerEnquiryDetailPage() {
           </div>
         </div>
 
-        {/* Customer Information */}
         {enquiry && (
           <div className="mb-6">
             <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Customer Information</h2>
@@ -480,7 +476,6 @@ export default function CustomerEnquiryDetailPage() {
           </div>
         )}
 
-        {/* Inspection Details */}
         {enquiry && (
           <div className="mb-6">
             <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Inspection Details</h2>
@@ -493,11 +488,11 @@ export default function CustomerEnquiryDetailPage() {
               <p><strong>Certifications:</strong> {Array.isArray(enquiry.certifications) && enquiry.certifications.length ? enquiry.certifications.join(", ") : null}</p>
               <p><strong>Inspection Window:</strong> {formatDate(enquiry.dateFrom)} to {formatDate(enquiry.dateTo)}</p>
               <p><strong>Inspection Budget:</strong> {symbol}{formatAmount(enquiryBudget)}</p>
+              <p><strong>Requirements:</strong> {enquiry.otherRequirements || "—"}</p>
             </div>
           </div>
         )}
 
-        {/* Inspector */}
         {bid && (
           <div className="mb-6">
             <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Inspector</h2>
@@ -508,7 +503,6 @@ export default function CustomerEnquiryDetailPage() {
           </div>
         )}
 
-        {/* Payment Summary */}
         {payment && (
           <div className="mb-6">
             <h2 className="text-base font-semibold mb-2 border-b border-black pb-1">Payment Summary</h2>
@@ -522,7 +516,6 @@ export default function CustomerEnquiryDetailPage() {
           </div>
         )}
 
-        {/* Totals */}
         {(bid || payment || enquiryBudget) && (
           <div className="border-t border-black pt-4 text-right text-sm text-gray-900">
             <p><strong>Total Amount:</strong> {symbol}{formatAmount(bidAmount)}</p>

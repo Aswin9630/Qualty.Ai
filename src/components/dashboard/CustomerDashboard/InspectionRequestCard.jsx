@@ -19,6 +19,16 @@ export default function InspectionRequestCard({ request,onDeleted  }) {
   const navigate = useNavigate();
   const formatted = new Date(createdAt).toLocaleDateString("en-GB");
    const [showConfirm, setShowConfirm] = useState(false);
+   const [showFullRequirements, setShowFullRequirements] = useState(false);
+
+  const MAX_WORDS = 10;
+
+  const getTruncatedText = (text) => {
+  const words = text.split(" ");
+  if (words.length <= MAX_WORDS) return text;
+  return words.slice(0, MAX_WORDS).join(" ") + "...";
+};
+
 
   const priorityStyles = {
     High: "bg-red-100 text-red-700 border border-red-300",
@@ -26,7 +36,7 @@ export default function InspectionRequestCard({ request,onDeleted  }) {
     Low: "bg-green-100 text-green-700 border border-green-300",
   };
 
-    const handleDelete = async () => {
+  const handleDelete = async () => {
     try {
       const res = await fetch(`${BASE_URL}/customer/cancel-enquiry/${_id}`, {
         method: "PATCH",
@@ -81,6 +91,25 @@ export default function InspectionRequestCard({ request,onDeleted  }) {
         <p>
           <strong>Commodity:</strong> {commodity}
         </p>
+
+       {request.otherRequirements && (
+  <p className="text-sm text-gray-700">
+    <strong>Requirements:</strong>{" "}
+    {showFullRequirements
+      ? request.otherRequirements
+      : getTruncatedText(request.otherRequirements)} 
+
+    {request.otherRequirements.split(" ").length > MAX_WORDS && (
+      <button
+        onClick={() => setShowFullRequirements(!showFullRequirements)}
+        className="ml-2 text-blue-600 text-xs font-medium hover:underline cursor-pointer"
+      >
+        {showFullRequirements ? "Read less" : "Read more"}
+      </button>
+    )}
+  </p>
+)}
+
         <p>
           <strong>Date of Enquiry:</strong> {formatted}
         </p>
