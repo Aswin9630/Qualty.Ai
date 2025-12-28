@@ -194,7 +194,6 @@ export default function CustomerMyHistoryPage() {
         </section>
       </div>
 
-      {/* Animations */}
       <style jsx>{`
         .animate-fade-in {
           animation: fadeIn 0.8s ease-out forwards;

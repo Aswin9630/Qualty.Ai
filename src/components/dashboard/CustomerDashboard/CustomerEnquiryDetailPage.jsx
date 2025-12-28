@@ -378,7 +378,6 @@ export default function CustomerEnquiryDetailPage() {
           credentials: "include",
         });
         const data = await res.json();
-        console.log("Hisdata",data);
         if (data.success) {
           setEnquiry(data.enquiry || null);
           setBid(data.bid || null);
@@ -488,7 +487,7 @@ export default function CustomerEnquiryDetailPage() {
               <p><strong>Certifications:</strong> {Array.isArray(enquiry.certifications) && enquiry.certifications.length ? enquiry.certifications.join(", ") : null}</p>
               <p><strong>Inspection Window:</strong> {formatDate(enquiry.dateFrom)} to {formatDate(enquiry.dateTo)}</p>
               <p><strong>Inspection Budget:</strong> {symbol}{formatAmount(enquiryBudget)}</p>
-              <p><strong>Requirements:</strong> {enquiry.otherRequirements || "—"}</p>
+             {enquiry.otherRequirements && <p><strong>Requirements:</strong> {enquiry.otherRequirements || "—"}</p>}
             </div>
           </div>
         )}

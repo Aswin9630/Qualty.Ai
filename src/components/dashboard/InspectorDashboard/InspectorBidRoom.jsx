@@ -9,9 +9,17 @@ const InspectorBidRoom = () => {
   useFetchEnquiries();
   const dispatch = useDispatch();
   const enquiries = useSelector((state) => state.enquiry.raisedEnquiry);
+  console.log("enq",enquiries)
 
   const isArray = Array.isArray(enquiries);
   const [bidAmounts, setBidAmounts] = useState({});
+  const [expandedRequirements, setExpandedRequirements] = useState({});
+
+  const truncateText = (text, limit = 5) => {
+  if (!text) return "";
+  return text.length > limit ? text.slice(0, limit) + "..." : text;
+};
+
 
   const handleAmountChange = (id, value) => {
     setBidAmounts((prev) => ({ ...prev, [id]: value }));
@@ -117,7 +125,32 @@ const InspectorBidRoom = () => {
                 <p className="text-sm text-gray-600 mb-2">
                   <strong>Volume:</strong>{" "}
                   <span className="text-black">{enquiry.volume || "—"}</span>
-                </p>
+                </p> 
+
+                 {enquiry.otherRequirements && (
+  <p className="text-sm text-gray-600 mb-2">
+    <strong>Requirements:</strong>{" "}
+    <span className="text-black">
+      {expandedRequirements[enquiry._id]
+        ? enquiry.otherRequirements
+        : truncateText(enquiry.otherRequirements, 5)}
+    </span>
+
+    {enquiry.otherRequirements.length > 5 && (
+      <button
+        onClick={() =>
+          setExpandedRequirements((prev) => ({
+            ...prev,
+            [enquiry._id]: !prev[enquiry._id],
+          }))
+        }
+        className="ml-2 text-blue-600 text-xs font-medium hover:underline cursor-pointer"
+      >
+        {expandedRequirements[enquiry._id] ? "Read less" : "Read more"}
+      </button>
+    )}
+  </p>
+)}
 
                 <div className="mt-4 flex gap-2 font-normal text-sm">
                   <input

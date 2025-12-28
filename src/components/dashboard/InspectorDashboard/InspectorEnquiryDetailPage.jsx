@@ -18,6 +18,7 @@ export default function InspectorEnquiryDetailPage() {
 
         if (data.success) {
           const matchedBid = data.bids.find((b) => b.enquiry?._id === id);
+
           if (matchedBid) {
             setBid(matchedBid);
             setEnquiry(matchedBid.enquiry);
@@ -52,6 +53,7 @@ export default function InspectorEnquiryDetailPage() {
           <p><strong>Inspection Date:</strong> {new Date(enquiry.dateFrom).toLocaleDateString()} → {new Date(enquiry.dateTo).toLocaleDateString()}</p>
           <p><strong>Services:</strong> {enquiry.services?.join(", ") || "None"}</p>
           <p><strong>Certifications:</strong> {enquiry.certifications?.join(", ") || "None"}</p>
+          {enquiry.otherRequirements && <p><strong>Requirements:</strong> {enquiry.otherRequirements}</p>}
         </div>
 
         <div className="border-t border-gray-300 pt-4 text-sm text-gray-800">
