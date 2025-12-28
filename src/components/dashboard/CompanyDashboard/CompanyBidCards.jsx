@@ -8,6 +8,12 @@ export default function CompanyBidCard({ enquiry }) {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showFullRequirement, setShowFullRequirement] = useState(false);
+
+  const truncateRequirement = (text, limit = 5) => {
+  if (!text) return "";
+  return text.length > limit ? text.slice(0, limit) + "..." : text;
+};
 
   const {
     _id,
@@ -22,6 +28,7 @@ export default function CompanyBidCard({ enquiry }) {
     dateFrom,
     dateTo,
     contact,
+    otherRequirements
   } = enquiry;
 
   const handleBid = async () => {
@@ -53,14 +60,34 @@ export default function CompanyBidCard({ enquiry }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="space-y-1 text-sm text-gray-700 mb-4">
+        {contact?.name && <p><span className="font-medium text-gray-500">Customer:</span> <span className="text-black">{contact.name}</span></p>}
         <p><span className="font-medium text-gray-500">Commodity:</span> <span className="text-black">{commodity || category}</span></p>
         <p><span className="font-medium text-gray-500">Subcategory:</span> <span className="text-black">{subcategory || "—"}</span></p>
         <p><span className="font-medium text-gray-500">Location:</span> <span className="text-black">{location || "—"}</span></p>
+{enquiry.otherRequirements && (
+  <p>
+    <span className="font-medium text-gray-500">Requirement:</span>{" "}
+    <span className="text-black">
+      {showFullRequirement
+        ? otherRequirements
+        : truncateRequirement(otherRequirements, 5)}
+    </span>
+
+    {otherRequirements.length > 5 && (
+      <button
+        onClick={() => setShowFullRequirement((prev) => !prev)}
+        className="ml-2 text-blue-600 text-xs font-medium hover:underline cursor-pointer"
+      >
+        {showFullRequirement ? "Read less" : "Read more"}
+      </button>
+    )}
+  </p>
+)}
+
         <p><span className="font-medium text-gray-500">Urgency:</span> <span className={`font-semibold ${urgency === "High" ? "text-red-500" : "text-yellow-500"}`}>{urgency || "—"}</span></p>
         <p><span className="font-medium text-gray-500">Budget:</span> <span className="text-green-600 font-semibold">{currency==="INR"?"₹":"$"}{inspectionBudget}/-</span></p>
         <p><span className="font-medium text-gray-500">Volume:</span> <span className="text-black">{volume || "—"}</span></p>
         <p><span className="font-medium text-gray-500">Date:</span> <span className="text-black">{dateFrom ? new Date(dateFrom).toLocaleDateString() : "—"} → {dateTo ? new Date(dateTo).toLocaleDateString() : "—"}</span></p>
-        {contact?.name && <p><span className="font-medium text-gray-500">Customer:</span> <span className="text-black">{contact.name}</span></p>}
       </div>
 
       <div className="flex gap-2">

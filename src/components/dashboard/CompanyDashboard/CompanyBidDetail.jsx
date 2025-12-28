@@ -6,6 +6,13 @@ import Shimmer from "../../../components/ShimmerUI";
 export default function CompanyBidDetail() {
   const { bidId } = useParams();
   const [bid, setBid] = useState(null);
+  const [showFullRequirement, setShowFullRequirement] = useState(false);
+
+  const truncateRequirement = (text, limit = 5) => {
+  if (!text) return "";
+  return text.length > limit ? text.slice(0, limit) + "..." : text;
+};
+
 
   useEffect(() => {
     (async () => {
@@ -50,6 +57,25 @@ export default function CompanyBidDetail() {
           <p><strong>Services:</strong> {(enquiry?.services || []).join(", ") || "—"}</p>
           <p><strong>Certifications:</strong> {(enquiry?.certifications || []).join(", ") || "—"}</p>
           <p><strong>Selection Summary:</strong> {enquiry?.selectionSummary || "—"}</p>
+         <p>
+  <strong>Requirements:</strong>{" "}
+  <span>
+    {showFullRequirement
+      ? enquiry?.otherRequirements || "—"
+      : truncateRequirement(enquiry?.otherRequirements, 5)}
+  </span>
+
+  {enquiry?.otherRequirements &&
+    enquiry.otherRequirements.length > 5 && (
+      <button
+        onClick={() => setShowFullRequirement((prev) => !prev)}
+        className="ml-2 text-blue-600 text-xs font-medium hover:underline cursor-pointer"
+      >
+        {showFullRequirement ? "Read less" : "Read more"}
+      </button>
+    )}
+</p>
+
         </div>
 
         <hr className="my-4 border-gray-200" />
