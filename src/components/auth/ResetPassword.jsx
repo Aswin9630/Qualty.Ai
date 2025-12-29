@@ -1,68 +1,6 @@
-// import React, { useState } from "react";
-// import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-// import { toast } from "react-toastify";
-// import { BASE_URL } from "../../utils/constants";
-
-// export default function ResetPassword() {
-//   const { token } = useParams();
-//   const [searchParams] = useSearchParams();
-//   const navigate = useNavigate();
-//   const role = searchParams.get("role") || "";
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     if (!password) {
-//       toast.error("Enter a new password");
-//       return;
-//     }
-//     setLoading(true);
-//     try {
-//       const res = await fetch(`${BASE_URL}/auth/reset-password/${token}`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ role, password }),
-//       });
-//       const data = await res.json();
-//       if (res.ok && data.success) {
-//         toast.success("Password reset successful. Please sign in.");
-//         navigate("/login");
-//       } else {
-//         toast.error(data.message || "Failed to reset password");
-//       }
-//     } catch (err) {
-//       toast.error("Network error. Try again later.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-white p-6">
-//       <form onSubmit={handleSubmit} className="max-w-md w-full p-8 border rounded-lg shadow space-y-4">
-//         <h2 className="text-xl font-bold">Reset Password</h2>
-//         <p className="text-sm text-gray-600">Role: <strong>{role || "not specified"}</strong></p>
-//         <input
-//           type="password"
-//           placeholder="Enter new password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//           required
-//           className="w-full border p-2 rounded"
-//         />
-//         <button type="submit" disabled={loading} className="cursor-pointer w-full bg-black text-white py-2 rounded">
-//           {loading ? "Resetting..." : "Reset Password"}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
-
-
-
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle, Check, X } from "lucide-react";
+import { BASE_URL } from "../../utils/constants";
 
 export default function ResetPassword({ token = "sample-token", role = "customer", onSuccess = () => {} }) {
   const [password, setPassword] = useState("");
@@ -98,7 +36,7 @@ export default function ResetPassword({ token = "sample-token", role = "customer
     setLoading(true);
     
     try {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL || "http://localhost:5000"}/auth/reset-password/${token}`, {
+      const res = await fetch(`${BASE_URL}/auth/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role, password }),
