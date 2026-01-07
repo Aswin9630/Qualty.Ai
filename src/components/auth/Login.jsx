@@ -389,7 +389,7 @@ const Login = () => {
                       className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
                     >
                       <option value="">-- Select Role --</option>
-                      <option value="customer">Customer</option>
+                      <option value="customer">Importer/Exporter</option>
                       <option value="inspector">Inspector</option>
                       <option value="inspection_company">Inspection Company</option>
                     </select>

@@ -136,9 +136,11 @@ import PaymentsQuickServiceList from "./components/QuickServices/PaymentsQuickSe
 import CompanyBidDetail from "./components/dashboard/CompanyDashboard/CompanyBidDetail";
 import CustomersList from "./components/dashboard/CompanyDashboard/CustomersList";
 import WebinarRegistration from "./components/Webinar/WebinarRegistration";
-// import InspectorLandingPage from "./components/InspectorLandingPage/InspectorLandingPage";
+import InspectorLandingPage from "./components/InspectorLandingPage/InspectorLandingPage";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import HomePage from "./components/NewHomePage/app/HomePage";
+import DemoOnboarding from "./components/NewHomePage/DemoVideo/DemoOnboarding";
 
 function App() {
   return (
@@ -146,18 +148,19 @@ function App() {
       <ToastContainer position="top-right" autoClose={2000} />
       <Suspense fallback={<ShimmerUI />}>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/customer/landingpage" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/demo" element={<DemoOnboarding />} />
           <Route path="/webinar/register" element={<WebinarRegistration />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          {/* <Route path="/inspector/landingpage" element={<InspectorLandingPage />} /> */}
+          <Route path="/inspector/landingpage" element={<InspectorLandingPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
            <Route path="/reset-password/:token" element={<ResetPassword />} />
-        
           <Route
             path="/how-safe-is-your-data"
             element={<HowSafeIsYourData />}
