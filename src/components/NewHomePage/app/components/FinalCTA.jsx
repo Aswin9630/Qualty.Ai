@@ -32,7 +32,7 @@ export function FinalCTA() {
           </div>
 
           <div className="mt-12 pt-12 border-t border-black/5">
-            <p className="text-sm text-black/40">
+            <p className="text-lg text-black/40">
               100% Free to join • No credit card required • Start in minutes
             </p>
           </div>

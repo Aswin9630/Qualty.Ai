@@ -1,7 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { Button } from "./UI/Button";
 import { useState } from "react";
-import logo from "../../assets/QualtyAILogo.png";
+// import logo from "../../assets/QualtyAILogo.png";
 import {Link} from "react-router-dom"
 
 export function Navbar() {
@@ -13,7 +13,8 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="Cargofirst Logo" className="h-10 w-12" />
+            {/* <img src={logo} alt="Cargofirst Logo" className="h-10 w-12" /> */}
+            <a href="/" className="text-xl font-bold font-sans">Qualty.Ai</a>
           </div>
 
           <div className="hidden md:flex flex-1 justify-center items-center gap-8">

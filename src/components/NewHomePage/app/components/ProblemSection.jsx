@@ -33,7 +33,7 @@ export function ProblemSection() {
     <section className="py-24 lg:py-32 bg-black/[0.02] border-t border-black/5">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="max-w-[800px] mx-auto text-center mb-20">
-          <div className="text-sm text-black/40 mb-4 tracking-wide uppercase">
+          <div className="text-lg md:text-2xl text-black/40 mb-4 tracking-wide uppercase">
             Industry Challenges
           </div>
           <h2 className="text-4xl lg:text-5xl tracking-tight mb-6">
@@ -69,7 +69,7 @@ export function ProblemSection() {
             <div className="text-sm text-white/60 mb-4 tracking-wide uppercase">
               Business Impact
             </div>
-            <div className="text-3xl mb-2 tracking-tight font-bold">$42T</div>
+            <div className="text-3xl mb-2 tracking-tight font-bold">42 trillion $</div>
             <p className="text-white/70 leading-relaxed">
               Annual losses in global trade due to inspection inefficiencies and
               quality issues

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setRedirectAfterLogin } from "../redux/slice/userSlice";
 import useFetchUser from "../hooks/useFetchUser";
-import QualtyLogo from "../assets/QualtyLogo.png";
+// import QualtyLogo from "../assets/QualtyLogo.png";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,11 +51,12 @@ export default function Header() {
             className="flex items-center gap-2 cursor-pointer transition-transform hover:scale-105"
             onClick={() => navigate("/")}
           >
-            <img
+            {/* <img
               src={QualtyLogo}
               alt="Qualty.AI Logo"
               className="h-10 w-10 sm:h-12 sm:w-12"
-            />
+            /> */}
+            <a href="/" className="text-xl font-bold font-sans">Qualty.Ai</a>
           </div>
 
           <ul className="hidden md:flex gap-6 items-center text-sm sm:text-xl font-medium bg-white rounded-full px-6 py-3 border border-gray-100">

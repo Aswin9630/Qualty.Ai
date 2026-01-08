@@ -16,7 +16,7 @@ export function Hero() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative">
         <div className="max-w-[900px] mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-white mb-8">
-            <div className="w-2 h-2 bg-black rounded-full"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
             <span className="text-sm">100% Free Platform</span>
           </div>
 

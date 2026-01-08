@@ -1,4 +1,4 @@
-import { Star, Quote } from "lucide-react";
+import { Star, Smile, Headphones, Gift } from "lucide-react";
 import company1 from "../../../../assets/company1.png"
 import company6 from "../../../../assets/company6.png"
 import company3 from "../../../../assets/company3.webp"
@@ -108,26 +108,45 @@ export function TrustedBy() {
           </div>
         </div>
 
-  
 
-        <div className="grid sm:grid-cols-4 gap-8 mt-20 pt-20 border-t border-black/5">
-          <div className="text-center">
-            <div className="text-4xl tracking-tight mb-2">4.9/5</div>
-            <div className="text-black/60">Average Rating</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl tracking-tight mb-2">98%</div>
-            <div className="text-black/60">Customer Satisfaction</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl tracking-tight mb-2">24/7</div>
-            <div className="text-black/60">Support Available</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl tracking-tight mb-2">100%</div>
-            <div className="text-black/60">Free Platform</div>
-          </div>
-        </div>
+<div className="grid sm:grid-cols-4 gap-8 mt-20 pt-20 border-t border-black/5">
+  <div className="text-center">
+    <div className="flex justify-center gap-1 mb-3">
+      {[...Array(4)].map((_, i) => (
+        <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
+      ))}
+      <Star size={18} className="fill-yellow-400/50 text-yellow-400" />
+    </div>
+    <div className="text-4xl tracking-tight mb-2">4.9/5</div>
+    <div className="text-black/60">Average Rating</div>
+  </div>
+
+  <div className="text-center">
+    <div className="flex justify-center mb-3">
+      <Smile size={28} className="text-green-500" />
+    </div>
+    <div className="text-4xl tracking-tight mb-2">98%</div>
+    <div className="text-black/60">Customer Satisfaction</div>
+  </div>
+
+  <div className="text-center">
+    <div className="flex justify-center mb-3">
+      <Headphones size={28} className="text-blue-500" />
+    </div>
+    <div className="text-4xl tracking-tight mb-2">24/7</div>
+    <div className="text-black/60">Support Available</div>
+  </div>
+
+  <div className="text-center">
+    <div className="flex justify-center mb-3">
+      <Gift size={28} className="text-purple-500" />
+    </div>
+    <div className="text-4xl tracking-tight mb-2">100%</div>
+    <div className="text-black/60">Free Platform</div>
+  </div>
+</div>
+
+
       </div>
     </section>
   );
