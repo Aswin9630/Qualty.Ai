@@ -378,7 +378,7 @@ export default function DemoOnboarding() {
   return (
     <div className="relative w-full max-w-5xl mx-auto mt-4 mb-10">
       <div>
-       <Link to="/home"> <button className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg m-10">Back to home</button></Link>
+       <Link to="/"> <button className="bg-black text-white px-4 py-2 cursor-pointer rounded-lg m-10">Back to home</button></Link>
       </div>
       {showPreLogin && <PreLoginModal onSubmit={handlePreLoginSubmit} />}
       <div
