@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import NewHeader from "../NewHeader";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const Signup = () => {
   <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4">
     
     <div className="max-w-2xl w-full space-y-8 py-10">
-      {/* Header */}
       <div>
         <h2 className="mt-6 text-center text-3xl font-semibold text-black">
           Choose Your Role
@@ -36,7 +34,7 @@ const Signup = () => {
           className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
         >
           <div className="text-center flex-1 flex flex-col">
-            <h3 className="text-lg font-semibold text-black mb-2">Customer</h3>
+            <h3 className="text-lg font-semibold text-black mb-2">Importer/Exporter</h3>
             <p className="text-sm text-gray-700 mb-4 flex-1">
               Request and manage inspections
             </p>
@@ -44,12 +42,11 @@ const Signup = () => {
               onClick={(e) => handleButtonClick("/signup/customer", e)}
               className="cursor-pointer w-full py-2 px-4 text-white rounded-md bg-black hover:bg-grey-900 transition-colors mt-auto"
             >
-              Sign up as Customer
+              Sign up as Importer/Exporter
             </button>
           </div>
         </div>
 
-        {/* Inspector Card */}
         <div
           onClick={(e) => handleCardClick("/signup/inspector", e)}
           className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
@@ -68,7 +65,6 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* Company Card (optional) */}
         <div
           onClick={(e) => handleCardClick("/signup/company", e)}
           className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
@@ -88,7 +84,6 @@ const Signup = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="text-center">
         <span className="text-sm text-gray-600">
           Already have an account?{" "}
