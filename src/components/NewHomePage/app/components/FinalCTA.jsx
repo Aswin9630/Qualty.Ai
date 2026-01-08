@@ -18,15 +18,15 @@ export function FinalCTA() {
           </p>
             
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/"><button className="cursor-pointer bg-black text-white px-8 py-4 rounded-lg hover:bg-black/90 transition-all inline-flex items-center gap-2 group">
+            <Link to="/customer/landingpage"><button className="cursor-pointer bg-black text-white px-8 py-4 rounded-lg hover:bg-black/90 transition-all inline-flex items-center gap-2 group">
               Join as Importer/Exporter
               <ArrowRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
             </button></Link>
-           <Link to="/login"><button className="cursor-pointer bg-black text-white px-8 py-4 rounded-lg hover:bg-black/90 transition-all inline-flex items-center gap-2 group">
+           <Link to="/inspector/landingpage"><button className="cursor-pointer bg-black text-white px-8 py-4 rounded-lg hover:bg-black/90 transition-all inline-flex items-center gap-2 group">
               Join as Inspector
               <ArrowRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
             </button></Link> 
-            <Link to="/login"><button className="cursor-pointer border border-black/10 text-black px-8 py-4 rounded-lg hover:border-black/20 hover:bg-black/[0.02] transition-all">
+            <Link to="/inspector/landingpage"><button className="cursor-pointer border border-black/10 text-black px-8 py-4 rounded-lg hover:border-black/20 hover:bg-black/[0.02] transition-all">
               Join as Inspection Company
             </button></Link> 
           </div>

@@ -8,7 +8,7 @@ const journey = [
     { date: "Feb 2024", emoji: "🌍", text: "Market expansion to 17 countries" },
     { date: "May 2024", emoji: "🏆", text: "Targeting top 5 agri commodities and solving for quality" },
     { date: "Feb 2025", emoji: "🌍", text: "Market expansion to 30+ countries" },
-    { date: "May 2025", emoji: "🎉", text: "Launch of Quality.ai – marketplace for global quality inspection" },
+    { date: "May 2025", emoji: "🎉", text: "Launch of Qualty.ai – marketplace for global quality inspection" },
     { date: "Dec 2025", emoji: "💰", text: "Offered quality inspection for commodities worth over $250M" },
 ];
 
