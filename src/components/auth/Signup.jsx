@@ -46,7 +46,6 @@ const Signup = () => {
             </button>
           </div>
         </div>
-
         <div
           onClick={(e) => handleCardClick("/signup/inspector", e)}
           className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
@@ -64,7 +63,6 @@ const Signup = () => {
             </button>
           </div>
         </div>
-
         <div
           onClick={(e) => handleCardClick("/signup/company", e)}
           className="cursor-pointer bg-white p-6 rounded-lg border-2 border-gray-300 hover:border-black transition-all duration-200 hover:shadow-lg flex flex-col h-full"
