@@ -10,7 +10,7 @@ export function Header() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0">
-            <a href="/" className="text-xl font-bold font-sans">Qualty.Ai</a>
+            <a href="/" className="text-xl font-bold font-sans">Qualty.AI</a>
           </div>
 
           <nav className="hidden lg:flex items-center gap-10">
