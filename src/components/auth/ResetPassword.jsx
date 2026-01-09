@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle, Check, X } from "lucide-react";
 import { BASE_URL } from "../../utils/constants";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
-export default function ResetPassword({ token = "sample-token", role = "customer", onSuccess = () => {} }) {
+
+export default function ResetPassword() {
+  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+  const role = searchParams.get("role");
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,6 +29,11 @@ export default function ResetPassword({ token = "sample-token", role = "customer
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!token || !role) {
+      setError("Invalid or broken reset link");
+      return;
+    }
     
     if (!password) {
       setError("Enter a new password");
@@ -46,7 +58,7 @@ export default function ResetPassword({ token = "sample-token", role = "customer
       if (res.ok && data.success) {
         setSuccess(true);
         setTimeout(() => {
-          onSuccess();
+          navigate("/login");
         }, 2000);
       } else {
         setError(data.message || "Failed to reset password");
