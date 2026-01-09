@@ -69,7 +69,7 @@ export function ProblemSection() {
             <div className="text-sm text-white/60 mb-4 tracking-wide uppercase">
               Business Impact
             </div>
-            <div className="text-3xl mb-2 tracking-tight font-bold">42 trillion $</div>
+            <div className="text-3xl mb-2 tracking-tight font-bold">370 billion $</div>
             <p className="text-white/70 leading-relaxed">
               Annual losses in global trade due to inspection inefficiencies and
               quality issues
