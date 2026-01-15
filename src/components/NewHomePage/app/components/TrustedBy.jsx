@@ -5,7 +5,7 @@ import company3 from "../../../../assets/company3.webp"
 import company4 from "../../../../assets/company4.webp"
 import company5 from "../../../../assets/company5.png"
 import company7 from "../../../../assets/company7.jpg"
-import company8 from "../../../../assets/company8.jpg"
+import company8 from "../../../../assets/company8.png"
 import company9 from "../../../../assets/company9.jpg"
 
 export function TrustedBy() {
