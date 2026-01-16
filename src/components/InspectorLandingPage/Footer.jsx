@@ -9,7 +9,7 @@ export function Footer() {
 
           <div>
             <div className="flex items-center mb-4">
-              <img src={logo} alt="Qualty.ai Logo" className="h-8" />
+              <img src={logo} alt="Qualty ai Logo" className="h-8" />
             </div>
             <p className="text-gray-400 text-sm mb-4">
               Transform your quality inspections across global supply chains with AI-powered insights.

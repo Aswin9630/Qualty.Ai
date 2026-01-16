@@ -16,7 +16,7 @@ export default function HowSafeIsYourData() {
           <section>
             <h2 className="text-lg font-semibold mb-2">Encryption in transit and at rest</h2>
             <p className="text-sm text-gray-700 leading-relaxed">
-              All network traffic to our services is protected using strong TLS (HTTPS) to prevent interception. Sensitive data stored by Qualty.ai is encrypted at rest using industry-standard encryption algorithms. Keys are stored and rotated using a dedicated secrets management solution.
+              All network traffic to our services is protected using strong TLS (HTTPS) to prevent interception. Sensitive data stored by Qualty ai is encrypted at rest using industry-standard encryption algorithms. Keys are stored and rotated using a dedicated secrets management solution.
             </p>
           </section>
 
@@ -37,7 +37,7 @@ export default function HowSafeIsYourData() {
           <section>
             <h2 className="text-lg font-semibold mb-2">Payment safety</h2>
             <p className="text-sm text-gray-700 leading-relaxed">
-              We partner with PCI-compliant payment processors for all card-based transactions. Qualty.ai does not store raw card numbers. We store the minimum tokenized or reference data required to support refunds or order lookups.
+              We partner with PCI-compliant payment processors for all card-based transactions. Qualty ai does not store raw card numbers. We store the minimum tokenized or reference data required to support refunds or order lookups.
             </p>
           </section>
 

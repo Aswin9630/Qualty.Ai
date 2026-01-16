@@ -180,11 +180,11 @@ const Footer = () => {
             <div style={footerStyles.logoIcon}>
               <img
                 src={QualtyAILogo}
-                alt="Qualty.AI Logo"
+                alt="Qualty AI Logo"
                 style={footerStyles.logoImage}
               />
             </div>
-            <span style={footerStyles.logoText}>Qualty.AI</span>
+            <span style={footerStyles.logoText}>Qualty AI</span>
           </div>
         </div>
 

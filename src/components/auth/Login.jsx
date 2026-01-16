@@ -351,7 +351,7 @@ const Login = () => {
     <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="flex flex-col lg:flex-row items-center justify-center px-4 py-35 sm:py-25 lg:py-25 gap-5 w-full max-w-7xl mb-5">
         <div className="w-full lg:w-1/2 px-4 sm:px-6 lg:px-8 space-y-6 mb-8 lg:mb-0">
-          <h1 className="text-2xl sm:text-3xl font-bold text-black">Welcome to Qualty.AI</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-black">Welcome to Qualty AI</h1>
           <p className="text-gray-700 text-sm sm:text-base leading-relaxed max-w-md">
             “We simplify global inspections by connecting traders with certified professionals. Our platform ensures transparency, speed, and trust — every step of the way.”
           </p>

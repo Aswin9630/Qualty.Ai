@@ -483,7 +483,7 @@ const Hero = () => {
           </h1>
 
           <p style={heroStyles.description}>
-            Global Quality Inspections solved at one platform. Qualty.AI is a marketplace for global quality inspections bringing together global traders and inspectors worldwide.
+            Global Quality Inspections solved at one platform. Qualty AI is a marketplace for global quality inspections bringing together global traders and inspectors worldwide.
           </p>
 
           <ul style={heroStyles.featureList}>

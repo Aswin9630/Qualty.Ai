@@ -31,7 +31,7 @@ export function Hero() {
           </p>
 
           <p className="text-base lg:text-lg text-black/50 mb-12 max-w-[700px] mx-auto leading-relaxed">
-            Qualty.AI connects global traders with certified inspectors. Post your
+            Qualty AI connects global traders with certified inspectors. Post your
             inspection needs, compare bids, and collaborate in real time — all in
             one seamless platform.
           </p>

@@ -10,7 +10,7 @@ export function WhyUs() {
             Our Mission
           </div>
           <h2 className="text-4xl lg:text-5xl tracking-tight mb-6">
-            Why We Built Qualty.AI
+            Why We Built Qualty AI
           </h2>
           <p className="text-lg text-black/60 leading-relaxed">
            Global trade has a critical need for trust, transparency, and efficiency
@@ -55,7 +55,7 @@ export function WhyUs() {
 
           <div className="space-y-6">
             <div className="inline-flex px-4 py-2 rounded-full bg-black text-white text-sm">
-              With Qualty.AI
+              With Qualty AI
             </div>
 
             <div className="space-y-4">

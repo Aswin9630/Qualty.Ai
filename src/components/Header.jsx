@@ -19,7 +19,7 @@ export default function Header() {
   const navItems = [
     { label: "Why us", targetId: "why-us" },
     { label: "Services", targetId: "services" },
-    { label: "Qualty.AI", targetId: "hero" },
+    { label: "Qualty AI", targetId: "hero" },
     { label: "How it works", targetId: "how-it-works" },
   ];
 
@@ -55,7 +55,7 @@ export default function Header() {
               alt="Qualty.AI Logo"
               className="h-10 w-10 sm:h-12 sm:w-12"
             /> */}
-            <a href="/customer/landingpage" className="text-xl font-bold font-sans">Qualty.AI</a>
+            <a href="/customer/landingpage" className="text-xl font-bold font-sans">Qualty AI</a>
           </div>
 
           <ul className="hidden md:flex gap-6 items-center text-sm sm:text-xl font-medium bg-white rounded-full px-6 py-3 border border-gray-100">
@@ -70,7 +70,7 @@ export default function Header() {
                   }
                 }}
                 className={`transition-colors ${
-                  label === "Qualty.AI"
+                  label === "Qualty AI"
                     ? "text-black font-bold text-2xl"
                     : "text-gray-800 hover:text-black"
                 } cursor-pointer`}
@@ -129,7 +129,7 @@ export default function Header() {
                   }
                 }}
                 className={`transition-colors ${
-                  label === "Qualty.AI"
+                  label === "Qualty AI"
                     ? "text-black font-bold text-2xl"
                     : "text-gray-800 hover:text-black"
                 } cursor-pointer`}

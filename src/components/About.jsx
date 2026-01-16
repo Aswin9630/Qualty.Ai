@@ -61,7 +61,7 @@ export default function About() {
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="w-full md:w-1/2">
                 <p className="text-gray-300 max-w-3xl mx-auto mb-6 leading-relaxed">
-                  Qualty.AI is a revolutionary B2B marketplace connecting global
+                  Qualty AI is a revolutionary B2B marketplace connecting global
                   traders with certified inspection firms and freelancers. We
                   eliminate the hassle of traditional communication methods by
                   providing a centralized platform where you can create inspection
@@ -118,7 +118,7 @@ export default function About() {
           {/* Value Proposition */}
           <div className="   p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.1)] backdrop-blur-md text-center transition-all duration-300 ">
             <h3 className="text-xl sm:text-2xl md:text-3xl mb-4">
-              What You Get With Qualty.AI
+              What You Get With Qualty AI
             </h3>
             <p className="text-gray-300 max-w-3xl mx-auto text-xs sm:text-sm leading-relaxed">
               Our platform provides comprehensive solutions for all your quality

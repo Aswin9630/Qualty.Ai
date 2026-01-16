@@ -105,10 +105,10 @@
 import { FaLinkedin, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { SiSubstack } from "react-icons/si";
 import { Link } from "react-router-dom";
-import IREF from "../assets/IREF.avif";
-import ISO22000 from "../assets/ISO_22000.png";
-import ISO27001 from "../assets/ISO_27001.png";
-
+// import IREF from "../assets/IREF.avif";
+// import ISO22000 from "../assets/ISO_22000.png";
+// import ISO27001 from "../assets/ISO_27001.png";
+ 
 export default function NewFooter() {
   return (
     <footer className="bg-white text-black py-10 px-6 sm:px-12 lg:px-20 text-xs sm:text-sm">

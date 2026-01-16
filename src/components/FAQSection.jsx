@@ -3,9 +3,9 @@ import { Plus, Minus } from "lucide-react";
 
 const faqs = [
   {
-    title: "What is Qualty.AI?",
+    title: "What is Qualty AI?",
     description:
-      "Qualty.AI is a global inspection marketplace connecting traders with certified inspectors worldwide.",
+      "Qualty AI is a global inspection marketplace connecting traders with certified inspectors worldwide.",
   },
   {
     title: "How do I raise an inspection request?",

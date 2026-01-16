@@ -31,7 +31,7 @@ export function WhatIsQualty() {
             Platform Overview
           </div>
           <h2 className="text-4xl lg:text-5xl tracking-tight mb-6">
-            Qualty.AI — Global Inspection Marketplace
+            Qualty AI — Global Inspection Marketplace
           </h2>
           <p className="text-lg text-black/60 leading-relaxed">
             A centralized platform that revolutionizes quality inspections in

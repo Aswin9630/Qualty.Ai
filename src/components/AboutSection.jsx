@@ -20,10 +20,10 @@ export default function AboutSection() {
             <div className="space-y-6 max-w-xl">
               <div className="text-left p-6 sm:p-8 shadow-[inset_0_0_0.5px_rgba(255,255,255,0.05)] backdrop-blur-md rounded-lg transition hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]">
                 <h2 className="text-2xl sm:text-3xl font-semibold text-black ">
-                  <span className="font-bold"  style={{ backgroundImage: "linear-gradient(90deg, #ff7a18 0%, #af00ff 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>Qualty.AI</span> — Global Inspection Marketplace
+                  <span className="font-bold"  style={{ backgroundImage: "linear-gradient(90deg, #ff7a18 0%, #af00ff 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>Qualty AI</span> — Global Inspection Marketplace
                 </h2>
                 <p className="text-black font-semibold mt-4 leading-relaxed text-sm sm:text-base">
-                  Qualty.AI connects global traders with certified inspectors. Post your inspection needs, compare bids, and collaborate in real-time — all in one seamless platform.
+                  Qualty AI connects global traders with certified inspectors. Post your inspection needs, compare bids, and collaborate in real-time — all in one seamless platform.
                 </p>
               </div>
             </div>
