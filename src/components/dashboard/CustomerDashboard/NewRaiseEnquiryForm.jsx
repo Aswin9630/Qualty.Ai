@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
+import React, { useState, useRef, useEffect, Fragment, useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addEnquiries } from "../../../redux/slice/enquirySlice";
+
+import countryList from "react-select-country-list";
 
 import {
   CATEGORY_OPTIONS,
@@ -71,6 +73,8 @@ export default function NewRaiseEnquiryFormWithMap() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   const country = watch("country");
   const location = watch("location");
@@ -256,7 +260,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
   const preventInvalidNumberKeys = (e) => {
     if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
   };
-
+ 
   const handleNumberBlur = (name, value) => {
     if (value === "" || value === undefined || value === null) {
       setValue(name, "");
@@ -323,9 +327,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
     const chemicalInspectionParameters = inspectionParams.chemical;
 
     const submissionData = {
-      location: data.location,
-      locationLat: data.locationLat,
-      locationLng: data.locationLng,
+      location: data.location.trim(),
       country: data.country,
       dateFrom: data.dateFrom,
       dateTo: data.dateTo,
@@ -357,6 +359,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
     }); 
 
     const result = await response.json();
+    console.log("raise",result)
     setSubmitting(false);
 
     if (!result.success) {
@@ -367,8 +370,6 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
       toast.success(result.message || "Enquiry submitted successfully");
 
       resetField("location");
-      resetField("locationLat");
-      resetField("locationLng");
       resetField("country");
       resetField("dateFrom");
       resetField("dateTo");
@@ -417,7 +418,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
         <div>
           <h3 className="text-lg font-semibold mb-2">Inspection Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {isLoaded ? (
+            {/* {isLoaded ? (
               <Fragment>
                 <Autocomplete
                   onLoad={(aut) => setCountryAuto(aut)}
@@ -463,7 +464,59 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
                 <input placeholder="Country" className={INPUT_CLASS} {...register("country")} />
                 <input placeholder="Location" className={INPUT_CLASS} {...register("location")} />
               </>
-            )}
+            )} */}
+
+
+              <Controller
+  name="country"
+  control={control}
+   rules={{ required: "Country is required" }}
+  render={({ field }) => {
+    const selectedOption = countryOptions.find((c) => c.label === field.value) || null;
+    return (
+      <Select
+        options={countryOptions}
+        value={selectedOption}
+        onChange={(opt) => {
+          const label = opt ? opt.label : "";
+          const code = opt ? opt.value : "";
+          field.onChange(label);
+          setSelectedCountryCode(code);
+          resetField("locationLat");
+          resetField("locationLng");
+          setMarkerPos(null);
+        }}
+        placeholder="Select country"
+        isClearable
+        isSearchable
+        styles={reactSelectStyles}
+      />
+    );
+  }}
+/>
+{errors.country && (
+  <p className="text-red-500 text-sm mt-1">
+    {errors.country.message}
+  </p>
+)}
+
+
+<textarea
+  placeholder="Address of Inspection"
+  {...register("location",{
+    required: "Address is required",
+    minLength: { value: 10, message: "Address too short" },
+  })} 
+  rows={3}
+  className={`${INPUT_CLASS} w-full`}
+></textarea>
+
+{errors.location && (
+  <p className="text-red-500 text-sm mt-1">
+    {errors.location.message}
+  </p>
+)}
+
 
             <Controller
               name="dateFrom"
@@ -496,7 +549,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
           </div>
         </div>
 
-        {isMapOpen && isLoaded && (
+        {/* {isMapOpen && isLoaded && (
           <div className="border rounded p-3 bg-gray-50">
             <div className="flex justify-between items-center mb-2">
               <div className="text-sm font-medium">Pin location on map</div>
@@ -526,7 +579,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
               <div className="mt-1"><strong>Lat:</strong> {watch("locationLat") || "—"} <strong>Lng:</strong> {watch("locationLng") || "—"}</div>
             </div>
           </div>
-        )}
+        )} */}
 
         <div>
           <h3 className="text-lg font-semibold mb-2">Commodity Specification</h3>
@@ -562,7 +615,7 @@ const getCurrencySymbol = () => (countryLooksLikeIndia(watch("country")) ? "₹"
       />
     </div> */}
 
-
+ 
     <div className="col-span-1 md:col-span-2">
   <label className="block text-sm font-medium text-gray-700 mb-1">Your commodity requirements (optional)</label>
   <textarea
