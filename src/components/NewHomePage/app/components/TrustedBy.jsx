@@ -7,6 +7,12 @@ import company5 from "../../../../assets/company5.png"
 import company7 from "../../../../assets/company7.jpg"
 import company8 from "../../../../assets/company8.png"
 import company9 from "../../../../assets/company9.jpg"
+import company10 from "../../../../assets/company10.png"
+import company11 from "../../../../assets/company11.png" 
+import company12 from "../../../../assets/company12.png"
+import company13 from "../../../../assets/company13.jpg"
+import company14 from "../../../../assets/company14.png"
+import company15 from "../../../../assets/company15.jpg"
 
 export function TrustedBy() {
   const companies = [
@@ -41,6 +47,30 @@ export function TrustedBy() {
     {
       name: "VSIX LABS",
       logo: company9
+    },
+    {
+      name: "QIMA",
+      logo: company10
+    },
+    {
+      name: "TESTEX",
+      logo: company11
+    },
+    {
+      name: "TETRA INSPECTION",
+      logo: company12
+    },
+    {
+      name: "TUVNORD",
+      logo: company13
+    },
+    {
+      name: "EUROFINS",
+      logo: company14
+    },
+    {
+      name: "AQI SERVICE",
+      logo: company15
     },
   ];
 
