@@ -13,6 +13,7 @@ import company12 from "../../../../assets/company12.png"
 import company13 from "../../../../assets/company13.jpg"
 import company14 from "../../../../assets/company14.png"
 import company15 from "../../../../assets/company15.jpg"
+import company16 from "../../../../assets/company16.png"
 
 export function TrustedBy() {
   const companies = [
@@ -71,6 +72,10 @@ export function TrustedBy() {
     {
       name: "AQI SERVICE",
       logo: company15
+    },
+    {
+      name: "INSPLUS",
+      logo: company16
     },
   ];
 
