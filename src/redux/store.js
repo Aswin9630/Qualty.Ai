@@ -13,6 +13,7 @@ import cartReducer from "./slice/cartSlice"
 import companyEnquiryReducer from "./slice/companySlice/companyEnquirySlice"
 import companyAnalysisReducer  from "./slice/companySlice/companyAnalysisSlice"
 import companyBidReducer from "./slice/companySlice/companyBidSlice"
+import gstReducer from "./slice/LegalVerificationSlice/CustomerSlice/gstSlice"
 
 const appStore = configureStore({
     reducer:{
@@ -30,6 +31,7 @@ const appStore = configureStore({
         companyEnquiry:companyEnquiryReducer,
         companyBid:companyBidReducer,
         companyAnalysis:companyAnalysisReducer,
+        gst:gstReducer
     }
 })
 
