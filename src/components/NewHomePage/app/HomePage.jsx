@@ -7,7 +7,7 @@ import { WhoWeServe } from "./components/WhoWeServe";
 import { TrustedBy } from "./components/TrustedBy";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
-import Journey from "./components/Journey";
+// import Journey from "./components/Journey";
  
 export default function HomePage() {
   return (
@@ -21,7 +21,7 @@ export default function HomePage() {
         <WhoWeServe />
         <TrustedBy />
         <FinalCTA />
-        <Journey/>
+        {/* <Journey/> */}
       </main>
       <Footer />
     </div>

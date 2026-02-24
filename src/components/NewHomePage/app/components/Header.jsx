@@ -26,9 +26,9 @@ export function Header() {
             <a href="#trusted-by" className="text-sm text-black/60 hover:text-black transition-colors">
               Trusted By
             </a>
-            <a href="#journey" className="text-sm text-black/60 hover:text-black transition-colors">
+            {/* <a href="#journey" className="text-sm text-black/60 hover:text-black transition-colors">
               Our Journey
-            </a>
+            </a> */}
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
