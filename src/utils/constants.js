@@ -35,7 +35,6 @@ export const countryCodes = [
   { code: "+1", country: "United States" },
 ];
 
-
 export const CATEGORY_OPTIONS = [
   { value: "agri_food", label: "Agricultural & Food Commodities" },
   { value: "industrial_raw", label: "Industrial Raw Materials" },
@@ -298,3 +297,10 @@ export function formatFromSmallest(amountSmallest = 0, currency = "INR", decimal
   return formatMajor(major, currency, decimals);
 }
 
+export const indianStates = [
+  "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
+  "Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka",
+  "Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram",
+  "Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu",
+  "Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"
+];
