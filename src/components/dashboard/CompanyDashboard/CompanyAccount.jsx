@@ -46,294 +46,550 @@
 
 
 
-import React, { useEffect, useState, useRef } from "react";
+// import React, { useEffect, useState, useRef } from "react";
+// import { useSelector } from "react-redux";
+// import { BASE_URL, COMPANY_API, getCurrencySymbol } from "../../../utils/constants";
+// import { toast } from "react-toastify";
+// import Shimmer from "../../ShimmerUI";
+
+// export default function CompanyAccount() {
+//   const reduxUser = useSelector((s) => s.user?.user || null);
+//   const [loading, setLoading] = useState(true);
+//   const [submitting, setSubmitting] = useState(false);
+
+//   const [licenseNumber, setLicenseNumber] = useState("");
+//   const [publishRequirements, setPublishRequirements] = useState(false);
+//   const [file, setFile] = useState(null);
+
+//   const [companyData, setCompanyData] = useState(null);
+//   const fileInputRef = useRef(null);
+
+//   useEffect(() => {
+//     if (reduxUser) {
+//       setCompanyData(reduxUser);
+//       setLicenseNumber(reduxUser.licenseNumber || "");
+//       setPublishRequirements(Boolean(reduxUser.publishRequirements));
+//       setLoading(false);
+//     } else {
+//       (async () => {
+//         try {
+//           setLoading(true);
+//           const res = await fetch(`${BASE_URL}/auth/profile`, { credentials: "include" });
+//           const json = await res.json();
+//           if (res.ok && json.company) {
+//             setCompanyData(json.company);
+//             setLicenseNumber(json.company.licenseNumber || "");
+//             setPublishRequirements(Boolean(json.company.publishRequirements));
+//           } else {
+//             setCompanyData(reduxUser || null);
+//           }
+//         } catch (err) {
+//           console.error("Failed to load company profile", err);
+//           setCompanyData(reduxUser || null);
+//         } finally {
+//           setLoading(false);
+//         }
+//       })();
+//     }
+//   }, [reduxUser]);
+
+//   const onFileChange = (e) => {
+//     const f = e.target.files?.[0] || null;
+//     if (!f) {
+//       setFile(null);
+//       return;
+//     }
+//     const allowed = ["application/pdf", "image/jpeg", "image/png"];
+//     if (!allowed.includes(f.type)) {
+//       toast.error("Only PDF, JPG or PNG allowed");
+//       e.target.value = null;
+//       return;
+//     }
+//     if (f.size > 5 * 1024 * 1024) {
+//       toast.error("File must be under 5MB");
+//       e.target.value = null;
+//       return;
+//     }
+//     setFile(f);
+//   };
+
+//   const handleSubmit = async () => {
+//     // basic client validation
+//     if (publishRequirements && (!licenseNumber || String(licenseNumber).trim().length < 16)) {
+//       toast.error("License number must be at least 16 characters when publishing requirements");
+//       return;
+//     }
+
+//     try {
+//       setSubmitting(true);
+//       const fd = new FormData();
+//       fd.append("publishRequirements", publishRequirements ? "true" : "false");
+//       if (licenseNumber) fd.append("licenseNumber", licenseNumber.trim());
+//       if (file) fd.append("incorporationCertificate", file);
+
+//       const res = await fetch(`${COMPANY_API}/profile/updateDocuments`, {
+//         method: "PATCH",
+//         credentials: "include",
+//         body: fd,
+//       });
+
+//       const json = await res.json().catch(() => ({}));
+//       if (res.ok && json.success) {
+//         toast.success(json.message || "Profile updated");
+//         // update local preview
+//         setCompanyData((prev) => ({
+//           ...(prev || {}),
+//           licenseNumber: licenseNumber || prev?.licenseNumber,
+//           publishRequirements,
+//           documents: {
+//             ...(prev?.documents || {}),
+//             incorporationCertificate: json.company?.documents?.incorporationCertificate || prev?.documents?.incorporationCertificate || prev?.documents?.incorporationCertificate,
+//           },
+//         }));
+//         // clear file input
+//         setFile(null);
+//         if (fileInputRef.current) fileInputRef.current.value = null;
+//       } else {
+//         toast.error(json.message || "Update failed");
+//       }
+//     } catch (err) {
+//       console.error("Update error", err);
+//       toast.error("Network error. Try again.");
+//     } finally {
+//       setSubmitting(false);
+//     }
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen bg-white px-6 py-10">
+//         <div className="max-w-4xl mx-auto space-y-6">
+//           <Shimmer className="h-8 w-1/3 rounded" />
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//             <Shimmer className="h-40 rounded" />
+//             <Shimmer className="h-40 rounded" />
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   const docUrl = companyData?.documents?.incorporationCertificate || null;
+
+//   return (
+//     <div className="min-h-screen bg-white px-4 py-10">
+//       <div className="max-w-4xl mx-auto bg-white border rounded-xl p-6 shadow-sm">
+//         <div className="flex items-start justify-between gap-4">
+//           <div>
+//             <h1 className="text-2xl font-bold text-black">My Account</h1>
+//             <p className="text-sm text-gray-600 mt-1">Manage company profile and documents</p>
+//           </div>
+//           <div className="text-right">
+//             <div className="text-xs text-gray-500">Member since</div>
+//             <div className="text-sm text-black font-medium">
+//               {companyData?.createdAt ? new Date(companyData.createdAt).toLocaleDateString() : "—"}
+//             </div>
+//           </div>
+//         </div>
+
+//         <hr className="my-6 border-gray-200" />
+
+//         {/* Read-only details */}
+//         <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+//           <div className="space-y-3">
+//             <div>
+//               <div className="text-xs text-gray-500">Company Name</div>
+//               <div className="text-sm text-black font-medium">{companyData?.companyName || "—"}</div>
+//             </div>
+//             <div>
+//               <div className="text-xs text-gray-500">Contact Person</div>
+//               <div className="text-sm text-black font-medium">
+//                 {companyData?.firstName || ""} {companyData?.lastName || ""}
+//               </div>
+//             </div>
+//             <div>
+//               <div className="text-xs text-gray-500">Company Email</div>
+//               <div className="text-sm text-black font-medium">{companyData?.companyEmail || "—"}</div>
+//             </div>
+//           </div>
+
+//           <div className="space-y-3">
+//             <div>
+//               <div className="text-xs text-gray-500">Phone</div>
+//               <div className="text-sm text-black font-medium">{companyData?.phoneNumber || companyData?.mobileNumber || "—"}</div>
+//             </div>
+//             <div>
+//               <div className="text-xs text-gray-500">PAN</div>
+//               <div className="text-sm text-black font-medium">{companyData?.panNumber || "—"}</div>
+//             </div>
+//             <div>
+//               <div className="text-xs text-gray-500">GST</div>
+//               <div className="text-sm text-black font-medium">{companyData?.gstNumber || "—"}</div>
+//             </div>
+//           </div>
+//         </section>
+
+//         <hr className="my-4 border-gray-100" />
+
+//         {/* Editable form */}
+//         <section className="space-y-4">
+//           <div className="flex items-center gap-3">
+//             <input
+//               id="publishRequirements"
+//               type="checkbox"
+//               checked={publishRequirements}
+//               onChange={(e) => setPublishRequirements(e.target.checked)}
+//               className="h-4 w-4 cursor-pointer"
+//             />
+//             <label htmlFor="publishRequirements" className="text-sm text-black cursor-pointer">
+//               I want to publish requirements (enable bidding)
+//             </label>
+//           </div>
+
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//             <div>
+//               <label className="block text-xs text-gray-500 mb-1">License Number</label>
+//               <input
+//                 value={licenseNumber}
+//                 onChange={(e) => setLicenseNumber(e.target.value)}
+//                 placeholder="Enter license number"
+//                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+//               />
+//               <p className="text-xs text-gray-400 mt-1">Required when publishing requirements. Min 16 characters.</p>
+//             </div>
+
+//             <div>
+//               <label className="block text-xs text-gray-500 mb-1">Incorporation Certificate</label>
+//               <div className="flex items-center gap-3">
+//                 <label
+//                   htmlFor="incorp-file"
+//                   className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded cursor-pointer text-sm select-none"
+//                 >
+//                   Upload file
+//                 </label>
+//                 <input
+//                   id="incorp-file"
+//                   ref={fileInputRef}
+//                   type="file"
+//                   accept=".pdf,.jpg,.jpeg,.png"
+//                   onChange={onFileChange}
+//                   className="hidden"
+//                 />
+//                 <div className="text-sm text-gray-700">
+//                   {file ? (
+//                     <div className="flex items-center gap-3">
+//                       <span className="truncate max-w-xs">{file.name}</span>
+//                       <button
+//                         type="button"
+//                         onClick={() => {
+//                           setFile(null);
+//                           if (fileInputRef.current) fileInputRef.current.value = null;
+//                         }}
+//                         className="text-xs text-red-600 hover:underline cursor-pointer"
+//                       >
+//                         Remove
+//                       </button>
+//                     </div>
+//                   ) : docUrl ? (
+//                     <div className="flex items-center gap-3">
+//                       <a
+//                         href={docUrl}
+//                         target="_blank"
+//                         rel="noreferrer"
+//                         className="text-sm text-black underline cursor-pointer"
+//                       >
+//                         View current document
+//                       </a>
+//                       <span className="text-xs text-gray-400">• uploaded</span>
+//                     </div>
+//                   ) : (
+//                     <span className="text-xs text-gray-400">No file selected. PDF, JPG, PNG (max 5MB).</span>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           <div className="flex items-center justify-end gap-3 mt-2">
+//             <button
+//               onClick={() => {
+//                 // reset to original values
+//                 setLicenseNumber(companyData?.licenseNumber || "");
+//                 setPublishRequirements(Boolean(companyData?.publishRequirements));
+//                 setFile(null);
+//                 if (fileInputRef.current) fileInputRef.current.value = null;
+//                 toast.info("Changes discarded");
+//               }}
+//               className="px-4 py-2 rounded border border-gray-200 text-sm cursor-pointer hover:bg-gray-50"
+//             >
+//               Cancel
+//             </button>
+
+//             <button
+//               onClick={handleSubmit}
+//               disabled={submitting}
+//               className={`px-4 py-2 rounded text-sm text-white bg-black hover:bg-gray-900 transition cursor-pointer ${submitting ? "opacity-60 cursor-not-allowed" : ""}`}
+//             >
+//               {submitting ? "Saving…" : "Save changes"}
+//             </button>
+//           </div>
+//         </section>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+// import React, { useState } from "react";
+// import { Building2, BadgeCheck } from "lucide-react";
+// import { useSelector } from "react-redux";
+// import QuickInspectionServices from "./QuickInspectionServices";
+
+// const COMPANY_TABS = ["Company Profile", "Quick Inspection"];
+
+// export default function CompanyAccount() {
+//   const user = useSelector((s) => s.user?.user);
+//   const [activeTab, setActiveTab] = useState("Company Profile");
+
+//   if (!user) return null;
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 py-10 px-6">
+//       <div className="max-w-5xl mx-auto space-y-8">
+
+//         <div className="flex items-center justify-between">
+//           <h1 className="text-3xl font-semibold text-gray-900 flex items-center gap-3">
+//             <Building2 className="w-6 h-6" />
+//             Company Account
+//           </h1>
+
+//           {user?.verified && (
+//             <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+//               <BadgeCheck size={16} />
+//               Verified Company
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="flex gap-6 border-b border-gray-200">
+//           {COMPANY_TABS.map((tab) => (
+//             <button
+//               key={tab}
+//               onClick={() => setActiveTab(tab)}
+//               className={`pb-3 text-sm font-medium relative ${
+//                 activeTab === tab
+//                   ? "text-gray-900"
+//                   : "text-gray-500 hover:text-gray-900"
+//               }`}
+//             >
+//               {tab}
+//               {activeTab === tab && (
+//                 <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-full" />
+//               )}
+//             </button>
+//           ))}
+//         </div>
+
+//         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
+
+//           {activeTab === "Company Profile" && (
+//             <div className="p-5 grid md:grid-cols-2 gap-6">
+//               <Info label="Company Name" value={user.companyName} />
+//               <Info label="Email" value={user.companyEmail} />
+//               <Info label="Phone" value={user.phoneNumber} />
+//               <Info label="GST Number" value={user.gstNumber} />
+//               <Info label="PAN Number" value={user.panNumber} />
+//               <Info
+//                 label="Member Since"
+//                 value={
+//                   user.createdAt
+//                     ? new Date(user.createdAt).toLocaleDateString()
+//                     : "-"
+//                 }
+//               />
+//             </div>
+//           )}
+
+//           {activeTab === "Quick Inspection" && (
+//             <QuickInspectionServices />
+//           )}
+
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// const Info = ({ label, value }) => (
+//   <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+//     <p className="text-xs uppercase text-gray-500">{label}</p>
+//     <p className="font-semibold mt-1 break-words">{value || "-"}</p>
+//   </div>
+// );
+
+
+
+
+
+
+
+
+
+
+// import { useState } from "react";
+// import { Building2, BadgeCheck, CreditCard } from "lucide-react";
+// import { useSelector } from "react-redux";
+// import CompanyBankDetailsForm from "./QuickInspection/components/CompanyBankDetailsForm";
+
+// const COMPANY_TABS = ["Company Profile", "Bank Details"];
+
+// export default function CompanyAccount() {
+//   const user = useSelector((s) => s.user?.user);
+//   console.log("user",user)
+//   const [activeTab, setActiveTab] = useState("Company Profile");
+
+//   if (!user) return null;
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 py-10 px-6">
+//       <div className="max-w-5xl mx-auto space-y-8">
+
+//         <div className="flex items-center justify-between">
+//           <h1 className="text-3xl font-semibold text-gray-900 flex items-center gap-3">
+//             <Building2 className="w-6 h-6" />
+//             Company Account
+//           </h1>
+//           {user?.isVerified && (
+//             <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+//               <BadgeCheck size={16} />
+//               Verified Company
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="flex gap-6 border-b border-gray-200">
+//           {COMPANY_TABS.map((tab) => (
+//             <button
+//               key={tab}
+//               onClick={() => setActiveTab(tab)}
+//               className={`pb-3 text-sm font-medium relative flex items-center gap-1.5 cursor-pointer ${
+//                 activeTab === tab ? "text-gray-900" : "text-gray-500 hover:text-gray-900"
+//               }`}
+//             >
+//               {tab === "Bank Details" && <CreditCard size={14} />}
+//               {tab}
+//               {activeTab === tab && (
+//                 <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-full" />
+//               )}
+//             </button>
+//           ))}
+//         </div>
+
+//         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+//           {activeTab === "Company Profile" && (
+//             <div className="p-6 grid md:grid-cols-2 gap-6">
+//               <Info label="Company Name" value={user.companyName} />
+//               <Info label="Email" value={user.companyEmail} />
+//               <Info label="Phone" value={user.phoneNumber} />
+//               <Info label="GST Number" value={user.gstNumber} />
+//               <Info label="PAN Number" value={user.panNumber} />
+//               <Info
+//                 label="Member Since"
+//                 value={user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "-"}
+//               />
+//             </div>
+//           )}
+
+//           {activeTab === "Bank Details" && <CompanyBankDetailsForm />}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// const Info = ({ label, value }) => (
+//   <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+//     <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">{label}</p>
+//     <p className="font-semibold mt-1 break-words text-gray-900">{value || "—"}</p>
+//   </div>
+// );
+
+
+
+
+
+
+
+
+
+
+
+import { useState } from "react";
+import { BadgeCheck, CreditCard, ShieldCheck, UserCircle2 } from "lucide-react";
 import { useSelector } from "react-redux";
-import { BASE_URL, COMPANY_API, getCurrencySymbol } from "../../../utils/constants";
-import { toast } from "react-toastify";
-import Shimmer from "../../ShimmerUI";
+import CompanyBankDetailsForm from "./QuickInspection/components/CompanyBankDetailsForm";
+import CompanyProfileSection from "./CompanyProfileSection";
+import CompanyGSTSection from "./CompanyGSTSection";
+
+const TABS = [
+  { id: "account", label: "Account Details", icon: UserCircle2 },
+  { id: "bank",    label: "Bank Details",    icon: CreditCard   },
+  { id: "gst",     label: "GST Details",     icon: ShieldCheck  },
+];
 
 export default function CompanyAccount() {
-  const reduxUser = useSelector((s) => s.user?.user || null);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const user = useSelector((s) => s.user?.user);
+  const [activeTab, setActiveTab] = useState("account");
 
-  const [licenseNumber, setLicenseNumber] = useState("");
-  const [publishRequirements, setPublishRequirements] = useState(false);
-  const [file, setFile] = useState(null);
-
-  const [companyData, setCompanyData] = useState(null);
-  const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    if (reduxUser) {
-      setCompanyData(reduxUser);
-      setLicenseNumber(reduxUser.licenseNumber || "");
-      setPublishRequirements(Boolean(reduxUser.publishRequirements));
-      setLoading(false);
-    } else {
-      (async () => {
-        try {
-          setLoading(true);
-          const res = await fetch(`${BASE_URL}/auth/profile`, { credentials: "include" });
-          const json = await res.json();
-          if (res.ok && json.company) {
-            setCompanyData(json.company);
-            setLicenseNumber(json.company.licenseNumber || "");
-            setPublishRequirements(Boolean(json.company.publishRequirements));
-          } else {
-            setCompanyData(reduxUser || null);
-          }
-        } catch (err) {
-          console.error("Failed to load company profile", err);
-          setCompanyData(reduxUser || null);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    }
-  }, [reduxUser]);
-
-  const onFileChange = (e) => {
-    const f = e.target.files?.[0] || null;
-    if (!f) {
-      setFile(null);
-      return;
-    }
-    const allowed = ["application/pdf", "image/jpeg", "image/png"];
-    if (!allowed.includes(f.type)) {
-      toast.error("Only PDF, JPG or PNG allowed");
-      e.target.value = null;
-      return;
-    }
-    if (f.size > 5 * 1024 * 1024) {
-      toast.error("File must be under 5MB");
-      e.target.value = null;
-      return;
-    }
-    setFile(f);
-  };
-
-  const handleSubmit = async () => {
-    // basic client validation
-    if (publishRequirements && (!licenseNumber || String(licenseNumber).trim().length < 16)) {
-      toast.error("License number must be at least 16 characters when publishing requirements");
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-      const fd = new FormData();
-      fd.append("publishRequirements", publishRequirements ? "true" : "false");
-      if (licenseNumber) fd.append("licenseNumber", licenseNumber.trim());
-      if (file) fd.append("incorporationCertificate", file);
-
-      const res = await fetch(`${COMPANY_API}/profile/updateDocuments`, {
-        method: "PATCH",
-        credentials: "include",
-        body: fd,
-      });
-
-      const json = await res.json().catch(() => ({}));
-      if (res.ok && json.success) {
-        toast.success(json.message || "Profile updated");
-        // update local preview
-        setCompanyData((prev) => ({
-          ...(prev || {}),
-          licenseNumber: licenseNumber || prev?.licenseNumber,
-          publishRequirements,
-          documents: {
-            ...(prev?.documents || {}),
-            incorporationCertificate: json.company?.documents?.incorporationCertificate || prev?.documents?.incorporationCertificate || prev?.documents?.incorporationCertificate,
-          },
-        }));
-        // clear file input
-        setFile(null);
-        if (fileInputRef.current) fileInputRef.current.value = null;
-      } else {
-        toast.error(json.message || "Update failed");
-      }
-    } catch (err) {
-      console.error("Update error", err);
-      toast.error("Network error. Try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white px-6 py-10">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <Shimmer className="h-8 w-1/3 rounded" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Shimmer className="h-40 rounded" />
-            <Shimmer className="h-40 rounded" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const docUrl = companyData?.documents?.incorporationCertificate || null;
+  if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-white px-4 py-10">
-      <div className="max-w-4xl mx-auto bg-white border rounded-xl p-6 shadow-sm">
-        <div className="flex items-start justify-between gap-4">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 space-y-5">
+
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-black">My Account</h1>
-            <p className="text-sm text-gray-600 mt-1">Manage company profile and documents</p>
+            <h1 className="text-xl font-bold text-gray-900">My Account</h1>
+            <p className="text-xs text-gray-400 mt-0.5">
+              Manage your company profile, bank and tax details
+            </p>
           </div>
-          <div className="text-right">
-            <div className="text-xs text-gray-500">Member since</div>
-            <div className="text-sm text-black font-medium">
-              {companyData?.createdAt ? new Date(companyData.createdAt).toLocaleDateString() : "—"}
-            </div>
-          </div>
+          {user?.isVerified && (
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 bg-white border border-gray-200 px-3 py-1.5 rounded-full shadow-sm">
+              <BadgeCheck size={13} strokeWidth={2} className="text-gray-500" />
+              Verified Company
+            </span>
+          )}
         </div>
 
-        <hr className="my-6 border-gray-200" />
-
-        {/* Read-only details */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="space-y-3">
-            <div>
-              <div className="text-xs text-gray-500">Company Name</div>
-              <div className="text-sm text-black font-medium">{companyData?.companyName || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">Contact Person</div>
-              <div className="text-sm text-black font-medium">
-                {companyData?.firstName || ""} {companyData?.lastName || ""}
-              </div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">Company Email</div>
-              <div className="text-sm text-black font-medium">{companyData?.companyEmail || "—"}</div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div>
-              <div className="text-xs text-gray-500">Phone</div>
-              <div className="text-sm text-black font-medium">{companyData?.phoneNumber || companyData?.mobileNumber || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">PAN</div>
-              <div className="text-sm text-black font-medium">{companyData?.panNumber || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">GST</div>
-              <div className="text-sm text-black font-medium">{companyData?.gstNumber || "—"}</div>
-            </div>
-          </div>
-        </section>
-
-        <hr className="my-4 border-gray-100" />
-
-        {/* Editable form */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-3">
-            <input
-              id="publishRequirements"
-              type="checkbox"
-              checked={publishRequirements}
-              onChange={(e) => setPublishRequirements(e.target.checked)}
-              className="h-4 w-4 cursor-pointer"
-            />
-            <label htmlFor="publishRequirements" className="text-sm text-black cursor-pointer">
-              I want to publish requirements (enable bidding)
-            </label>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-gray-500 mb-1">License Number</label>
-              <input
-                value={licenseNumber}
-                onChange={(e) => setLicenseNumber(e.target.value)}
-                placeholder="Enter license number"
-                className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-              />
-              <p className="text-xs text-gray-400 mt-1">Required when publishing requirements. Min 16 characters.</p>
-            </div>
-
-            <div>
-              <label className="block text-xs text-gray-500 mb-1">Incorporation Certificate</label>
-              <div className="flex items-center gap-3">
-                <label
-                  htmlFor="incorp-file"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded cursor-pointer text-sm select-none"
-                >
-                  Upload file
-                </label>
-                <input
-                  id="incorp-file"
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={onFileChange}
-                  className="hidden"
-                />
-                <div className="text-sm text-gray-700">
-                  {file ? (
-                    <div className="flex items-center gap-3">
-                      <span className="truncate max-w-xs">{file.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFile(null);
-                          if (fileInputRef.current) fileInputRef.current.value = null;
-                        }}
-                        className="text-xs text-red-600 hover:underline cursor-pointer"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ) : docUrl ? (
-                    <div className="flex items-center gap-3">
-                      <a
-                        href={docUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-black underline cursor-pointer"
-                      >
-                        View current document
-                      </a>
-                      <span className="text-xs text-gray-400">• uploaded</span>
-                    </div>
-                  ) : (
-                    <span className="text-xs text-gray-400">No file selected. PDF, JPG, PNG (max 5MB).</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-end gap-3 mt-2">
+        <div className="flex bg-white border border-gray-200 rounded-xl p-1 shadow-sm gap-1">
+          {TABS.map(({ id, label, icon: Icon }) => (
             <button
-              onClick={() => {
-                // reset to original values
-                setLicenseNumber(companyData?.licenseNumber || "");
-                setPublishRequirements(Boolean(companyData?.publishRequirements));
-                setFile(null);
-                if (fileInputRef.current) fileInputRef.current.value = null;
-                toast.info("Changes discarded");
-              }}
-              className="px-4 py-2 rounded border border-gray-200 text-sm cursor-pointer hover:bg-gray-50"
+              key={id}
+              onClick={() => setActiveTab(id)}
+              className={`flex flex-1 items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === id
+                  ? "bg-gray-900 text-white shadow-sm"
+                  : "text-gray-500 hover:text-gray-800 hover:bg-gray-50"
+              }`}
             >
-              Cancel
+              <Icon size={13} strokeWidth={1.75} />
+              <span className="hidden sm:inline">{label}</span>
             </button>
+          ))}
+        </div>
 
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className={`px-4 py-2 rounded text-sm text-white bg-black hover:bg-gray-900 transition cursor-pointer ${submitting ? "opacity-60 cursor-not-allowed" : ""}`}
-            >
-              {submitting ? "Saving…" : "Save changes"}
-            </button>
-          </div>
-        </section>
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+          {activeTab === "account" && <CompanyProfileSection user={user} />}
+          {activeTab === "bank"    && <CompanyBankDetailsForm />}
+          {activeTab === "gst"     && <CompanyGSTSection user={user} />}
+        </div>
+
       </div>
     </div>
   );

@@ -141,6 +141,12 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import HomePage from "./components/NewHomePage/app/HomePage";
 import DemoOnboarding from "./components/NewHomePage/DemoVideo/DemoOnboarding";
+import CompanyQuickInspection from "./components/dashboard/CompanyDashboard/CompanyQuickInspection";
+import { Landing } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Landing";
+import { ServiceCard } from "./components/dashboard/CustomerDashboard/QuickInspection/components/ServiceCard";
+import { Marketplace } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Marketplace";
+import { RequestInspectionModal } from "./components/dashboard/CustomerDashboard/QuickInspection/components/RequestInspectionModal";
+import CustomerQuickInspection from "./components/dashboard/CustomerDashboard/QuickInspection/components/Customerquickinspection";
 
 function App() {
   return (
@@ -195,6 +201,11 @@ function App() {
             <Route path="orders/:id" element={<OrdersPage />} />
             <Route path="payments/quick-service" element={<PaymentsQuickServiceList />} />
             <Route path="payments/quick-service/invoice/:paymentId" element={<QuickServiceInvoice />} />
+
+            <Route path="quick-inspection/landing" element={<Landing/>}/>
+            <Route path="marketplace/:id" element={<Marketplace/>}/>
+            <Route path="quick-inspection/request-form" element={<RequestInspectionModal/>}/>
+            <Route path="quick-inspection" element={<CustomerQuickInspection />} />
           </Route>
 
           <Route path="/inspector" element={<InspectorLayout />}>
@@ -223,6 +234,7 @@ function App() {
             <Route path="history" element={<CompanyHistory />} />
             <Route path="history/:bidId" element={<CompanyBidDetail />} />
             <Route path="payments" element={<CompanyPayment />} />
+            <Route path="quick-inspection" element={<CompanyQuickInspection />} />
           </Route>
 
           <Route path="/quickInspection" element={<QuickInspection />} />

@@ -1,0 +1,230 @@
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Wallet, TrendingUp, Receipt, X, Calendar, MapPin,
+  Package, Zap, ChevronRight, Clock, CheckCircle2
+} from "lucide-react";
+import { BASE_URL } from "../../../../../utils/constants";
+
+const SERVICE_MAP = {
+  psi: "Pre-Shipment",
+  loading: "Loading",
+  stuffing: "Stuffing",
+  destination: "Destination"
+};
+
+const ShimmerRow = () => (
+  <div className="animate-pulse flex items-center gap-3 p-3">
+    <div className="w-10 h-10 bg-gray-100 rounded-xl shrink-0" />
+    <div className="flex-1 space-y-2">
+      <div className="h-3 bg-gray-100 rounded w-1/2" />
+      <div className="h-3 bg-gray-100 rounded w-1/3" />
+    </div>
+    <div className="w-16 h-4 bg-gray-100 rounded" />
+  </div>
+);
+
+export default function CompanyWallet() {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/inspectionCompany/wallet`, { credentials: "include" });
+        const json = await res.json();
+        if (json.success) setData(json.data);
+      } catch (_) {}
+      finally { setLoading(false); }
+    })();
+  }, []);
+
+  const summary =data?.summary
+  const allTransactions = data?.transactions || [];
+  const transactions = activeFilter === "all"
+    ? allTransactions
+    : allTransactions.filter((t) => activeFilter === "pending" ? !t.companyPaidOut : t.companyPaidOut);
+
+  return (
+    <>
+      <div
+        onClick={() => setOpen(true)}
+        className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 bg-emerald-600 rounded-xl flex items-center justify-center">
+              <Wallet size={20} className="text-white" />
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Earnings Wallet</p>
+              <p className="text-xs text-gray-400">Quick Inspection Revenue</p>
+            </div>
+          </div>
+          <ChevronRight size={18} className="text-gray-400 group-hover:translate-x-0.5 transition-transform" />
+        </div>
+
+        {loading ? (
+          <div className="space-y-2">
+            <div className="h-7 bg-gray-100 rounded animate-pulse w-28" />
+            <div className="h-3 bg-gray-100 rounded animate-pulse w-20" />
+          </div>
+        ) : (
+          <div className="space-y-1">
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-black text-gray-900">
+                ₹{Number(summary?.totalEarned || 0).toLocaleString("en-IN")}
+              </span>
+            </div>
+            <p className="text-xs text-gray-500">Total earnings from {summary?.totalTransactions || 0} inspection{summary?.totalTransactions !== 1 ? "s" : ""}</p>
+          </div>
+        )}
+
+        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-xs text-amber-600 font-medium">
+            <Clock size={12} />
+            Pending: ₹{Number(summary?.pendingPayout || 0).toLocaleString("en-IN")}
+          </div>
+          <div className="flex items-center gap-1 text-xs text-emerald-600 font-medium">
+            <TrendingUp size={12} />
+            Total Earned
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 280 }}
+              className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col"
+            >
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
+                    <Wallet size={16} className="text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-bold text-gray-900">Earnings Wallet</h2>
+                    <p className="text-xs text-gray-400">Your inspection revenue</p>
+                  </div>
+                </div>
+                <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-xl hover:bg-gray-100 flex items-center justify-center transition cursor-pointer">
+                  <X size={18} className="text-gray-500" />
+                </button>
+              </div>
+
+              {!loading && summary && (
+                <div className="px-6 py-5 bg-emerald-700 text-white">
+                  <p className="text-xs text-emerald-300 mb-1 uppercase tracking-wider">Total Earned</p>
+                  <p className="text-3xl font-black">₹{Number(summary.totalEarned).toLocaleString("en-IN")}</p>
+                  <div className="mt-3 grid grid-cols-3 gap-2">
+                    <div className="bg-white/10 rounded-xl px-3 py-2">
+                      <p className="text-xs text-emerald-300">Jobs</p>
+                      <p className="text-lg font-bold">{summary.totalTransactions}</p>
+                    </div>
+                    <div className="bg-white/10 rounded-xl px-3 py-2">
+                      <p className="text-xs text-emerald-300">Pending</p>
+                      <p className="text-lg font-bold">₹{Number(summary.pendingPayout).toLocaleString("en-IN")}</p>
+                    </div>
+                    <div className="bg-white/10 rounded-xl px-3 py-2">
+                      <p className="text-xs text-emerald-300">Paid Out</p>
+                      <p className="text-lg font-bold">₹{Number(summary.completedPayout).toLocaleString("en-IN")}</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 p-2.5 bg-white/10 rounded-xl text-xs text-emerald-200">
+                    💳 Payouts are processed within <strong>24 hrs</strong> after inspection completion. Ensure your bank details are updated in Account Settings.
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-1 p-3 border-b border-gray-100">
+                {[
+                  { id: "all", label: "All" },
+                  { id: "pending", label: "Pending Payout" },
+                  { id: "paid", label: "Paid Out" }
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setActiveFilter(f.id)}
+                    className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                      activeFilter === f.id ? "bg-gray-900 text-white" : "text-gray-500 hover:bg-gray-100"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex-1 overflow-y-auto">
+                {loading ? (
+                  <div className="divide-y divide-gray-50">
+                    {[1, 2, 3].map((i) => <ShimmerRow key={i} />)}
+                  </div>
+                ) : transactions.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-64 text-center px-6">
+                    <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+                      <Receipt size={22} className="text-gray-400" />
+                    </div>
+                    <p className="font-semibold text-gray-700">No earnings yet</p>
+                    <p className="text-sm text-gray-400 mt-1">Your confirmed inspection earnings will appear here</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-gray-50">
+                    {transactions.map((t) => (
+                      <div key={t._id} className="px-6 py-4 hover:bg-gray-50 transition">
+                        <div className="flex items-start justify-between mb-2.5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
+                              <Zap size={15} className="text-gray-600" />
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900">{SERVICE_MAP[t.service] || t.service}</p>
+                              <p className="text-xs text-gray-400 mt-0.5">{t.customer?.name}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-bold text-emerald-700">+{t.currency}{Number(t.companyEarnings).toLocaleString("en-IN")}</p>
+                            <div className={`flex items-center gap-1 text-xs font-medium mt-0.5 ${t.companyPaidOut ? "text-green-600" : "text-amber-600"}`}>
+                              {t.companyPaidOut ? <CheckCircle2 size={11} /> : <Clock size={11} />}
+                              {t.companyPaidOut ? "Paid Out" : "Pending"}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ml-12 space-y-1">
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <span className="flex items-center gap-1"><Package size={11} />{t.commodity}</span>
+                            <span className="flex items-center gap-1"><MapPin size={11} />{t.location?.city}</span>
+                          </div>
+                          <div className="flex items-center gap-4 text-xs text-gray-400">
+                            <span className="flex items-center gap-1">
+                              <Calendar size={11} />
+                              {new Date(t.paidAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                            </span>
+                            <span>{t.invoiceNumber}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
