@@ -8,6 +8,7 @@ import { addEnquiries } from "../../../redux/slice/companySlice/companyEnquirySl
 import { COMPANY_API } from "../../../utils/constants";
 import ShimmerUI from "../../../components/ShimmerUI";
 import { toast } from "react-toastify";
+import QuickInspectionBanner from "./QuickInspection/components/QuickInspectionBanner";
 
 export default function CompanyDashboard() {
   useFetchCompanyEnquiries();
@@ -31,8 +32,9 @@ export default function CompanyDashboard() {
   return (
     <div className="min-h-screen bg-white py-10">
       <div className="max-w-6xl mx-auto px-6 space-y-8">
-        <CompanyAnalysis />
+        <QuickInspectionBanner/>
         <LiveBidsCompany />
+        <CompanyAnalysis />
       </div>
     </div>
   );

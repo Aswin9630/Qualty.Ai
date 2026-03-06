@@ -464,7 +464,7 @@ const EarningsDrawer = ({ open, onClose }) => {
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
-                  <Wallet size={16} className="text-white" />
+                  <Wallet size={30} className="text-white" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-gray-900"> Wallet</p>
@@ -691,7 +691,7 @@ const CompanyLayout = () => {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}
       >
-        <div className="p-5 border-b border-gray-200 relative">
+        <div className="p-5  relative">
           <div className="flex gap-3 items-center">
             <FaUserCircle className="text-black shrink-0" size={26} />
             <div className="min-w-0">
