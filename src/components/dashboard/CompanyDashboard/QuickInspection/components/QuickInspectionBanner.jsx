@@ -126,8 +126,8 @@ export default function QuickInspectionBanner() {
                     />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-gray-900 mb-1">{title}</p>
-                    <p className="text-[11px] text-gray-400 leading-relaxed">{desc}</p>
+                    <p className="text-sm font-black text-gray-900 mb-1">{title}</p>
+                    <p className="text-xs text-gray-400 leading-relaxed">{desc}</p>
                   </div>
                 </div>
               ))}
