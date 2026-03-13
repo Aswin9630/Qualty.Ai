@@ -55,7 +55,7 @@ export default function Header() {
               alt="Qualty.AI Logo"
               className="h-10 w-10 sm:h-12 sm:w-12"
             /> */}
-            <a href="/customer/landingpage" className="text-xl font-bold font-sans">Qualty AI</a>
+            <a href="/" className="text-xl font-bold font-sans">Qualty AI</a>
           </div>
 
           <ul className="hidden md:flex gap-6 items-center text-sm sm:text-xl font-medium bg-white rounded-full px-6 py-3 border border-gray-100">

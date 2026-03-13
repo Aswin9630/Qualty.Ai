@@ -22,7 +22,7 @@ const useFetchUser = () => {
         if (data.userInfo) {
           dispatch(addUser(data.userInfo));
         } else {
-          navigate("/customer/landingpage");
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error fetching user:", error);

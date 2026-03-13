@@ -66,7 +66,6 @@ export default function DashboardMini() {
         })}
       </div>
 
-      {/* ================= QUICK SERVICES ================= */}
       <div className="bg-black rounded-lg px-4 py-6 quick-services">
         <h2 className="text-white text-lg font-semibold text-center mb-6">
           Quick Services
@@ -103,7 +102,6 @@ export default function DashboardMini() {
         </div>
       </div>
 
-      {/* ================= QUICK ACTIONS ================= */}
       <div className="bg-black rounded-lg px-4 py-6 mb-20 quick-actions">
         <h2 className="text-white text-lg font-semibold text-center mb-6">Quick Actions</h2>
 

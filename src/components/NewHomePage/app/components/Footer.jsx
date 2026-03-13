@@ -18,16 +18,6 @@ export function Footer() {
                   Home
                 </a>
               </li>
-              <li>
-                <a href="#what-is" className="text-white/60 hover:text-white transition-colors text-sm">
-                  How It Works
-                </a>
-              </li>
-              <li>
-                <a href="#why-us" className="text-white/60 hover:text-white transition-colors text-sm">
-                  Why Qualty
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -37,17 +27,17 @@ export function Footer() {
             </div>
             <ul className="space-y-3">
               <li>
-                <a href="/customer/landingpage" className="text-white/60 hover:text-white transition-colors text-sm">
+                <a href="/" className="text-white/60 hover:text-white transition-colors text-sm">
                   For Importers/Exporters
                 </a>
               </li>
               <li>
-                <a href="/inspector/landingpage" className="text-white/60 hover:text-white transition-colors text-sm">
+                <a href="/inspection-company/landingpage" className="text-white/60 hover:text-white transition-colors text-sm">
                   For Inspectors
                 </a>
               </li>
               <li>
-                <a href="/inspector/landingpage" className="text-white/60 hover:text-white transition-colors text-sm">
+                <a href="/inspection-company/landingpage" className="text-white/60 hover:text-white transition-colors text-sm">
                   For Companies
                 </a>
               </li>
@@ -136,7 +126,7 @@ export function Footer() {
               </a>
             </div>
              <div className="text-sm text-white/40">
-              © 2024 Qualty.AI • All Rights Reserved
+              © 2026 Qualty.AI • All Rights Reserved
             </div>
           </div>
         </div>
