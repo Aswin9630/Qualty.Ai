@@ -142,11 +142,11 @@ import ResetPassword from "./components/auth/ResetPassword";
 import HomePage from "./components/NewHomePage/app/HomePage";
 import DemoOnboarding from "./components/NewHomePage/DemoVideo/DemoOnboarding";
 import CompanyQuickInspection from "./components/dashboard/CompanyDashboard/CompanyQuickInspection";
-import { Landing } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Landing";
+// import { Landing } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Landing";
 // import { ServiceCard } from "./components/dashboard/CustomerDashboard/QuickInspection/components/ServiceCard";
-import { Marketplace } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Marketplace";
-import { RequestInspectionModal } from "./components/dashboard/CustomerDashboard/QuickInspection/components/RequestInspectionModal";
-import CustomerQuickInspection from "./components/dashboard/CustomerDashboard/QuickInspection/components/Customerquickinspection";
+// import { Marketplace } from "./components/dashboard/CustomerDashboard/QuickInspection/pages/Marketplace";
+// import { RequestInspectionModal } from "./components/dashboard/CustomerDashboard/QuickInspection/components/RequestInspectionModal";
+// import CustomerQuickInspection from "./components/dashboard/CustomerDashboard/QuickInspection/components/Customerquickinspection";
 import InspectionComapanyLandingpage from "./components/InspectionCompanyLandingPage/InspectionComapanyLandingpage";
 
 function App() {
@@ -204,10 +204,10 @@ function App() {
             <Route path="payments/quick-service" element={<PaymentsQuickServiceList />} />
             <Route path="payments/quick-service/invoice/:paymentId" element={<QuickServiceInvoice />} />
 
-            <Route path="quick-inspection/landing" element={<Landing/>}/>
+            {/* <Route path="quick-inspection/landing" element={<Landing/>}/>
             <Route path="marketplace/:id" element={<Marketplace/>}/>
             <Route path="quick-inspection/request-form" element={<RequestInspectionModal/>}/>
-            <Route path="quick-inspection" element={<CustomerQuickInspection />} />
+            <Route path="quick-inspection" element={<CustomerQuickInspection />} /> */}
           </Route>
 
           <Route path="/inspector" element={<InspectorLayout />}>
