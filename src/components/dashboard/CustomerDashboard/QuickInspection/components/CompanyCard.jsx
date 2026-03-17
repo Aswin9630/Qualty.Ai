@@ -30,49 +30,80 @@ const getAvailabilitySummary = (regions) => {
 export function CompanyCard({ company, service, onRequestInspection }) {
   const [isPriceExpanded, setIsPriceExpanded] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState(null);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+
+  const description = company?.description || "";
+  const WORD_LIMIT = 20;
+  const words = description.trim().split(/\s+/);
+  const isLong = words.length > WORD_LIMIT;
+  const shortDesc = isLong ? words.slice(0, WORD_LIMIT).join(" ") + "…" : description;
 
   const pricing = useMemo(() => {
     if (!company) return [];
     const prices = [];
-    (company.indiaRegions || []).forEach((region) => {
-      (region.locations || []).forEach((loc) => {
-        const svc = loc.services?.[service];
-        if (svc?.confirmed) {
-          prices.push({
-            id: `${region.name}-${loc.city}`,
-            region: region.name,
-            city: loc.city,
-            price: svc.confirmed,
-            currency: "₹",
-            isIndia: true,
-            availability: loc.availability || []
-          });
-        }
+
+    if (service === "destination") {
+      (company.intlRegions || []).forEach((region) => {
+        (region.locations || []).forEach((loc) => {
+          const confirmedServices = Object.entries(loc.services || {}).filter(
+            ([, v]) => v?.confirmed
+          );
+          if (confirmedServices.length > 0) {
+            const [, firstService] = confirmedServices[0];
+            prices.push({
+              id: `intl-${region.name}-${loc.city}`,
+              region: region.name,
+              city: loc.city,
+              price: firstService.confirmed,
+              currency: "$",
+              isIndia: false,
+              availability: loc.availability || [],
+            });
+          }
+        });
       });
-    });
-    (company.intlRegions || []).forEach((region) => {
-      (region.locations || []).forEach((loc) => {
-        const svc = loc.services?.[service];
-        if (svc?.confirmed) {
-          prices.push({
-            id: `${region.name}-${loc.city}`,
-            region: region.name,
-            city: loc.city,
-            price: svc.confirmed,
-            currency: "$",
-            isIndia: false,
-            availability: loc.availability || []
-          });
-        }
+    } else {
+      (company.indiaRegions || []).forEach((region) => {
+        (region.locations || []).forEach((loc) => {
+          const svc = loc.services?.[service];
+          if (svc?.confirmed) {
+            prices.push({
+              id: `india-${region.name}-${loc.city}`,
+              region: region.name,
+              city: loc.city,
+              price: svc.confirmed,
+              currency: "₹",
+              isIndia: true,
+              availability: loc.availability || [],
+            });
+          }
+        });
       });
-    });
+      (company.intlRegions || []).forEach((region) => {
+        (region.locations || []).forEach((loc) => {
+          const svc = loc.services?.[service];
+          if (svc?.confirmed) {
+            prices.push({
+              id: `intl-${region.name}-${loc.city}`,
+              region: region.name,
+              city: loc.city,
+              price: svc.confirmed,
+              currency: "$",
+              isIndia: false,
+              availability: loc.availability || [],
+            });
+          }
+        });
+      });
+    }
+
     return prices;
   }, [company, service]);
 
   const availability = useMemo(() => {
     return getAvailabilitySummary([
       ...(company?.indiaRegions || []),
-      ...(company?.intlRegions || [])
+      ...(company?.intlRegions || []),
     ]);
   }, [company]);
 
@@ -88,17 +119,34 @@ export function CompanyCard({ company, service, onRequestInspection }) {
           <Building2 className="w-6 h-6 text-gray-600" />
         </div>
         <div className="min-w-0">
-          <h3 className="font-semibold text-gray-900 text-lg leading-tight truncate">{company?.name}</h3>
+          <h3 className="font-semibold text-gray-900 text-lg leading-tight truncate">
+            {company?.name}
+          </h3>
           <p className="text-xs text-gray-400 mt-0.5">Verified Partner</p>
         </div>
       </div>
 
-      <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">{company?.description}</p>
+      <div className="mb-4">
+        <p className="text-gray-500 text-sm leading-relaxed">
+          {isDescExpanded ? description : shortDesc}
+        </p>
+        {isLong && (
+          <button
+            onClick={() => setIsDescExpanded((prev) => !prev)}
+            className="mt-1 text-xs font-semibold text-gray-700 hover:text-black underline underline-offset-2 transition cursor-pointer"
+          >
+            {isDescExpanded ? "Read less" : "Read more"}
+          </button>
+        )}
+      </div>
 
       {(company?.commodities || []).length > 0 && (
         <div className="mb-4 flex flex-wrap gap-1.5">
           {(company.commodities || []).map((c, i) => (
-            <span key={i} className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full border border-gray-200 font-medium">
+            <span
+              key={i}
+              className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full border border-gray-200 font-medium"
+            >
               {c}
             </span>
           ))}
@@ -109,14 +157,21 @@ export function CompanyCard({ company, service, onRequestInspection }) {
         <div className="mb-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
           <div className="flex items-center gap-1.5 mb-2">
             <Clock size={12} className="text-gray-400" />
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Availability</span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Availability
+            </span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {availability.map((a, i) => (
-              <div key={i} className="flex items-center gap-1 px-2 py-1 bg-white border border-gray-200 rounded-lg text-xs text-gray-600">
+              <div
+                key={i}
+                className="flex items-center gap-1 px-2 py-1 bg-white border border-gray-200 rounded-lg text-xs text-gray-600"
+              >
                 <span className="font-semibold text-gray-800">{a.day}</span>
                 <span className="text-gray-400">·</span>
-                <span>{formatTime(a.from)} – {formatTime(a.to)}</span>
+                <span>
+                  {formatTime(a.from)} – {formatTime(a.to)}
+                </span>
               </div>
             ))}
           </div>
@@ -131,7 +186,11 @@ export function CompanyCard({ company, service, onRequestInspection }) {
           <MapPin size={14} className="text-gray-400" />
           <span>Select Location & Pricing</span>
         </div>
-        {isPriceExpanded ? <ChevronUp size={15} className="text-gray-500" /> : <ChevronDown size={15} className="text-gray-500" />}
+        {isPriceExpanded ? (
+          <ChevronUp size={15} className="text-gray-500" />
+        ) : (
+          <ChevronDown size={15} className="text-gray-500" />
+        )}
       </button>
 
       <AnimatePresence>
@@ -161,7 +220,9 @@ export function CompanyCard({ company, service, onRequestInspection }) {
                       className="w-4 h-4 accent-black"
                     />
                     <div>
-                      <p className="font-medium text-gray-900 text-sm">{p.region} – {p.city}</p>
+                      <p className="font-medium text-gray-900 text-sm">
+                        {p.region} – {p.city}
+                      </p>
                       {p.availability.length > 0 && (
                         <p className="text-xs text-gray-400 mt-0.5">
                           {p.availability.map((a) => a.day).join(", ")}
@@ -170,12 +231,15 @@ export function CompanyCard({ company, service, onRequestInspection }) {
                     </div>
                   </div>
                   <span className="font-bold text-gray-900 text-sm whitespace-nowrap ml-2">
-                    {p.currency}{Number(p.price).toLocaleString()}
+                    {p.currency}
+                    {Number(p.price).toLocaleString()}
                   </span>
                 </label>
               ))}
               {!pricing.length && (
-                <div className="py-4 text-sm text-gray-400 text-center">No pricing available</div>
+                <div className="py-4 text-sm text-gray-400 text-center">
+                  No pricing available
+                </div>
               )}
             </div>
           </motion.div>

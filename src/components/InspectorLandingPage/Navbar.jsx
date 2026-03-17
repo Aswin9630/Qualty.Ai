@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <a href="/inspector/landingpage" className="text-xl font-bold font-sans">Qualty AI</a>
+            <a href="/inspection-company/landingpage" className="text-xl font-bold font-sans">Qualty AI</a>
           </div>
 
           <div className="hidden md:flex flex-1 justify-center items-center gap-8">

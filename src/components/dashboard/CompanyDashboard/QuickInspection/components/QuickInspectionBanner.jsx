@@ -9,7 +9,7 @@ import {
   ChevronRight,
   IndianRupee,
 } from "lucide-react";
-
+ 
 const PILLARS = [
   {
     icon: Zap,
@@ -124,7 +124,7 @@ export default function QuickInspectionBanner() {
                       className="text-gray-500 group-hover:text-white transition-colors duration-150"
                       strokeWidth={1.75}
                     />
-                  </div>
+                  </div> 
                   <div>
                     <p className="text-sm font-black text-gray-900 mb-1">{title}</p>
                     <p className="text-xs text-gray-400 leading-relaxed">{desc}</p>

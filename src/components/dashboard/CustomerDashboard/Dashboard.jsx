@@ -2,8 +2,9 @@ import TotalInspectionsCard from "./TotalInspectionsCard"
 import ActiveOrdersCard from "./ActiveOrdersCard";
 import CompletedTasksCard from "./CompletedTasksCard";
 import TotalValueCard from "./TotalValueCard";
-import QuickActions from "./QuickActions";
-import Services from "../../QuickServices/services";
+// import QuickActions from "./QuickActions";
+// import Services from "../../QuickServices/services";
+import { Landing } from "./QuickInspection/pages/Landing";
 
 export default function Dashboard() {
   return (
@@ -15,8 +16,12 @@ export default function Dashboard() {
         <TotalValueCard />
       </div>
       <div className="mt-8 flex flex-col gap-10 mb-10">
-        <Services/>
-        <QuickActions />
+
+        <Landing/>
+
+        {/* <Services/>
+        <QuickActions /> */}
+
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { BASE_URL, getCurrencySymbol } from "../../../utils/constants";
 import { addPlaceBid } from "../../../redux/slice/bidSlice";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { BadgeCheck } from "lucide-react";
+
 
 const InspectorBidRoom = () => {
   useFetchEnquiries();
@@ -51,6 +53,7 @@ const InspectorBidRoom = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-white px-6 py-10">
       <div className="max-w-7xl mx-auto space-y-10">
@@ -69,8 +72,13 @@ const InspectorBidRoom = () => {
           <p className="text-center text-gray-500">No live enquiries available</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {enquiries.map((enquiry) => (
-              <div
+            {enquiries.map((enquiry) => {
+              const isVerified =
+    enquiry.contact?.gstVerified === true ||
+    enquiry.contact?.gstVerified === "true" ||
+    enquiry.contact?.publishRequirements === true;
+    return (
+        <div
                 key={enquiry._id}
                 className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all"
               >
@@ -151,7 +159,6 @@ const InspectorBidRoom = () => {
     )}
   </p>
 )}
-
                 <div className="mt-4 flex gap-2 font-normal text-sm">
                   <input
                     type="number"
@@ -176,7 +183,7 @@ const InspectorBidRoom = () => {
                   </button>
                 </div>
               </div>
-            ))}
+    )})}
           </div>
         )}
       </div>
