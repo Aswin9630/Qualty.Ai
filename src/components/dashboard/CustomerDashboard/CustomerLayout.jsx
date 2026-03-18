@@ -209,7 +209,6 @@ const CustomerLayout = () => {
   const hasQuickNotif = useCustomerQuickNotifications();
 
   const navItems = [
-    { label: "", icon: <Home size={22} />, path: "/" },
     { label: "Dashboard", icon: <LayoutDashboard size={22} />, path: "/customer/dashboard" },
     { label: "Raise Enquiry", icon: <HelpCircle size={22} />, path: "/customer/raiseEnquiry" },
     { label: "Bidding Room", icon: <Gavel size={22} />, path: "/customer/bidding" },

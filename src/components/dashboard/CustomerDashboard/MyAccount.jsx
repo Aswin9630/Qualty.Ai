@@ -292,8 +292,293 @@
 
 
 
+// import React, { useState } from "react";
+// import { User, Mail, Phone, MapPin, BadgeCheck, Upload } from "lucide-react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useNavigate } from "react-router";
+// import { BASE_URL } from "../../../utils/constants";
+// import { toast } from "react-toastify";
+// import { addUser } from "../../../redux/slice/userSlice";
+
+// const TABS = ["Profile", "Company"];
+
+// const MyAccount = () => {
+//   const user = useSelector((store) => store?.user?.user);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+
+//   const [activeTab, setActiveTab] = useState("Profile");
+//   const [gstNumber, setGstNumber] = useState("");
+//   const [gstError, setGstError] = useState("");
+//   const [gstVerifying, setGstVerifying] = useState(false);
+//   const [document, setDocument] = useState(null);
+//   const [uploading, setUploading] = useState(false);
+
+//   if (!user) {
+//     navigate("/login");
+//     return null;
+//   }
+
+//   const {
+//     name,
+//     email,
+//     mobileNumber,
+//     address,
+//     profilePhoto,
+//     publishRequirements,
+//     countryCode,
+//     gstVerified,
+//     gstDetails,
+//     documents
+//   } = user;
+
+//   const handleGSTVerify = async () => {
+//     setGstVerifying(true);
+//     setGstError("");
+
+//     try {
+//       const verifyRes = await fetch(`${BASE_URL}/kyc/verify-gst`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         credentials: "include",
+//         body: JSON.stringify({ gstNumber }),
+//       });
+
+//       const verifyData = await verifyRes.json();
+
+//       if (!verifyData.success) {
+//         setGstError(verifyData.message);
+//         return;
+//       }
+
+//       dispatch(addUser(verifyData.data.customer));
+//       toast.success("GST verified successfully");
+//     } catch {
+//       setGstError("GST verification failed");
+//     } finally {
+//       setGstVerifying(false);
+//     }
+//   };
+
+//   const handleDocumentUpload = async () => {
+//     if (!document) return toast.error("Please select a document");
+
+//     setUploading(true);
+
+//     const formData = new FormData();
+//     formData.append("tradeLicense", document);
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/customer/profile/updateDocuments`, {
+//         method: "PATCH",
+//         credentials: "include",
+//         body: formData,
+//       });
+
+//       const data = await res.json();
+//       console.log("data",data);
+      
+
+//       if (data.success) {
+//         dispatch(addUser(data.customer));
+//         toast.success("Document uploaded successfully");
+//       }
+//     } finally {
+//       setUploading(false);
+//     }
+//   };
+
+//   const showGST = countryCode === "+91";
+//   const showDocuments = countryCode !== "+91";
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-6">
+//       <div className="max-w-6xl mx-auto space-y-8">
+//         <div className="flex items-center justify-between">
+//           <h1 className="text-3xl font-semibold text-gray-900">
+//             Account Overview
+//           </h1>
+
+//           {(gstVerified || publishRequirements) && (
+//             <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
+//               <BadgeCheck size={16} />
+//               Verified Business
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="flex gap-6 border-b border-gray-200">
+//           {TABS.map((tab) => (
+//             <button
+//               key={tab}
+//               onClick={() => setActiveTab(tab)}
+//               className={`pb-3 text-sm font-medium relative ${
+//                 activeTab === tab
+//                   ? "text-gray-900"
+//                   : "text-gray-500 hover:text-gray-900"
+//               }`}
+//             >
+//               {tab}
+//               {activeTab === tab && (
+//                 <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-full" />
+//               )}
+//             </button>
+//           ))}
+//         </div>
+
+//         <div className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8">
+//           {activeTab === "Profile" && (
+//             <div className="grid md:grid-cols-3 gap-8">
+//               <div className="flex flex-col items-center gap-4">
+//                 {profilePhoto ? (
+//                   <img
+//                     src={profilePhoto}
+//                     className="w-28 h-28 rounded-full object-cover"
+//                   />
+//                 ) : (
+//                   <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
+//                     {name?.charAt(0)}
+//                   </div>
+//                 )}
+
+//                 <p className="text-lg font-semibold">{name}</p>
+//                 <p className="text-sm text-gray-500">{email}</p>
+//               </div>
+
+//               <div className="md:col-span-2 grid sm:grid-cols-2 gap-5">
+//                 <Info icon={<User size={18} />} label="Full Name" value={name} />
+//                 <Info icon={<Mail size={18} />} label="Email Address" value={email} />
+//                 <Info icon={<Phone size={18} />} label="Phone" value={mobileNumber} />
+//                 <Info icon={<MapPin size={18} />} label="Address" value={address} />
+//               </div>
+//             </div>
+//           )}
+
+//           {activeTab === "Company" && (
+//             <div className="space-y-6">
+//               {showGST && publishRequirements && gstVerified && (
+//                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//                   <CompanyRow label="GSTIN" value={user?.gstNumber} />
+//                   <CompanyRow label="Legal Name" value={gstDetails?.legalName} />
+//                   <CompanyRow label="Trade Name" value={gstDetails?.tradeName} />
+//                   <CompanyRow label="Business Type" value={gstDetails?.gstType} />
+//                   <CompanyRow label="Registration Date" value={gstDetails?.registrationDate} />
+//                   <CompanyRow label="GST Status" value="Active" />
+//                 </div>
+//               )}
+
+//               {showGST && !gstVerified && (
+//                 <div className="max-w-md space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-6">
+//                   <h2 className="text-lg font-semibold">Verify GST</h2>
+
+//                   <input
+//                     value={gstNumber}
+//                     onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
+//                     placeholder="Enter GST Number"
+//                     className="w-full border border-gray-300 px-4 py-3 rounded-lg text-sm"
+//                   />
+
+//                   {gstError && (
+//                     <p className="text-xs text-red-600">{gstError}</p>
+//                   )}
+
+//                   <button
+//                     onClick={handleGSTVerify}
+//                     disabled={gstVerifying}
+//                     className="w-full bg-black text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2"
+//                   >
+//                     {gstVerifying ? "Verifying..." : "Verify GST"}
+//                   </button>
+//                 </div>
+//               )}
+
+//               {showDocuments && (
+//   <div className="max-w-md space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-6">
+//     <h2 className="text-lg font-semibold">
+//       Business Document
+//     </h2>
+
+//     {documents?.tradeLicense ? (
+//       <a
+//         href={documents.tradeLicense}
+//         target="_blank"
+//         rel="noreferrer"
+//         className="flex items-center gap-3 border border-emerald-200 bg-emerald-50 rounded-lg p-4 hover:bg-emerald-100 transition"
+//       >
+//         <Upload size={22} />
+//         <div>
+//           <p className="text-sm font-medium text-emerald-800">
+//             Uploaded Document
+//           </p>
+//           <p className="text-xs text-emerald-600">
+//             Click to view
+//           </p>
+//         </div>
+//       </a>
+//     ) : (
+//       <>
+//         <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-black transition">
+//           <Upload size={28} />
+//           <p className="text-sm mt-2 text-gray-600">
+//             {document ? document.name : "Click to upload document"}
+//           </p>
+//           <input
+//             type="file"
+//             className="hidden"
+//             onChange={(e) => setDocument(e.target.files[0])}
+//           />
+//         </label>
+
+//         <button
+//           onClick={handleDocumentUpload}
+//           disabled={uploading}
+//           className="w-full bg-black text-white py-3 rounded-lg font-medium"
+//         >
+//           {uploading ? "Uploading..." : "Upload Document"}
+//         </button>
+//       </>
+//     )}
+//   </div>
+// )}
+
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const Info = ({ icon, label, value }) => (
+//   <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+//     <div className="flex items-center gap-2 text-gray-500 text-xs uppercase">
+//       {icon}
+//       {label}
+//     </div>
+//     <p className="font-semibold mt-1">{value || "-"}</p>
+//   </div>
+// );
+
+// const CompanyRow = ({ label, value }) => (
+//   <div className="bg-white border border-gray-200 rounded-xl p-5">
+//     <p className="text-xs uppercase text-gray-500">{label}</p>
+//     <p className="font-semibold mt-1 break-words">{value || "-"}</p>
+//   </div>
+// );
+
+// export default MyAccount;
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from "react";
-import { User, Mail, Phone, MapPin, BadgeCheck, Upload } from "lucide-react";
+import { User, Mail, Phone, MapPin, BadgeCheck, Upload, Building2, FileCheck, ShieldCheck, AlertCircle, ChevronRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "../../../utils/constants";
@@ -319,23 +604,11 @@ const MyAccount = () => {
     return null;
   }
 
-  const {
-    name,
-    email,
-    mobileNumber,
-    address,
-    profilePhoto,
-    publishRequirements,
-    countryCode,
-    gstVerified,
-    gstDetails,
-    documents
-  } = user;
+  const { name, email, mobileNumber, address, profilePhoto, publishRequirements, countryCode, gstVerified, gstDetails, documents } = user;
 
   const handleGSTVerify = async () => {
     setGstVerifying(true);
     setGstError("");
-
     try {
       const verifyRes = await fetch(`${BASE_URL}/kyc/verify-gst`, {
         method: "POST",
@@ -343,14 +616,11 @@ const MyAccount = () => {
         credentials: "include",
         body: JSON.stringify({ gstNumber }),
       });
-
       const verifyData = await verifyRes.json();
-
       if (!verifyData.success) {
         setGstError(verifyData.message);
         return;
       }
-
       dispatch(addUser(verifyData.data.customer));
       toast.success("GST verified successfully");
     } catch {
@@ -362,23 +632,16 @@ const MyAccount = () => {
 
   const handleDocumentUpload = async () => {
     if (!document) return toast.error("Please select a document");
-
     setUploading(true);
-
     const formData = new FormData();
     formData.append("tradeLicense", document);
-
     try {
       const res = await fetch(`${BASE_URL}/customer/profile/updateDocuments`, {
         method: "PATCH",
         credentials: "include",
         body: formData,
       });
-
       const data = await res.json();
-      console.log("data",data);
-      
-
       if (data.success) {
         dispatch(addUser(data.customer));
         toast.success("Document uploaded successfully");
@@ -390,179 +653,233 @@ const MyAccount = () => {
 
   const showGST = countryCode === "+91";
   const showDocuments = countryCode !== "+91";
+  const isVerified = gstVerified || publishRequirements;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-6">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold text-gray-900">
-            Account Overview
-          </h1>
-
-          {(gstVerified || publishRequirements) && (
-            <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
-              <BadgeCheck size={16} />
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto space-y-8">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-1">Settings</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Account</h1>
+          </div>
+          {isVerified && (
+            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-full text-xs font-bold">
+              <ShieldCheck size={14} />
               Verified Business
             </div>
           )}
         </div>
 
-        <div className="flex gap-6 border-b border-gray-200">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-3 text-sm font-medium relative ${
-                activeTab === tab
-                  ? "text-gray-900"
-                  : "text-gray-500 hover:text-gray-900"
-              }`}
-            >
-              {tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black rounded-full" />
-              )}
-            </button>
-          ))}
-        </div>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="border-b border-gray-100 px-6">
+            <div className="flex gap-0">
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative px-5 py-4 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                    activeTab === tab ? "text-gray-900" : "text-gray-400 hover:text-gray-700"
+                  }`}
+                >
+                  {tab}
+                  {activeTab === tab && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-950 rounded-t-full" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8">
-          {activeTab === "Profile" && (
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="flex flex-col items-center gap-4">
-                {profilePhoto ? (
-                  <img
-                    src={profilePhoto}
-                    className="w-28 h-28 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
-                    {name?.charAt(0)}
+          <div className="p-6 sm:p-8">
+            {activeTab === "Profile" && (
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="relative">
+                    {profilePhoto ? (
+                      <img src={profilePhoto} className="w-24 h-24 rounded-2xl object-cover shadow-md" />
+                    ) : (
+                      <div className="w-24 h-24 rounded-2xl bg-gray-950 flex items-center justify-center text-3xl font-bold text-white shadow-md">
+                        {name?.charAt(0)}
+                      </div>
+                    )}
+                    {isVerified && (
+                      <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-sm">
+                        <BadgeCheck size={12} className="text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-center">
+                    <p className="text-base font-bold text-gray-900">{name}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">{email}</p>
+                  </div>
+                </div>
+
+                <div className="md:col-span-2 grid sm:grid-cols-2 gap-4">
+                  <InfoCard icon={<User size={15} />} label="Full Name" value={name} />
+                  <InfoCard icon={<Mail size={15} />} label="Email Address" value={email} />
+                  <InfoCard icon={<Phone size={15} />} label="Phone Number" value={mobileNumber} />
+                  <InfoCard icon={<MapPin size={15} />} label="Address" value={address} />
+                </div>
+              </div>
+            )}
+
+            {activeTab === "Company" && (
+              <div className="space-y-6">
+                {showGST && publishRequirements && gstVerified && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center">
+                        <ShieldCheck size={13} className="text-white" />
+                      </div>
+                      <p className="text-sm font-bold text-gray-900">GST Verified</p>
+                    </div>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <CompanyCard label="GSTIN" value={user?.gstNumber} />
+                      <CompanyCard label="Legal Name" value={gstDetails?.legalName} />
+                      <CompanyCard label="Trade Name" value={gstDetails?.tradeName} />
+                      <CompanyCard label="Business Type" value={gstDetails?.gstType} />
+                      <CompanyCard label="Registration Date" value={gstDetails?.registrationDate} />
+                      <CompanyCard label="GST Status" value="Active" badge />
+                    </div>
                   </div>
                 )}
 
-                <p className="text-lg font-semibold">{name}</p>
-                <p className="text-sm text-gray-500">{email}</p>
+                {showGST && !gstVerified && (
+                  <div className="max-w-md">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-6 h-6 rounded-md bg-gray-200 flex items-center justify-center">
+                        <AlertCircle size={13} className="text-gray-500" />
+                      </div>
+                      <p className="text-sm font-bold text-gray-900">Verify Your GST</p>
+                    </div>
+                    <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 space-y-4">
+                      <div>
+                        <label className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase block mb-1.5">GST Number</label>
+                        <input
+                          value={gstNumber}
+                          onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
+                          placeholder="e.g. 22AAAAA0000A1Z5"
+                          className="w-full border border-gray-200 bg-white px-4 py-3 rounded-xl text-sm font-mono text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                        />
+                        {gstError && (
+                          <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                            <AlertCircle size={11} /> {gstError}
+                          </p>
+                        )}
+                      </div>
+                      <button
+                        onClick={handleGSTVerify}
+                        disabled={gstVerifying}
+                        className="w-full bg-gray-950 text-white py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer disabled:opacity-60"
+                      >
+                        {gstVerifying ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            Verifying…
+                          </>
+                        ) : (
+                          <>
+                            <ShieldCheck size={15} />
+                            Verify GST
+                            <ChevronRight size={14} />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {showDocuments && (
+                  <div className="max-w-md">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-6 h-6 rounded-md bg-gray-950 flex items-center justify-center">
+                        <FileCheck size={13} className="text-white" />
+                      </div>
+                      <p className="text-sm font-bold text-gray-900">Business Document</p>
+                    </div>
+
+                    <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 space-y-4">
+                      {documents?.tradeLicense ? (
+                        <a
+                          href={documents.tradeLicense}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-4 bg-white border border-emerald-200 rounded-xl p-4 hover:shadow-md hover:border-emerald-300 transition-all duration-200 group"
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                            <FileCheck size={18} className="text-emerald-600" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900">Uploaded Document</p>
+                            <p className="text-xs text-emerald-600 mt-0.5">Click to view</p>
+                          </div>
+                          <ChevronRight size={16} className="text-gray-300 group-hover:text-emerald-500 transition-colors" />
+                        </a>
+                      ) : (
+                        <>
+                          <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-8 cursor-pointer hover:border-gray-900 hover:bg-white transition-all duration-200 group">
+                            <div className="w-10 h-10 rounded-xl bg-gray-100 group-hover:bg-gray-950 flex items-center justify-center mb-3 transition-all duration-200">
+                              <Upload size={18} className="text-gray-500 group-hover:text-white transition-colors" />
+                            </div>
+                            <p className="text-sm font-semibold text-gray-700 group-hover:text-gray-900">
+                              {document ? document.name : "Click to upload document"}
+                            </p>
+                            {!document && <p className="text-xs text-gray-400 mt-1">PDF, JPG, PNG accepted</p>}
+                            <input type="file" className="hidden" onChange={(e) => setDocument(e.target.files[0])} />
+                          </label>
+                          <button
+                            onClick={handleDocumentUpload}
+                            disabled={uploading}
+                            className="w-full bg-gray-950 text-white py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-800 transition-all duration-200 cursor-pointer disabled:opacity-60"
+                          >
+                            {uploading ? (
+                              <>
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                Uploading…
+                              </>
+                            ) : (
+                              <>
+                                <Upload size={14} />
+                                Upload Document
+                              </>
+                            )}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-
-              <div className="md:col-span-2 grid sm:grid-cols-2 gap-5">
-                <Info icon={<User size={18} />} label="Full Name" value={name} />
-                <Info icon={<Mail size={18} />} label="Email Address" value={email} />
-                <Info icon={<Phone size={18} />} label="Phone" value={mobileNumber} />
-                <Info icon={<MapPin size={18} />} label="Address" value={address} />
-              </div>
-            </div>
-          )}
-
-          {activeTab === "Company" && (
-            <div className="space-y-6">
-              {showGST && publishRequirements && gstVerified && (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <CompanyRow label="GSTIN" value={user?.gstNumber} />
-                  <CompanyRow label="Legal Name" value={gstDetails?.legalName} />
-                  <CompanyRow label="Trade Name" value={gstDetails?.tradeName} />
-                  <CompanyRow label="Business Type" value={gstDetails?.gstType} />
-                  <CompanyRow label="Registration Date" value={gstDetails?.registrationDate} />
-                  <CompanyRow label="GST Status" value="Active" />
-                </div>
-              )}
-
-              {showGST && !gstVerified && (
-                <div className="max-w-md space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-6">
-                  <h2 className="text-lg font-semibold">Verify GST</h2>
-
-                  <input
-                    value={gstNumber}
-                    onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
-                    placeholder="Enter GST Number"
-                    className="w-full border border-gray-300 px-4 py-3 rounded-lg text-sm"
-                  />
-
-                  {gstError && (
-                    <p className="text-xs text-red-600">{gstError}</p>
-                  )}
-
-                  <button
-                    onClick={handleGSTVerify}
-                    disabled={gstVerifying}
-                    className="w-full bg-black text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2"
-                  >
-                    {gstVerifying ? "Verifying..." : "Verify GST"}
-                  </button>
-                </div>
-              )}
-
-              {showDocuments && (
-  <div className="max-w-md space-y-4 bg-gray-50 border border-gray-200 rounded-xl p-6">
-    <h2 className="text-lg font-semibold">
-      Business Document
-    </h2>
-
-    {documents?.tradeLicense ? (
-      <a
-        href={documents.tradeLicense}
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-3 border border-emerald-200 bg-emerald-50 rounded-lg p-4 hover:bg-emerald-100 transition"
-      >
-        <Upload size={22} />
-        <div>
-          <p className="text-sm font-medium text-emerald-800">
-            Uploaded Document
-          </p>
-          <p className="text-xs text-emerald-600">
-            Click to view
-          </p>
-        </div>
-      </a>
-    ) : (
-      <>
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-black transition">
-          <Upload size={28} />
-          <p className="text-sm mt-2 text-gray-600">
-            {document ? document.name : "Click to upload document"}
-          </p>
-          <input
-            type="file"
-            className="hidden"
-            onChange={(e) => setDocument(e.target.files[0])}
-          />
-        </label>
-
-        <button
-          onClick={handleDocumentUpload}
-          disabled={uploading}
-          className="w-full bg-black text-white py-3 rounded-lg font-medium"
-        >
-          {uploading ? "Uploading..." : "Upload Document"}
-        </button>
-      </>
-    )}
-  </div>
-)}
-
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const Info = ({ icon, label, value }) => (
-  <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-    <div className="flex items-center gap-2 text-gray-500 text-xs uppercase">
+const InfoCard = ({ icon, label, value }) => (
+  <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+    <div className="flex items-center gap-1.5 text-gray-400 mb-2">
       {icon}
-      {label}
+      <span className="text-[10px] font-semibold tracking-wider uppercase">{label}</span>
     </div>
-    <p className="font-semibold mt-1">{value || "-"}</p>
+    <p className="text-sm font-bold text-gray-900 truncate">{value || "—"}</p>
   </div>
 );
 
-const CompanyRow = ({ label, value }) => (
-  <div className="bg-white border border-gray-200 rounded-xl p-5">
-    <p className="text-xs uppercase text-gray-500">{label}</p>
-    <p className="font-semibold mt-1 break-words">{value || "-"}</p>
+const CompanyCard = ({ label, value, badge }) => (
+  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
+    <p className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase mb-1.5">{label}</p>
+    {badge ? (
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+        {value || "—"}
+      </span>
+    ) : (
+      <p className="text-sm font-bold text-gray-900 break-words">{value || "—"}</p>
+    )}
   </div>
 );
 

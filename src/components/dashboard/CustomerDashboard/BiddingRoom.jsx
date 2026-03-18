@@ -15,7 +15,6 @@ const BiddingRoom = () => {
           credentials:"include",
       })
       const data=await response.json()   
-      console.log("biddingRoom",data)   
       const activeOnly = (data.enquiries || []).filter(
       (e) => e.status !== "cancelled"
     );

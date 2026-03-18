@@ -23,7 +23,6 @@ import { toast } from "react-toastify";
 import { removeUser } from "../../../redux/slice/userSlice";
 
 const navItems = [
-  { label: "", icon: <Home />, path: "/" },
   { label: "Dashboard", icon: <LayoutDashboard />, path: "/inspector/dashboard" },
   { label: "Bidding Room", icon: <Gavel />, path: "/inspector/bidding" },
   { label: "Chat with Customer", icon: <MessageCircle />, path: "/inspector/CustomerList" },
